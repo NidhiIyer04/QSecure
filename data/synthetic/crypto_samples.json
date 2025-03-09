@@ -1,0 +1,4113 @@
+[
+  {
+    "code": "// RSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 512
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 512
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 512
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 512
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "java"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 768
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 512
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 768
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "python"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Dilithium cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SPHINCS+",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using SIKE",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// RSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 512
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in java",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// DSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// AES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "AES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// DH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DH"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure NTRU cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// DSA implementation with weak key length 512",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 512
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure SIKE cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SIKE"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "c"
+  },
+  {
+    "code": "// DSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "DSA",
+      "key_length": 1024
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Kyber cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Falcon",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure SPHINCS+ cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "SPHINCS+"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Secure McEliece cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "java"
+  },
+  {
+    "code": "// RSA implementation with weak key length 768",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 768
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Insecure random number generation example in python",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in javascript",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using NTRU",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "NTRU"
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using McEliece",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "McEliece"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// RSA implementation with weak key length 1024",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "RSA",
+      "key_length": 1024
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// Secure Falcon cryptographic implementation",
+    "label": "Secure",
+    "metadata": {
+      "algorithm": "Falcon"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Kyber",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Kyber"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// Insecure random number generation example in cpp",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "cpp"
+  },
+  {
+    "code": "// Quantum-safe cryptographic implementation using Dilithium",
+    "label": "Quantum-Safe",
+    "metadata": {
+      "algorithm": "Dilithium"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "python"
+  },
+  {
+    "code": "// ElGamal implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ElGamal"
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "javascript"
+  },
+  {
+    "code": "// ECDSA implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDSA",
+      "key_length": 128
+    },
+    "language": "java"
+  },
+  {
+    "code": "// Insecure random number generation example in c",
+    "label": "Vulnerable",
+    "metadata": {
+      "random": "insecure"
+    },
+    "language": "c"
+  },
+  {
+    "code": "// ECDH implementation vulnerable to quantum attacks",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "ECDH"
+    },
+    "language": "python"
+  },
+  {
+    "code": "// 3DES implementation with weak key length 128",
+    "label": "Vulnerable",
+    "metadata": {
+      "algorithm": "3DES",
+      "key_length": 128
+    },
+    "language": "java"
+  }
+]
