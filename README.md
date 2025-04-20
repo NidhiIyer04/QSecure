@@ -1,4 +1,4 @@
-# Quantum Vulnerability Detector - Q Secure
+# Quantum Vulnerability Detector - QSecure
 
 ## Overview
 Q Secure is a tool designed to detect vulnerabilities related to quantum-safe cryptography in codebases. It identifies cryptographic algorithms that are vulnerable to quantum attacks (e.g., RSA, AES) and provides recommendations for more secure alternatives. This tool is useful for developers working on cryptographic applications to ensure their code is future-proof against quantum computing threats.
