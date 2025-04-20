@@ -32,68 +32,104 @@ def detect_vulnerabilities(file_content, language):
                     })
     return findings
 
-# Extending the rule-based chatbot recommendation function with context-sensitive fixes
-def get_recommendation(vulnerability):
+def get_recommendation(vulnerability, language):
     recommendations = {
         "RSA": {
-            "general": "RSA is vulnerable to Shor's algorithm. You can replace it with quantum-resistant algorithms.",
-            "code_change": """
-                # Example of switching from RSA to NTRU
-                from ntru import NTRUEncrypt
-                ntru = NTRUEncrypt()
-                encrypted = ntru.encrypt(data)
-                """
-        },
-        "SHA-1": {
-            "general": "SHA-1 is weak due to collision vulnerabilities. It is recommended to use SHA-256 or SHA-3.",
-            "code_change": """
-                # Replace SHA-1 with SHA-256
-                import hashlib
-                hash_object = hashlib.sha256(b'input')
-                hex_dig = hash_object.hexdigest()
-                """
-        },
-        "DES": {
-            "general": "DES is insecure because of its short key size. Switch to AES.",
-            "code_change": """
-                # Switch from DES to AES
-                from Crypto.Cipher import AES
-                cipher = AES.new('your_key_256_bits', AES.MODE_GCM)
-                ciphertext, tag = cipher.encrypt_and_digest(data)
-                """
-        },
-        "MD5": {
-            "general": "MD5 is vulnerable to collision attacks. It is recommended to use SHA-256 or SHA-3.",
-            "code_change": """
-                # Replace MD5 with SHA-256
-                import hashlib
-                hash_object = hashlib.sha256(b'input')
-                hex_dig = hash_object.hexdigest()
-                """
-        },
-        "RC4": {
-            "general": "RC4 is deprecated due to vulnerabilities. You should switch to AES for encryption.",
-            "code_change": """
-                # Example of switching from RC4 to AES
-                from Crypto.Cipher import AES
-                cipher = AES.new('your_key_256_bits', AES.MODE_GCM)
-                ciphertext, tag = cipher.encrypt_and_digest(data)
-                """
+            "general": "RSA is vulnerable to Shor's algorithm. Replace it with quantum-resistant algorithms.",
+            "code_changes": {
+                "python": """
+from ntru import NTRUEncrypt
+ntru = NTRUEncrypt()
+encrypted = ntru.encrypt(data)
+""",
+                "java": """
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import java.security.Security;
+import org.openquantumsafe.kyber.KyberCiphertext;
+import org.openquantumsafe.kyber.KyberPrivateKey;
+import org.openquantumsafe.kyber.KyberPublicKey;
+import org.openquantumsafe.kyber.KyberKeyPair;
+import org.openquantumsafe.kyber.KyberCipher;
+
+public class PostQuantumCryptoExample {
+
+    public static void main(String[] args) {
+        // Add BouncyCastle Provider
+        Security.addProvider(new BouncyCastleProvider());
+        
+        try {
+            // Generate a Kyber Key Pair (Post-Quantum)
+            KyberKeyPair keyPair = KyberKeyPair.generateKeyPair();
+
+            KyberPublicKey publicKey = keyPair.getPublicKey();
+            KyberPrivateKey privateKey = keyPair.getPrivateKey();
+
+            // Encrypt data with Kyber (Post-Quantum)
+            String data = "Hello, Quantum World!";
+            KyberCiphertext ciphertext = KyberCipher.encrypt(publicKey, data.getBytes());
+
+            // Decrypt the data with Kyber (Post-Quantum)
+            byte[] decryptedData = KyberCipher.decrypt(privateKey, ciphertext);
+
+            // Display results
+            System.out.println("Original Data: " + data);
+            System.out.println("Decrypted Data: " + new String(decryptedData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+""",
+                "cpp": """
+// Replace RSA with NTRU or Kyber implementation using liboqs
+#include <oqs/oqs.h>
+"""
+            }
         },
         "AES": {
-            "general": "Ensure you are using AES with proper key sizes and modes like AES-GCM.",
-            "code_change": """
-                # Example of using AES with 256-bit key in GCM mode
-                from Crypto.Cipher import AES
-                cipher = AES.new('your_key_256_bits', AES.MODE_GCM)
-                ciphertext, tag = cipher.encrypt_and_digest(data)
-                """
+            "general": "Ensure you are using AES with a 256-bit key and an authenticated encryption mode like AES-GCM.",
+            "code_changes": {
+                "python": """
+from Crypto.Cipher import AES
+cipher = AES.new('your_key_256_bits', AES.MODE_GCM)
+ciphertext, tag = cipher.encrypt_and_digest(data)
+""",
+                "java": """
+Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+cipher.init(Cipher.ENCRYPT_MODE, key);
+byte[] ciphertext = cipher.doFinal(data);
+""",
+                "cpp": """
+// Use AES-GCM via OpenSSL
+EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, key, iv);
+"""
+            }
         }
     }
 
-    return recommendations.get(vulnerability, {"general": "No predefined recommendation available.", "code_change": ""})
+    rec = recommendations.get(vulnerability)
+    if rec:
+        code_snippet = rec["code_changes"].get(language.lower(), "No code example available for this language.")
+        return {
+            "general": rec["general"],
+            "code_change": code_snippet
+        }
+    else:
+        return {
+            "general": "No predefined recommendation available.",
+            "code_change": ""
+        }
 
-st.title("Quantum-Safe Code Vulnerability Analyzer")
+
+# Centering the title and subheader
+st.markdown("""
+    <h1 style="text-align: center; color: white;">Q Secure</h1>
+    <h2 style="text-align: center; color: white;">Quantum Vulnerability Detector</h2>
+""", unsafe_allow_html=True)
+
 
 # Step 1: File upload
 uploaded_file = st.file_uploader("Upload your code file", type=["py", "cpp", "js", "java", "c"])
@@ -166,21 +202,22 @@ if uploaded_file is not None:
         # Step 5: Chatbot-style recommendation interface
         st.sidebar.title("Quantum-Safe Solution")
         unique_vulnerabilities = list(dict.fromkeys([finding["match"] for finding in findings]))
-        selected_vulnerability = st.sidebar.selectbox(
-            "Select a vulnerability to get recommendations",
-            unique_vulnerabilities
-        )
+        if unique_vulnerabilities:
+            selected_vulnerability = st.sidebar.selectbox(
+                "Select a vulnerability to get recommendations",
+                unique_vulnerabilities
+            )
 
-        if selected_vulnerability:
-            recommendation = get_recommendation(selected_vulnerability)
+            recommendation = get_recommendation(selected_vulnerability, language)
+
             st.sidebar.subheader("General Recommendations:")
             st.sidebar.write(recommendation["general"])
 
             st.sidebar.subheader("Suggested Code Change:")
-            st.sidebar.code(recommendation["code_change"])
+            st.sidebar.code(recommendation["code_change"], language=language)
+        else:
+            st.sidebar.write("No vulnerabilities detected.")
 
-    else:
-        st.success("✅ No vulnerabilities detected in the uploaded file.")
 
 else:
     st.info("Upload a code file to begin analysis.")
