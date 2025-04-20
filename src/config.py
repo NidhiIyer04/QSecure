@@ -77,5 +77,33 @@ STATIC_ANALYSIS_CONFIG = {
     "max_file_size_mb": 10,
     "supported_languages": ["python", "c", "cpp", "java", "javascript"],
     "ignore_patterns": ["*test*", "*.min.js", "node_modules/*", "venv/*"],
-    "depth_limit": 5
+    "depth_limit": 5,
+    "crypto_patterns": {
+        "python": {
+            "symmetric_encryption": [
+                r"Crypto\.Cipher\.AES",
+                r"Crypto\.Cipher\.DES"
+            ],
+            "asymmetric_encryption": [
+                r"Crypto\.PublicKey\.RSA",
+                r"Crypto\.PublicKey\.DSA"
+            ]
+        },
+        "java": {
+            "symmetric_encryption": [
+                r"Cipher\.getInstance\(\"AES\""
+            ],
+            "asymmetric_encryption": [
+                r"KeyPairGenerator\.getInstance\(\"RSA\""
+            ]
+        },
+        "javascript": {
+            "symmetric_encryption": [
+                r"crypto\.createCipheriv\(\"aes"
+            ],
+            "asymmetric_encryption": [
+                r"crypto\.generateKeyPair"
+            ]
+        }
+    }
 }
