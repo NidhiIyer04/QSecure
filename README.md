@@ -1,113 +1,99 @@
+# Quantum Vulnerability Detector - Q Secure
 
-# QSecure: Quantum-Safe Cryptographic Vulnerability Detector
-A machine learning-based tool to detect vulnerabilities in cryptographic libraries with a focus on quantum computing threats.
+## Overview
+Q Secure is a tool designed to detect vulnerabilities related to quantum-safe cryptography in codebases. It identifies cryptographic algorithms that are vulnerable to quantum attacks (e.g., RSA, AES) and provides recommendations for more secure alternatives. This tool is useful for developers working on cryptographic applications to ensure their code is future-proof against quantum computing threats.
 
 ## Features
+- Detects quantum-vulnerable cryptographic algorithms such as RSA, SHA-1, DES, MD5, RC4, and others.
+- Highlights vulnerable code in a code editor-style interface for easy review.
+- Provides context-sensitive recommendations for replacing vulnerable algorithms with quantum-resistant alternatives.
+- Displays a table of findings, including severity and explanation of each vulnerability.
+- Provides a Quantum-Safe Solution with recommendations and code changes.
 
-- **Static Code Analysis**  
-  Scans source files to detect cryptographic API usage (e.g., PyCryptodome, OpenSSL) and flags weak configurations.
+## Technologies Used
+- **Streamlit**: A framework for building interactive web applications.
+- **Python**: The primary language for backend logic.
+- **Regular Expressions (Regex)**: To identify vulnerabilities in the code.
+- **Pandas**: For displaying the vulnerability findings in a tabular format.
 
-- **Machine Learning-Based Classification**  
-  Trained on real-world and synthetic examples to classify cryptographic patterns by severity.
+## Installation
+To run the Quantum Vulnerability Detector locally, follow the steps below:
 
-- **Quantum Resistance Assessment**  
-  Evaluates if cryptographic algorithms are safe against known quantum attacks.
-
-- **Detailed Reporting**  
-  Generates vulnerability reports in JSON format for integration with CI/CD pipelines.
-
-- **Recommendations Engine** *(Coming Soon)*  
-  Suggests NIST-approved quantum-resistant alternatives for insecure code.
-
----
-
-## Project Structure
-
-```
-QSecure
-├── src/
-│   ├── analyzers/                # Static analysis engine
-│   │   └── crypto_analyzer.py
-│   ├── static_analyzer/          # Pattern definitions
-│   │   └── __init__.py
-│   ├── feature_extractor/        # Feature engineering module
-│   │   └── __init__.py
-│   ├── ml_model/                 # ML model scripts (TBD)
-│   │   └── __init__.py
-│   ├── recommendation_engine/    # Quantum-safe recommendations (TBD)
-│   │   └── __init__.py
-│   ├── config.py                 # Analysis configuration
-│   ├── data_collection.py        # Scripts for gathering CVE data
-│   ├── data_generation.py        # Synthetic data generator
-│   ├── app.py                    # CLI entrypoint (WIP)
-├── tests/                        # Unit tests
-├── docs/                         # Technical documentation
-├── analysis_results.json         # Sample output
-└── requirements.txt              # Project dependencies
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/quantum-vulnerability-detector.git
 ```
 
----
-
-## Setup Instructions
-
-### 1. Clone the Repository
+### 2. Install the required dependencies
+Navigate to the project directory and install the dependencies using pip:
 
 ```bash
-git clone https://github.com/yourusername/qcsa.git
-cd qcsa
-```
-
-### 2. Create a Virtual Environment
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
+cd quantum-vulnerability-detector
 pip install -r requirements.txt
 ```
 
-### 4. Run Static Analyzer
+### 3. Run the Streamlit app
+Once the dependencies are installed, run the Streamlit app with the following command:
 
 ```bash
-python src/analyzers/crypto_analyzer.py
+streamlit run app.py
 ```
 
-### 5. View Output
+This will start a local web server, and you can access the tool at `http://localhost:8501`.
 
-Check `analysis_results.json` for the vulnerability report.
+## Usage
+1. **Upload your code file**: Click the "Upload your code file" button to upload a source code file (e.g., Python, Java, JavaScript, C++).
+2. **Detection of vulnerabilities**: The app will scan the code for quantum-vulnerable algorithms and highlight them.
+3. **View findings**: The app will display a table with the details of detected vulnerabilities (severity, explanation, etc.).
+4. **Quantum Safe Solution**: Use the sidebar to get recommendations for fixing the vulnerabilities, including code changes.
 
----
+## Sample Input
+Save the below code in a .java file and upload it into the application.
+```
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.KeyPairGenerator;
+import java.security.PublicKey;
+import java.security.PrivateKey;
+import java.security.MessageDigest;
+import java.security.Mac;
 
-## Configuration
+public class TestCrypto {
 
-Update `src/config.py` to customize:
+    public static void main(String[] args) {
+        try {
+            // AES Encryption Example
+            SecretKey key = KeyGenerator.getInstance("AES").generateKey();
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encryptedData = cipher.doFinal("Hello, World!".getBytes());
+            System.out.println("Encrypted data: " + new String(encryptedData));
 
-- Cryptographic patterns and regex rules
-- List of quantum-vulnerable and quantum-resistant algorithms
-- Key length thresholds
+            // RSA KeyPair Example
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            PublicKey publicKey = keyPairGenerator.genKeyPair().getPublic();
+            PrivateKey privateKey = keyPairGenerator.genKeyPair().getPrivate();
+            System.out.println("Public Key: " + publicKey);
+            System.out.println("Private Key: " + privateKey);
 
----
+            // MessageDigest (Hashing) Example
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = messageDigest.digest("Hello, World!".getBytes());
+            System.out.println("SHA-256 hash: " + new String(hash));
 
-## Roadmap
+            // HMAC Example
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(key);
+            byte[] hmacData = mac.doFinal("Hello, World!".getBytes());
+            System.out.println("HMAC: " + new String(hmacData));
 
-- [x] Static analysis engine for Python/JS/Java
-- [x] Feature extraction and severity scoring
-- [ ] ML classification model training
-- [ ] Quantum-resistant recommendations
-- [ ] CI/CD integration plugin
-- [ ] VS Code extension (Nice-to-Have)
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
 
----
-
-## References
-
-- [NIST Post-Quantum Cryptography Project](https://csrc.nist.gov/projects/post-quantum-cryptography)
-- [National Vulnerability Database (NVD)](https://nvd.nist.gov/)
-- [Common Weakness Enumeration (CWE)](https://cwe.mitre.org/)
-- [PyCryptodome Documentation](https://pycryptodome.readthedocs.io/)
-- [OpenSSL Cryptographic APIs](https://www.openssl.org/docs/man3.0/)
+```
 
