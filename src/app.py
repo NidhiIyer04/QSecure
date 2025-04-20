@@ -164,10 +164,11 @@ if uploaded_file is not None:
         st.dataframe(findings_df)
 
         # Step 5: Chatbot-style recommendation interface
-        st.sidebar.title("Quantum-Safe Chatbot 💬")
+        st.sidebar.title("Quantum-Safe Solution")
+        unique_vulnerabilities = list(dict.fromkeys([finding["match"] for finding in findings]))
         selected_vulnerability = st.sidebar.selectbox(
             "Select a vulnerability to get recommendations",
-            [finding["match"] for finding in findings]
+            unique_vulnerabilities
         )
 
         if selected_vulnerability:
