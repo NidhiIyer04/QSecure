@@ -1,56 +1,39 @@
-import sys
-import os
-from flask import Flask, request, jsonify
-from crypto_analyzer import CryptoStaticAnalyzer, FeatureExtractor
+import streamlit as st
+import pandas as pd
+from streamlit_ace import st_ace
 
-# Add the 'analyzers' directory to the sys.path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'analyzers'))
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/analyze', methods=['POST'])
-def analyze():
-    # Ensure a file was uploaded
-    if 'file' not in request.files:
-        return jsonify({"error": "No file uploaded"}), 400
-    
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
-    
-    # Save the file temporarily
-    file_path = os.path.join("uploads", file.filename)
-    file.save(file_path)
-
-    # Run the analysis
-    analyzer = CryptoStaticAnalyzer()
-    feature_extractor = FeatureExtractor()
-
-    vulnerabilities = analyzer.analyze_file(file_path)
-    features = feature_extractor.extract_features(vulnerabilities)
-    
-    # Format the response data for frontend usage
-    results = []
-    for vulnerability in features:
-        results.append({
-            'file': vulnerability.get('file'),
-            'language': vulnerability.get('language'),
-            'match': vulnerability.get('match'),
-            'line': vulnerability.get('line'),
-            'severity': vulnerability.get('severity'),
-            'quantum_vulnerable': vulnerability.get('quantum_vulnerable'),
-            'explanation': vulnerability.get('explanation')  # Assuming explanation is part of the output
-        })
-    
-    return jsonify({'results': results})
+# Mock function: replace this with your actual analyzer
+def analyze_file(uploaded_file):
+    content = uploaded_file.read().decode("utf-8")
+    # Mock vulnerabilities
+    vulnerabilities = [
+        {
+            "file": uploaded_file.name,
+            "language": "Java",
+            "match": "RSA",
+            "line": 5,
+            "severity": "High",
+            "quantum_vulnerable": True,
+            "explanation": "RSA is vulnerable to quantum attacks via Shor's algorithm."
+        }
+    ]
+    return content, vulnerabilities
 
 
-if __name__ == "__main__":
-    # Ensure uploads folder exists
-    if not os.path.exists('uploads'):
-        os.makedirs('uploads')
-    app.run(debug=True)
+st.title("🔍 Quantum-Safe Crypto Static Analyzer")
+
+uploaded_file = st.file_uploader("Upload a source code file", type=["java", "js", "py", "cpp"])
+
+if uploaded_file:
+    code_content, vulnerabilities = analyze_file(uploaded_file)
+
+    st.subheader("📜 Source Code")
+    editor_content = st_ace(value=code_content, language='java', theme='monokai', readonly=True, height=400)
+
+    st.subheader("🚨 Vulnerabilities Found")
+    df = pd.DataFrame(vulnerabilities)
+    st.dataframe(df)
+
+    # Optionally highlight lines — you could parse vulnerabilities and mark them in st_ace too
+else:
+    st.info("Upload a file to begin analysis.")
