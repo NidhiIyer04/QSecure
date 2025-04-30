@@ -21,14 +21,14 @@ To run the Quantum Vulnerability Detector locally, follow the steps below:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/quantum-vulnerability-detector.git
+git clone https://github.com/NidhiIyer04/QSecure.git
 ```
 
 ### 2. Install the required dependencies
 Navigate to the project directory and install the dependencies using pip:
 
 ```bash
-cd quantum-vulnerability-detector
+cd QSecure
 pip install -r requirements.txt
 ```
 
@@ -36,6 +36,7 @@ pip install -r requirements.txt
 Once the dependencies are installed, run the Streamlit app with the following command:
 
 ```bash
+cd src
 streamlit run app.py
 ```
 
