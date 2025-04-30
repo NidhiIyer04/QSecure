@@ -33,16 +33,25 @@ def detect_vulnerabilities(file_content, language):
     return findings
 
 def get_recommendation(vulnerability, language):
+    
     recommendations = {
-        "RSA": {
-            "general": "RSA is vulnerable to Shor's algorithm. Replace it with quantum-resistant algorithms.",
-            "code_changes": {
-                "python": """
+    "RSA": {
+        "general": "RSA is vulnerable to Shor's algorithm. Replace it with quantum-resistant algorithms like Kyber or NTRU.",
+        "code_changes": {
+            "python": """
 from ntru import NTRUEncrypt
 ntru = NTRUEncrypt()
 encrypted = ntru.encrypt(data)
 """,
-                "java": """
+            "javascript": """
+// Using a mock Post-Quantum library (for demonstration)
+import { kyberEncrypt, kyberDecrypt } from 'post-quantum-crypto-lib';
+
+const keyPair = generateKyberKeyPair();
+const encrypted = kyberEncrypt(keyPair.publicKey, "Hello World");
+const decrypted = kyberDecrypt(keyPair.privateKey, encrypted);
+""",
+            "java": """
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.Security;
 import org.openquantumsafe.kyber.KyberCiphertext;
@@ -52,63 +61,176 @@ import org.openquantumsafe.kyber.KyberKeyPair;
 import org.openquantumsafe.kyber.KyberCipher;
 
 public class PostQuantumCryptoExample {
-
     public static void main(String[] args) {
-        // Add BouncyCastle Provider
         Security.addProvider(new BouncyCastleProvider());
-        
-        try {
-            // Generate a Kyber Key Pair (Post-Quantum)
-            KyberKeyPair keyPair = KyberKeyPair.generateKeyPair();
 
+        try {
+            KyberKeyPair keyPair = KyberKeyPair.generateKeyPair();
             KyberPublicKey publicKey = keyPair.getPublicKey();
             KyberPrivateKey privateKey = keyPair.getPrivateKey();
 
-            // Encrypt data with Kyber (Post-Quantum)
             String data = "Hello, Quantum World!";
             KyberCiphertext ciphertext = KyberCipher.encrypt(publicKey, data.getBytes());
-
-            // Decrypt the data with Kyber (Post-Quantum)
             byte[] decryptedData = KyberCipher.decrypt(privateKey, ciphertext);
 
-            // Display results
             System.out.println("Original Data: " + data);
             System.out.println("Decrypted Data: " + new String(decryptedData));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
-
 """,
-                "cpp": """
-// Replace RSA with NTRU or Kyber implementation using liboqs
+            "cpp": """
 #include <oqs/oqs.h>
+#include <stdio.h>
+
+int main() {
+    if (!OQS_KEM_alg_is_enabled(OQS_KEM_alg_kyber_512)) {
+        printf("Kyber is not enabled in liboqs\n");
+        return -1;
+    }
+
+    OQS_KEM *kem = OQS_KEM_new(OQS_KEM_alg_kyber_512);
+    uint8_t public_key[OQS_KEM_kyber_512_length_public_key];
+    uint8_t secret_key[OQS_KEM_kyber_512_length_secret_key];
+    uint8_t ciphertext[OQS_KEM_kyber_512_length_ciphertext];
+    uint8_t shared_secret_enc[OQS_KEM_kyber_512_length_shared_secret];
+    uint8_t shared_secret_dec[OQS_KEM_kyber_512_length_shared_secret];
+
+    OQS_KEM_keypair(kem, public_key, secret_key);
+    OQS_KEM_encaps(kem, ciphertext, shared_secret_enc, public_key);
+    OQS_KEM_decaps(kem, shared_secret_dec, ciphertext, secret_key);
+
+    OQS_KEM_free(kem);
+    return 0;
+}
 """
-            }
-        },
-        "AES": {
-            "general": "Ensure you are using AES with a 256-bit key and an authenticated encryption mode like AES-GCM.",
-            "code_changes": {
-                "python": """
+        }
+    },
+
+    "AES": {
+        "general": "Ensure AES is used with a 256-bit key and in an authenticated mode like AES-GCM.",
+        "code_changes": {
+            "python": """
 from Crypto.Cipher import AES
-cipher = AES.new('your_key_256_bits', AES.MODE_GCM)
-ciphertext, tag = cipher.encrypt_and_digest(data)
+from Crypto.Random import get_random_bytes
+
+key = get_random_bytes(32)  # 256-bit key
+cipher = AES.new(key, AES.MODE_GCM)
+ciphertext, tag = cipher.encrypt_and_digest(b"Secret message")
 """,
-                "java": """
+            "javascript": """
+const crypto = require('crypto');
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(12);
+
+const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+let encrypted = cipher.update('Secret message', 'utf8', 'hex');
+encrypted += cipher.final('hex');
+const tag = cipher.getAuthTag();
+""",
+            "java": """
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
+import java.security.SecureRandom;
+
+KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+keyGen.init(256);
+SecretKey key = keyGen.generateKey();
+
+byte[] iv = new byte[12];
+SecureRandom random = new SecureRandom();
+random.nextBytes(iv);
+
 Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-cipher.init(Cipher.ENCRYPT_MODE, key);
-byte[] ciphertext = cipher.doFinal(data);
+GCMParameterSpec spec = new GCMParameterSpec(128, iv);
+cipher.init(Cipher.ENCRYPT_MODE, key, spec);
+byte[] ciphertext = cipher.doFinal("Secret message".getBytes());
 """,
-                "cpp": """
-// Use AES-GCM via OpenSSL
+            "cpp": """
+#include <openssl/evp.h>
+
 EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, key, iv);
+EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, NULL, NULL);
+
+unsigned char key[32]; // 256-bit key
+unsigned char iv[12];  // 96-bit IV
+unsigned char outbuf[1024];
+int outlen;
+
+EVP_EncryptInit_ex(ctx, NULL, NULL, key, iv);
+EVP_EncryptUpdate(ctx, outbuf, &outlen, (unsigned char *)"Secret message", strlen("Secret message"));
 """
-            }
+        }
+    },
+
+    "MD5": {
+        "general": "MD5 is insecure and should be replaced with SHA3-256 or BLAKE3.",
+        "code_changes": {
+            "python": """
+import hashlib
+hash_value = hashlib.sha3_256("input".encode()).hexdigest()
+""",
+            "javascript": """
+const crypto = require('crypto');
+const hash = crypto.createHash('sha3-256').update("input").digest('hex');
+""",
+            "java": """
+import java.security.MessageDigest;
+import java.nio.charset.StandardCharsets;
+
+MessageDigest digest = MessageDigest.getInstance("SHA3-256");
+byte[] hash = digest.digest("input".getBytes(StandardCharsets.UTF_8));
+"""
+        }
+    },
+
+    "DES": {
+        "general": "DES is insecure. Replace it with AES-256 in GCM mode.",
+        "code_changes": {
+            "python": """
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+key = get_random_bytes(32)  # AES-256
+cipher = AES.new(key, AES.MODE_GCM)
+ciphertext, tag = cipher.encrypt_and_digest(b"Sensitive data")
+""",
+            "javascript": """
+const crypto = require('crypto');
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(12);
+
+const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+let encrypted = cipher.update('Sensitive data', 'utf8', 'hex');
+encrypted += cipher.final('hex');
+const tag = cipher.getAuthTag();
+""",
+            "java": """
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
+import java.security.SecureRandom;
+
+KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+keyGen.init(256);
+SecretKey key = keyGen.generateKey();
+
+byte[] iv = new byte[12];
+new SecureRandom().nextBytes(iv);
+
+Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+cipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(128, iv));
+byte[] encrypted = cipher.doFinal("Sensitive data".getBytes());
+"""
         }
     }
+}
+
 
     rec = recommendations.get(vulnerability)
     if rec:
