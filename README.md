@@ -9,12 +9,16 @@ Q Secure is a tool designed to detect vulnerabilities related to quantum-safe cr
 - Provides context-sensitive recommendations for replacing vulnerable algorithms with quantum-resistant alternatives.
 - Displays a table of findings, including severity and explanation of each vulnerability.
 - Provides a Quantum-Safe Solution with recommendations and code changes.
+- TCP/IP Packet Simulation with cryptographic overhead, latency, and loss.
+- Real-time metrics dashboard: packets sent/received, quantum security level.
 
 ## Technologies Used
-- **Streamlit**: A framework for building interactive web applications.
-- **Python**: The primary language for backend logic.
-- **Regular Expressions (Regex)**: To identify vulnerabilities in the code.
-- **Pandas**: For displaying the vulnerability findings in a tabular format.
+- Frontend: Streamlit
+- Backend: Python
+- Simulation: NetworkX, Matplotlib, NumPy
+- Visualization: PIL, base64
+- Data Processing: Pandas
+- Crypto Simulation: Custom ruleset
 
 ## Installation
 To run the Quantum Vulnerability Detector locally, follow the steps below:
@@ -43,10 +47,17 @@ streamlit run app.py
 This will start a local web server, and you can access the tool at `http://localhost:8501`.
 
 ## Usage
-1. **Upload your code file**: Click the "Upload your code file" button to upload a source code file (e.g., Python, Java, JavaScript, C++).
-2. **Detection of vulnerabilities**: The app will scan the code for quantum-vulnerable algorithms and highlight them.
-3. **View findings**: The app will display a table with the details of detected vulnerabilities (severity, explanation, etc.).
-4. **Quantum Safe Solution**: Use the sidebar to get recommendations for fixing the vulnerabilities, including code changes.
+1. Go to Upload File or Try Examples tab.
+2. Upload a .py, .java, .js, .cpp, or .c file.
+3. View vulnerabilities, highlighted code, severity, and recommended fixes.
+4. Use the sidebar chatbot to view language-specific recommendations.
+5. Download a ready-to-use fixed snippet.
+6. Open the Quantum Network Simulation tab.
+7. Select number of nodes and percentage of quantum-capable nodes.
+8. Choose a cryptographic algorithm to simulate.
+9. View network diagram.
+10. Run: Key Distribution Simulation, Attack Simulation, TCP/IP Simulation
+11. Analyze packet metrics and vulnerabilities.
 
 ## Sample Input
 Save the below code in a .java file and upload it into the application.
