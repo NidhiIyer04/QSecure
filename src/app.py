@@ -12,7 +12,6 @@ from PIL import Image
 import base64
 import numpy as np
 
-# Expanded function to detect more vulnerabilities in the code
 def detect_vulnerabilities(file_content, language):
     vulnerabilities = [
         {"match": "rsa", "severity": "High", "quantum_vulnerable": True, "explanation": "RSA is vulnerable to Shor's algorithm.", "fix": "Consider using post-quantum algorithms like NTRU or Kyber."},
@@ -24,22 +23,19 @@ def detect_vulnerabilities(file_content, language):
         {"match": "AES", "severity": "Low", "quantum_vulnerable": False, "explanation": "AES can be vulnerable if key sizes or modes are not properly used.", "fix": "Ensure you are using AES with a 256-bit key and an authenticated encryption mode (e.g., AES-GCM)."},
         {"match": "Crypto.PublicKey.RSA", "severity": "High", "quantum_vulnerable": True, "explanation": "RSA is vulnerable to Shor's algorithm.", "fix": "Consider using post-quantum algorithms like NTRU or Kyber."}
     ]
-    
     findings = []
     for vuln in vulnerabilities:
-        # Use regex with case-insensitive flag to catch all variations
         pattern = re.compile(r'\b' + re.escape(vuln["match"]) + r'\b', re.IGNORECASE)
         matches = pattern.finditer(file_content)
         
         for match in matches:
-            # Find the line number where the vulnerability is found
             line_number = file_content[:match.start()].count('\n') + 1
             
             findings.append({
-                "file_name": f"sample_code.{language.lower()}",  # Use lowercase language extension
+                "file_name": f"sample_code.{language.lower()}", 
                 "language": language,
                 "match": vuln["match"],
-                "line": line_number,  # Line numbers are 1-based
+                "line": line_number,  
                 "severity": vuln["severity"],
                 "quantum_vulnerable": vuln["quantum_vulnerable"],
                 "explanation": vuln["explanation"],
@@ -340,7 +336,6 @@ byte[] encrypted = cipher.doFinal("Sensitive data".getBytes());
         }
     }
 
-    # Case-insensitive lookup by normalizing keys and input to lowercase
     lookup_key = vulnerability.lower()
     for key in recommendations:
         if key.lower() == lookup_key:
@@ -356,7 +351,6 @@ byte[] encrypted = cipher.doFinal("Sensitive data".getBytes());
         "code_change": ""
     }
 
-# Function to guess language based on file extension
 def guess_language(file_extension):
     extension_map = {
         "py": "Python",
@@ -371,12 +365,9 @@ def guess_language(file_extension):
         "cs": "C#"
     }
     return extension_map.get(file_extension.lower(), "Unknown")
-# Quantum Network Simulation functions
 def create_quantum_network(num_nodes=5, quantum_node_percentage=0.4):
     """Create a simulated quantum-classical hybrid network"""
     G = nx.random_geometric_graph(num_nodes, 0.5)
-    
-    # Designate some nodes as quantum-capable
     quantum_nodes = []
     for i in range(num_nodes):
         if i < int(num_nodes * quantum_node_percentage):
@@ -385,16 +376,15 @@ def create_quantum_network(num_nodes=5, quantum_node_percentage=0.4):
         else:
             nx.set_node_attributes(G, {i: {'type': 'classical', 'color': '#f59e0b'}})
     
-    # Set edge attributes based on connection types
     for u, v in G.edges():
         if G.nodes[u]['type'] == 'quantum' and G.nodes[v]['type'] == 'quantum':
             G.edges[u, v]['type'] = 'quantum'
             G.edges[u, v]['color'] = 'blue'
-            G.edges[u, v]['weight'] = 1  # Quantum connections are faster
+            G.edges[u, v]['weight'] = 1  
         else:
             G.edges[u, v]['type'] = 'classical'
             G.edges[u, v]['color'] = 'gray'
-            G.edges[u, v]['weight'] = 3  # Classical connections are slower
+            G.edges[u, v]['weight'] = 3  
     
     return G, quantum_nodes
 
@@ -403,7 +393,6 @@ def simulate_key_distribution(G, source, target, algorithm="BB84"):
     if nx.has_path(G, source, target):
         path = nx.shortest_path(G, source, target, weight='weight')
         
-        # Calculate theoretical key exchange time
         total_time = 0
         quantum_hops = 0
         classical_hops = 0
@@ -411,22 +400,19 @@ def simulate_key_distribution(G, source, target, algorithm="BB84"):
         for i in range(len(path)-1):
             u, v = path[i], path[i+1]
             if G.edges[u, v]['type'] == 'quantum':
-                total_time += G.edges[u, v]['weight'] * 10  # Quantum transmission time
+                total_time += G.edges[u, v]['weight'] * 10
                 quantum_hops += 1
             else:
-                total_time += G.edges[u, v]['weight'] * 30  # Classical transmission time
+                total_time += G.edges[u, v]['weight'] * 30
                 classical_hops += 1
         
-        # Simulate vulnerability to eavesdropping
         is_vulnerable = False
         vulnerability_reason = ""
         
-        # Check if any classical hop is present in a quantum key exchange
         if algorithm in ["BB84", "E91"] and classical_hops > 0:
             is_vulnerable = True
             vulnerability_reason = f"Classical hops detected in {algorithm} quantum key exchange"
         
-        # Check if using RSA over quantum network (inefficient)
         if algorithm == "RSA" and quantum_hops > 0:
             is_vulnerable = True
             vulnerability_reason = "RSA inefficient over quantum network, consider quantum-native protocols"
@@ -454,18 +440,16 @@ def simulate_network_attack(G, algorithm, attack_type="shor"):
     }
     
     if attack_type == "shor" and algorithm == "RSA":
-        # Simulate Shor's algorithm attack on RSA
         results["attack_successful"] = True
         results["nodes_compromised"] = len([n for n in G.nodes() if G.nodes[n]['type'] == 'classical'])
         results["keys_compromised"] = len(G.edges())
-        results["time_to_breach_ms"] = 5000  # Theoretical time with a quantum computer
+        results["time_to_breach_ms"] = 5000  
         results["defense_recommendations"] = [
             "Replace RSA with quantum-resistant algorithms",
             "Implement Kyber for key encapsulation",
             "Use hybrid classical-quantum approach for immediate security"
         ]
     elif attack_type == "intercept" and algorithm in ["BB84", "E91"]:
-        # Simulate intercept-resend attack on quantum key distribution
         classical_edges = [e for e in G.edges() if G.edges[e]['type'] == 'classical']
         if classical_edges:
             results["attack_successful"] = True
@@ -478,7 +462,6 @@ def simulate_network_attack(G, algorithm, attack_type="shor"):
                 "Use entanglement-based protocols like E91 for better security"
             ]
     elif attack_type == "grover" and algorithm == "AES":
-        # Simulate Grover's algorithm attack on AES
         results["attack_successful"] = False if algorithm == "AES-256" else True
         results["nodes_compromised"] = 0 if algorithm == "AES-256" else len(G.nodes()) // 2
         results["keys_compromised"] = 0 if algorithm == "AES-256" else len(G.edges()) // 3
@@ -495,15 +478,14 @@ def tcp_packet_simulator(source, destination, packet_size, algorithm, is_quantum
     """Simulate TCP/IP packet transmission with cryptographic overhead"""
     base_latency = 30 if is_quantum_link else 10  # ms
     
-    # Calculate crypto overhead based on algorithm
     if algorithm == "RSA":
-        crypto_overhead = 25  # ms
+        crypto_overhead = 25
     elif algorithm == "Kyber":
-        crypto_overhead = 8  # ms
+        crypto_overhead = 8
     elif algorithm in ["BB84", "E91"]:
-        crypto_overhead = 15 if is_quantum_link else 50  # ms
+        crypto_overhead = 15 if is_quantum_link else 50
     else:
-        crypto_overhead = 5  # ms
+        crypto_overhead = 5
     
     total_latency = base_latency + crypto_overhead
     packet_loss = 0.02 if is_quantum_link else 0.05
@@ -521,25 +503,19 @@ def plot_quantum_network(G):
     """Generate a plot of the quantum-classical network"""
     plt.figure(figsize=(8, 6))
     
-    # Extract node positions
     pos = nx.get_node_attributes(G, 'pos')
     
-    # Extract node colors
     node_colors = [G.nodes[n]['color'] for n in G.nodes()]
     
-    # Extract edge colors
     edge_colors = [G.edges[e]['color'] for e in G.edges()]
     
-    # Draw the network
     nx.draw(G, pos, with_labels=True, node_color=node_colors, 
             edge_color=edge_colors, node_size=500, font_weight='bold')
     
-    # Save the figure to a buffer
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
     
-    # Convert to base64 for display in Streamlit
     img = Image.open(buf)
     return img
 class NetworkSimulationThread(threading.Thread):
@@ -561,21 +537,17 @@ class NetworkSimulationThread(threading.Thread):
         }
         
     def run(self):
-        # Create simulated nodes
         nodes = []
         for i in range(self.num_nodes):
             if i < self.quantum_nodes:
                 nodes.append({"id": i, "type": "quantum", "ip": f"10.0.0.{i+1}"})
             else:
                 nodes.append({"id": i, "type": "classical", "ip": f"10.0.0.{i+1}"})
-        
-        # Simulate packet transmission
         start_time = time.time()
         total_latency = 0
         packets_sent = 0
         
         while time.time() - start_time < self.simulation_time and self.running:
-            # Select random source and destination
             source_id = np.random.randint(0, self.num_nodes)
             dest_id = np.random.randint(0, self.num_nodes)
             while dest_id == source_id:
@@ -584,10 +556,8 @@ class NetworkSimulationThread(threading.Thread):
             source = nodes[source_id]
             dest = nodes[dest_id]
             
-            # Determine if this is a quantum link
             is_quantum_link = source["type"] == "quantum" and dest["type"] == "quantum"
             
-            # Simulate packet
             packet_size = np.random.randint(64, 1500)  # bytes
             packet = tcp_packet_simulator(
                 source["ip"], 
@@ -597,26 +567,21 @@ class NetworkSimulationThread(threading.Thread):
                 is_quantum_link
             )
             
-            # Process packet
             packets_sent += 1
             if np.random.random() > packet["packet_loss"]:
                 self.results["packets_received"] += 1
                 total_latency += packet["latency_ms"]
-                # Add to queue for display (limit queue size)
                 if self.packet_queue.qsize() < 100:
                     self.packet_queue.put(packet)
             else:
                 self.results["packets_dropped"] += 1
             
-            # Sleep to simulate real-time
             time.sleep(0.01)
         
-        # Calculate final results
         self.results["packets_sent"] = packets_sent
         if self.results["packets_received"] > 0:
             self.results["avg_latency"] = total_latency / self.results["packets_received"]
         
-        # Determine if quantum secure
         if self.algorithm in ["Kyber", "NTRU", "BB84", "E91"]:
             self.results["quantum_secure"] = True
         else:
@@ -629,24 +594,19 @@ class NetworkSimulationThread(threading.Thread):
     def stop(self):
         self.running = False
 
-# Centering the title and subheader
 st.markdown("""
     <h1 style="text-align: center; color: white;">Q Secure</h1>
     <h2 style="text-align: center; color: white;">Quantum Vulnerability Detector</h2>
 """, unsafe_allow_html=True)
 
-# Step 1: File upload or example selection
 st.write("You can either upload a file or try with an example:")
 
-# In your existing tab structure, add a third tab
 tab1, tab2, tab3 = st.tabs(["Upload File", "Try Examples", "Quantum Network Simulation"])
 
 with tab1:
-    # Original file upload functionality
     uploaded_file = st.file_uploader("Upload your code file", type=["py", "cpp", "js", "java", "c", "ts", "rb", "go", "php", "cs"])
 
 with tab2:
-    # Example selection
     example_options = [
         "Python file with RSA", 
         "JavaScript file with AES", 
@@ -655,7 +615,6 @@ with tab2:
     ]
     selected_example = st.selectbox("Select an example:", example_options)
     
-    # Dictionary with example code
     example_code = {
         "Python file with RSA": {
             "content": """import rsa
@@ -810,7 +769,6 @@ print(f"MD5 hash of the message: {md5_hash}")
         }
     }
     
-    # Run example button
     if st.button("Run Example"):
         file_content = example_code[selected_example]["content"]
         language = example_code[selected_example]["language"]
@@ -840,27 +798,21 @@ with tab3:
         st.write("TCP/IP Simulation Parameters:")
         simulation_time = st.slider("Simulation time (seconds)", min_value=5, max_value=60, value=10)
     
-    # Generate and display the network
     if st.button("Generate Quantum Network"):
-        # Create the network
         G, quantum_nodes = create_quantum_network(num_nodes, quantum_node_percentage)
         
-        # Store in session state
         st.session_state['quantum_network'] = G
         st.session_state['quantum_nodes'] = quantum_nodes
         
-        # Display the network
         network_img = plot_quantum_network(G)
         st.image(network_img, caption="Quantum-Classical Hybrid Network (Blue: Quantum nodes, Orange: Classical nodes)")
         
-        # Show node details
         st.subheader("Network Details")
         st.write(f"Total nodes: {len(G.nodes())}")
         st.write(f"Quantum-capable nodes: {len(quantum_nodes)}")
         st.write(f"Classical nodes: {len(G.nodes()) - len(quantum_nodes)}")
         st.write(f"Network connections: {len(G.edges())}")
     
-    # Run simulations if network is generated
     if 'quantum_network' in st.session_state:
         st.subheader("Simulation Controls")
         
@@ -869,13 +821,11 @@ with tab3:
         with col1:
             if st.button("Simulate Key Distribution"):
                 G = st.session_state['quantum_network']
-                source = 0  # Start node
-                target = len(G.nodes()) - 1  # End node
+                source = 0
+                target = len(G.nodes()) - 1
                 
-                # Run simulation
                 key_dist_results = simulate_key_distribution(G, source, target, selected_algorithm)
                 
-                # Display results
                 st.subheader("Key Distribution Results")
                 if key_dist_results["success"]:
                     st.write(f"Path: {' → '.join(map(str, key_dist_results['path']))}")
@@ -894,7 +844,6 @@ with tab3:
             if st.button("Simulate Network Attack"):
                 G = st.session_state['quantum_network']
                 
-                # Map attack type to internal name
                 attack_map = {
                     "Shor's algorithm (factoring)": "shor",
                     "Grover's algorithm (search)": "grover",
@@ -902,10 +851,8 @@ with tab3:
                     "Man-in-the-middle": "mitm"
                 }
                 
-                # Run attack simulation
                 attack_results = simulate_network_attack(G, selected_algorithm, attack_map[attack_type])
                 
-                # Display results
                 st.subheader("Attack Simulation Results")
                 if attack_results["attack_successful"]:
                     st.error("**Attack successful**")
@@ -919,14 +866,11 @@ with tab3:
                 for i, recommendation in enumerate(attack_results["defense_recommendations"]):
                     st.write(f"{i+1}. {recommendation}")
         
-        # TCP/IP Simulation section
         st.subheader("TCP/IP Network Simulation")
         
         if st.button("Run TCP/IP Simulation"):
-            # Get parameters
             quantum_nodes = len(st.session_state['quantum_nodes'])
             
-            # Create simulation thread
             st.session_state['simulation_thread'] = NetworkSimulationThread(
                 num_nodes=num_nodes,
                 quantum_nodes=quantum_nodes,
@@ -934,33 +878,25 @@ with tab3:
                 simulation_time=simulation_time
             )
             
-            # Start simulation
             st.session_state['simulation_thread'].start()
             
-            # Create progress bar
             progress_bar = st.progress(0)
             status_text = st.empty()
             
-            # Monitor simulation
             start_time = time.time()
             
-            # Display packet info
             packet_container = st.container()
             
-            # Update UI while simulation runs
             while st.session_state['simulation_thread'].is_alive():
-                # Update progress
                 elapsed = time.time() - start_time
                 progress = min(elapsed / simulation_time, 1.0)
                 progress_bar.progress(progress)
                 
-                # Update status
                 results = st.session_state['simulation_thread'].results
                 status_text.text(f"Simulating... Packets sent: {results['packets_sent']}, " +
                                 f"received: {results['packets_received']}, " +
                                 f"dropped: {results['packets_dropped']}")
                 
-                # Display recent packets
                 with packet_container:
                     if not st.session_state['simulation_thread'].packet_queue.empty():
                         packet = st.session_state['simulation_thread'].packet_queue.get()
@@ -969,14 +905,11 @@ with tab3:
                                 f"Latency: {packet['latency_ms']} ms | " +
                                 f"Algorithm: {packet['algorithm']}")
                 
-                # Sleep briefly
                 time.sleep(0.1)
             
-            # Simulation complete
             progress_bar.progress(1.0)
             status_text.text("Simulation complete!")
             
-            # Display final results
             final_results = st.session_state['simulation_thread'].results
             
             col1, col2, col3, col4 = st.columns(4)
@@ -994,7 +927,6 @@ with tab3:
             with col4:
                 st.metric("Avg Latency (ms)", f"{final_results['avg_latency']:.2f}")
             
-            # Show security assessment
             st.subheader("Network Security Assessment")
             
             if final_results["quantum_secure"]:
@@ -1006,29 +938,23 @@ with tab3:
                 st.write("**Vulnerabilities detected:**")
                 for vuln in final_results["vulnerabilities"]:
                     st.write(f"- {vuln}")
-# Process the file or example
 process_content = False
 if 'tab1' in locals() and uploaded_file is not None:
-    # Read file content as string
     file_content = uploaded_file.read().decode("utf-8")
     file_extension = uploaded_file.name.split(".")[-1]
     language = guess_language(file_extension)
     process_content = True
 elif 'tab2' in locals() and 'file_content' in locals() and file_content is not None:
-    # Example content is already set
     process_content = True
 
 if process_content:
-    # Step 2: Detect vulnerabilities
     findings = detect_vulnerabilities(file_content, language)
 
     if findings:
         st.subheader("Code with Highlighted Vulnerabilities:")
 
-        # Split the file content into lines
         lines = file_content.split("\n")
 
-        # Create a map of vulnerabilities by line
         vulnerabilities_by_line = {}
         for finding in findings:
             line_num = finding["line"]
@@ -1036,21 +962,19 @@ if process_content:
                 vulnerabilities_by_line[line_num] = []
             vulnerabilities_by_line[line_num].append(finding["match"])
 
-        # Build the editor-style display with preserved indentation and highlights
         styled_lines = ""
         for i, line in enumerate(lines):
             line_number = i + 1
             line_str = f"{str(line_number).rjust(4)}"
             styled_line = line.replace(" ", "&nbsp;")
 
-            # If this line has vulnerabilities, highlight them
             if line_number in vulnerabilities_by_line:
                 for vuln in vulnerabilities_by_line[line_number]:
                     styled_line = re.sub(
                         f"\\b{re.escape(vuln)}\\b",
                         f"<span style='background-color: #facc15; color: black; font-weight: bold; padding: 1px 2px; border-radius: 3px;'>{vuln}</span>",
                         styled_line,
-                        flags=re.IGNORECASE  # Add case-insensitive flag here
+                        flags=re.IGNORECASE
                     )
             
             background = "#0f172a" if i % 2 == 0 else "#1e293b"
@@ -1073,13 +997,10 @@ if process_content:
         </div>
         """, unsafe_allow_html=True)
             
-        # Step 3: Display findings summary
         st.write(f"**Found {len(findings)} potential vulnerabilities in this {language} code.**")
 
-        # Display summary badges
         col1, col2, col3, col4 = st.columns(4)
         
-        # Count vulnerabilities by severity
         severity_counts = {"High": 0, "Medium": 0, "Low": 0}
         quantum_vulnerable_count = 0
         
@@ -1121,7 +1042,6 @@ if process_content:
             </div>
             """, unsafe_allow_html=True)
 
-        # Step 4: Display table of findings in a cleaner format
         st.subheader("Detailed Vulnerability Findings")
         table_data = []
         for finding in findings:
@@ -1137,7 +1057,6 @@ if process_content:
         findings_df = pd.DataFrame(table_data, columns=["File", "Language", "Vulnerability", "Line", "Severity", "Quantum Vulnerable", "Explanation"])
         st.dataframe(findings_df)
 
-        # Step 5: Chatbot-style recommendation interface
         st.sidebar.title("Quantum-Safe Solutions")
         unique_vulnerabilities = list(dict.fromkeys([finding["match"] for finding in findings]))
         
@@ -1155,7 +1074,6 @@ if process_content:
             st.sidebar.subheader("Suggested Code Change:")
             st.sidebar.code(recommendation["code_change"], language=language.lower())
             
-            # Create a mapping of language names to their file extensions
             language_to_extension = {
                 "python": "py",
                 "javascript": "js",
@@ -1165,13 +1083,10 @@ if process_content:
                 "php": "php",
                 "ruby": "rb",
                 "go": "go",
-                # Add more languages as needed
             }
 
-            # Get the appropriate extension for the language
             file_extension = language_to_extension.get(language.lower(), language.lower())
 
-            # Add download button for the recommended fix
             st.sidebar.download_button(
                 label="Download Fix",
                 data=recommendation["code_change"],
