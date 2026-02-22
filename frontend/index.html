@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QSecure - Post-Quantum Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        button {
+            background: #38bdf8;
+            border: none;
+            padding: 10px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input {
+            margin-top: 10px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .risk-HIGH_RISK { color: #f87171; }
+        .risk-CRITICAL_RISK { color: #ef4444; }
+        .risk-MODERATE_RISK { color: #facc15; }
+        .risk-LOW_RISK { color: #4ade80; }
+
+        pre {
+            background: #0f172a;
+            padding: 15px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>QSecure - Quantum Vulnerability Scanner</h1>
+
+<input type="file" id="fileInput" />
+<br/>
+<button onclick="scanFile()">Scan</button>
+
+<div id="results"></div>
+
+<script>
+async function scanFile() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a file.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("http://127.0.0.1:8000/scan", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+    renderResults(data);
+}
+
+function renderResults(results) {
+    const container = document.getElementById("results");
+    container.innerHTML = "";
+
+    results.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const badgeClass = "risk-" + item.grading.overall_security_posture.compliance_badge;
+
+        card.innerHTML = `
+            <h2>Algorithm: ${item.finding.algorithm}</h2>
+            <p><strong>Line:</strong> ${item.finding.line}</p>
+            <p><strong>Quantum Ready:</strong> ${item.grading.overall_security_posture.quantum_readiness}</p>
+            <p class="${badgeClass}">
+                <strong>Risk:</strong> ${item.grading.overall_security_posture.compliance_badge}
+            </p>
+            <p>${item.explanation}</p>
+            <h3>Suggested Fix:</h3>
+            <pre>${item.fix.diff}</pre>
+        `;
+
+        container.appendChild(card);
+    });
+}
+</script>
+
+</body>
+</html>

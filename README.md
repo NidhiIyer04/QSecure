@@ -1,111 +1,192 @@
-# Quantum Vulnerability Detector - QSecure
+# Quantum Vulnerability Detector – QSecure
 
 ## Overview
-Q Secure is a tool designed to detect vulnerabilities related to quantum-safe cryptography in codebases. It identifies cryptographic algorithms that are vulnerable to quantum attacks (e.g., RSA, AES) and provides recommendations for more secure alternatives. This tool is useful for developers working on cryptographic applications to ensure their code is future-proof against quantum computing threats.
+
+QSecure is a Post-Quantum Cryptography (PQC) vulnerability scanner designed to detect cryptographic algorithms that are vulnerable to quantum attacks. It identifies insecure or non-quantum-safe primitives such as RSA and SHA-1 and provides deterministic, production-safe migration guidance toward post-quantum alternatives like ML-KEM (Kyber).
+
+The system is built with a FastAPI backend and a lightweight frontend for uploading source files and reviewing findings.
 
 ## Features
-- Detects quantum-vulnerable cryptographic algorithms such as RSA, SHA-1, DES, MD5, RC4, and others.
-- Highlights vulnerable code in a code editor-style interface for easy review.
-- Provides context-sensitive recommendations for replacing vulnerable algorithms with quantum-resistant alternatives.
-- Displays a table of findings, including severity and explanation of each vulnerability.
-- Provides a Quantum-Safe Solution with recommendations and code changes.
-- TCP/IP Packet Simulation with cryptographic overhead, latency, and loss.
-- Real-time metrics dashboard: packets sent/received, quantum security level.
+
+* Detects quantum-vulnerable algorithms:
+  * RSA (1024, 2048, etc.)
+  * SHA-1
+  * Other legacy crypto primitives (extendable)
+* Classical vs Quantum security classification
+* Harvest-Now-Decrypt-Later (HNDL) risk indicator
+* CVSS-style risk scoring
+* NIST SP 800-131A + NIST PQC aligned classification
+* Deterministic post-quantum migration suggestions (no AI-generated crypto)
+* Unified diff output for secure patching
+* Minimal web UI for uploading and reviewing findings
+* REST API support for CI/CD integration
+
 
 ## Technologies Used
-- Frontend: Streamlit
-- Backend: Python
-- Simulation: NetworkX, Matplotlib, NumPy
-- Visualization: PIL, base64
-- Data Processing: Pandas
-- Crypto Simulation: Custom ruleset
 
-## Installation
-To run the Quantum Vulnerability Detector locally, follow the steps below:
+### Backend
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/NidhiIyer04/QSecure.git
+* FastAPI
+* Uvicorn
+* Python 3.10+
+* Deterministic secure template engine
+
+### Frontend
+
+* Vanilla HTML + JavaScript
+* Simple HTTP server
+
+## Project Structure
+
+```
+QSecure/
+│
+├── backend/
+│   ├── api/
+│   │   └── routes_scan.py
+│   ├── scanner/
+│   │   ├── static_scanner.py
+│   │   └── replacement_engine.py
+│   ├── services/
+│   │   ├── scan_service.py
+│   │   ├── grading_service.py
+│   │   └── ai_service.py
+│   └── main.py
+│
+├── frontend/
+│   └── index.html
+│
+└── requirements.txt
 ```
 
-### 2. Install the required dependencies
-Navigate to the project directory and install the dependencies using pip:
+## Installation
+
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/NidhiIyer04/QSecure.git
 cd QSecure
+```
+### 2. Create Virtual Environment (Recommended)
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run the Streamlit app
-Once the dependencies are installed, run the Streamlit app with the following command:
+## Running the Project
+
+# Start Backend (FastAPI)
+
+From project root:
 
 ```bash
-cd src
-streamlit run app.py
+uvicorn backend.main:app --reload
 ```
 
-This will start a local web server, and you can access the tool at `http://localhost:8501`.
+Backend will run at:
+
+```
+http://127.0.0.1:8000
+```
+
+Verify it is running:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+You should see the Swagger UI.
+
+# Start Frontend
+
+Open a new terminal:
+
+```bash
+cd frontend
+python3 -m http.server 5500
+```
+
+Open browser:
+
+```
+http://localhost:5500
+```
+
+Make sure backend is already running.
 
 ## Usage
-1. Go to Upload File or Try Examples tab.
-2. Upload a .py, .java, .js, .cpp, or .c file.
-3. View vulnerabilities, highlighted code, severity, and recommended fixes.
-4. Use the sidebar chatbot to view language-specific recommendations.
-5. Download a ready-to-use fixed snippet.
-6. Open the Quantum Network Simulation tab.
-7. Select number of nodes and percentage of quantum-capable nodes.
-8. Choose a cryptographic algorithm to simulate.
-9. View network diagram.
-10. Run: Key Distribution Simulation, Attack Simulation, TCP/IP Simulation
-11. Analyze packet metrics and vulnerabilities.
 
-## Sample Input
-Save the below code in a .java file and upload it into the application.
-```
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import java.security.KeyPairGenerator;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.MessageDigest;
-import java.security.Mac;
+1. Open `http://localhost:5500`
+2. Upload a `.java` file
+3. Click **Scan**
+4. View:
 
-public class TestCrypto {
+   * Algorithm detected
+   * Line number
+   * Classical compliance
+   * Quantum readiness
+   * CVSS score
+   * Migration priority
+   * Deterministic secure patch (diff format)
 
-    public static void main(String[] args) {
-        try {
-            // AES Encryption Example
-            SecretKey key = KeyGenerator.getInstance("AES").generateKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encryptedData = cipher.doFinal("Hello, World!".getBytes());
-            System.out.println("Encrypted data: " + new String(encryptedData));
+## API Usage (Direct)
 
-            // RSA KeyPair Example
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            PublicKey publicKey = keyPairGenerator.genKeyPair().getPublic();
-            PrivateKey privateKey = keyPairGenerator.genKeyPair().getPrivate();
-            System.out.println("Public Key: " + publicKey);
-            System.out.println("Private Key: " + privateKey);
+You can also call the API directly:
 
-            // MessageDigest (Hashing) Example
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = messageDigest.digest("Hello, World!".getBytes());
-            System.out.println("SHA-256 hash: " + new String(hash));
-
-            // HMAC Example
-            Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(key);
-            byte[] hmacData = mac.doFinal("Hello, World!".getBytes());
-            System.out.println("HMAC: " + new String(hmacData));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-
+```bash
+curl -X POST "http://127.0.0.1:8000/scan" \
+  -F "file=@TestCrypto.java"
 ```
 
+Response will be JSON:
+
+```json
+[
+  {
+    "finding": {...},
+    "grading": {...},
+    "fix": {...},
+    "explanation": "..."
+  }
+]
+```
+
+## Expected Output
+
+* Algorithm: RSA
+* Classical Compliance: APPROVED
+* Quantum Readiness: NOT_READY
+* Harvest-Now-Decrypt-Later Risk: true
+* CVSS Score: 7
+* Suggested Migration: ML-KEM (Kyber512)
+
+## Security Design Principles
+
+* No AI-generated cryptographic code
+* Deterministic migration templates
+* NIST-aligned classification
+* Production-safe patch generation
+* Modular service architecture
+* Extensible for future PQC standards
+
+## Future Enhancements (Roadmap)
+
+* Hybrid RSA + ML-KEM transition mode
+* AST-based Java parsing
+* GitHub PR patch generation
+* CI/CD integration
+* Multi-language scanning
+* Enterprise compliance reporting (PDF export)

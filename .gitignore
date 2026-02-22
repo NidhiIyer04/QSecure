@@ -1,5 +1,66 @@
-venv/
+# ================================
+# Python
+# ================================
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+
+# ================================
+# FastAPI / Uvicorn
+# ================================
+*.log
+uvicorn.log
+
+# ================================
+# OS Files
+# ================================
+.DS_Store
+Thumbs.db
+
+# ================================
+# IDE / Editor
+# ================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.iml
+
+# ================================
+# Tree-sitter / AST Build Artifacts
+# ================================
+backend/scanner/build/
+*.so
+
+# ================================
+# Test Outputs / Temporary Files
+# ================================
+*.json
+analysis_results.json
+
+# Keep actual test files
+!test/
+!test/*.java
+
+# ================================
+# Old Experimental Code
+# ================================
+old_ver/
+
+# ================================
+# Frontend local server artifacts
+# ================================
+*.cache
