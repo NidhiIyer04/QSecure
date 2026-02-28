@@ -9,18 +9,15 @@ def create_app() -> FastAPI:
         description="Post-Quantum Cryptography Vulnerability Scanner",
         version="1.0.0",
     )
-
-    # CORS configuration (frontend on localhost:5500)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[
-            "http://localhost:5500",
-            "http://127.0.0.1:5500",
-        ],
-        allow_credentials=True,
+        allow_origins=["*"],  # allow all during development
+        allow_credentials=False,  # must be False when using "*"
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    # CORS configuration (frontend on localhost:5500)
+    
 
     # Register routers
     app.include_router(scan_router)
