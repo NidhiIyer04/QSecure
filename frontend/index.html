@@ -3,640 +3,686 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SPECTRA — Quantum Security</title>
+<title>qsecure — Quantum Vulnerability Scanner by SPECTRA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --bg: #F5F0E8;
-  --bg2: #EDE7D9;
-  --paper: #FAF7F2;
-  --ink: #1A1410;
-  --ink2: #4A3F35;
-  --ink3: #8B7D70;
-  --red: #D92B2B;
-  --red2: #FF4545;
-  --amber: #E07B00;
-  --green: #1A6B3A;
-  --green2: #22A855;
-  --blue: #1A3A8F;
-  --cyan: #00B4CC;
-  --violet: #6B35B5;
-  --border: rgba(26,20,16,0.12);
-  --border2: rgba(26,20,16,0.22);
-  --shadow: 0 2px 20px rgba(26,20,16,0.1);
-  --shadow-lg: 0 8px 40px rgba(26,20,16,0.18);
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-body: 'Outfit', sans-serif;
+  /* Light mode — cream/paper tones with logo accent colours */
+  --bg:       #F5F0E8;
+  --bg2:      #EDE7D9;
+  --bg3:      #E4DCCB;
+  --paper:    #FAF7F2;
+  --surface:  rgba(255,252,247,0.95);
+  --ink:      #1A1410;
+  --ink2:     #4A3F35;
+  --ink3:     #8B7D70;
+  --border:   rgba(26,20,16,0.12);
+  --border2:  rgba(26,20,16,0.22);
+  /* Brand gradient: cyan→purple→magenta from logo */
+  --cyan:     #0099BB;
+  --cyan2:    #007A99;
+  --purple:   #7B4FD4;
+  --purple2:  #6035AE;
+  --magenta:  #B845CC;
+  --grad:     linear-gradient(135deg, #00BDD4 0%, #7B4FD4 50%, #B845CC 100%);
+  --grad-text:linear-gradient(90deg, #0099BB, #7B4FD4 55%, #B845CC);
+  --red:      #C8281F;
+  --amber:    #D07000;
+  --green:    #1A6B3A;
+  --blue:     #1A3A8F;
+  --text:     #1A1410;
+  --text2:    #4A3F35;
+  --text3:    #8B7D70;
+  --shadow:   0 2px 20px rgba(26,20,16,0.10);
+  --shadow-lg:0 8px 40px rgba(26,20,16,0.16);
+  --font-d:   'Bebas Neue', sans-serif;
+  --font-s:   'Instrument Serif', Georgia, serif;
+  --font-m:   'JetBrains Mono', monospace;
+  --font-b:   'Outfit', sans-serif;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);min-height:100vh;overflow-x:hidden}
+button,input{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 14px; scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-body);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-button, input { font-family: inherit; cursor: pointer; }
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
-/* ── NOISE TEXTURE ── */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px;
+/* subtle paper noise */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
 }
 
 /* ── LAYOUT ── */
-.shell { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+.shell{display:flex;min-height:100vh;position:relative;z-index:1}
 
 /* ── SIDEBAR ── */
-.sidebar {
-  width: 64px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 200;
-  background: var(--ink); border-right: 3px solid var(--ink);
-  display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;
+.sidebar{
+  width:64px;min-height:100vh;position:fixed;left:0;top:0;z-index:200;
+  background:var(--ink);border-right:3px solid var(--ink);
+  display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:5px;
 }
-.logo-mark {
-  width: 40px; height: 40px; margin-bottom: 20px; background: var(--red);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-size: 22px; color: #fff; letter-spacing: 1px;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  transition: background 0.2s;
+.logo-mark{
+  width:40px;height:40px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;
+  background:var(--grad);border-radius:8px;flex-shrink:0;overflow:hidden;
+  box-shadow:0 0 18px rgba(123,79,212,0.5);
 }
-.logo-mark:hover { background: var(--red2); }
-.nav-btn {
-  width: 44px; height: 44px; border: none; background: transparent;
-  color: rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; transition: all 0.18s; position: relative;
+.logo-mark img{width:36px;height:36px;object-fit:contain;border-radius:6px}
+.nav-btn{
+  width:44px;height:44px;border-radius:8px;border:none;
+  background:transparent;color:rgba(255,255,255,0.35);
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.18s;position:relative;
 }
-.nav-btn:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
-.nav-btn.active { background: var(--red); color: #fff; }
-.nav-btn svg { width: 20px; height: 20px; }
-.tip {
-  position: absolute; left: 58px; top: 50%; transform: translateY(-50%);
-  background: var(--ink); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
-  padding: 5px 12px; font-family: var(--font-mono); font-size: 10px; color: #fff;
-  white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.18s; z-index: 500;
+.nav-btn:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
+.nav-btn.active{background:rgba(0,189,212,0.25);color:#00C8E0;border:1px solid rgba(0,189,212,0.5)}
+.nav-btn svg{width:20px;height:20px}
+.tip{
+  position:absolute;left:56px;top:50%;transform:translateY(-50%);
+  background:var(--ink);border-radius:6px;
+  padding:5px 12px;font-family:var(--font-m);font-size:10px;color:#fff;
+  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.18s;z-index:500;
 }
-.nav-btn:hover .tip { opacity: 1; }
+.nav-btn:hover .tip{opacity:1}
 
-.main { margin-left: 64px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+.main{margin-left:64px;flex:1;display:flex;flex-direction:column;min-height:100vh}
 
 /* ── TOPBAR ── */
-.topbar {
-  height: 56px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px; background: var(--ink); border-bottom: 3px solid var(--ink);
-  position: sticky; top: 0; z-index: 100;
+.topbar{
+  height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;background:var(--paper);border-bottom:2px solid var(--ink);
+  position:sticky;top:0;z-index:100;box-shadow:var(--shadow);
 }
-.brand { display: flex; align-items: baseline; gap: 10px; }
-.brand-name {
-  font-family: var(--font-display); font-size: 28px; letter-spacing: 3px; color: #fff;
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{height:32px;width:auto;display:block}
+.brand-project{
+  font-family:var(--font-d);font-size:26px;letter-spacing:3px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.brand-sub {
-  font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.4);
-  letter-spacing: 2px; text-transform: uppercase;
+.brand-sep{color:var(--ink3);font-size:18px;margin:0 2px}
+.brand-by{font-family:var(--font-m);font-size:9px;color:var(--ink2);letter-spacing:1px}
+.brand-team{font-family:var(--font-m);font-size:9px;color:var(--purple);letter-spacing:1px;font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:18px}
+.api-pill{
+  display:flex;align-items:center;gap:6px;padding:4px 13px;border-radius:20px;
+  border:1.5px solid var(--border2);font-family:var(--font-m);font-size:9px;letter-spacing:1px;
+  background:var(--bg2);
 }
-.topbar-right { display: flex; align-items: center; gap: 20px; }
-.api-pill {
-  display: flex; align-items: center; gap: 6px; padding: 5px 14px;
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; border-radius: 2px;
+.api-pill.online{border-color:rgba(26,107,58,0.4);background:rgba(26,107,58,0.07);color:var(--green)}
+.api-pill.offline{border-color:rgba(200,40,31,0.35);background:rgba(200,40,31,0.06);color:var(--red)}
+.api-pill.checking{border-color:var(--border2);color:var(--ink3)}
+.api-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.api-pill.online .api-dot{animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.clock{font-family:var(--font-m);font-size:11px;color:var(--ink2)}
+
+/* ── HACKATHON BANNER ── */
+.hackathon-banner{
+  background:var(--grad);padding:9px 28px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
 }
-.api-pill.online { background: rgba(34,168,85,0.2); color: var(--green2); }
-.api-pill.offline { background: rgba(217,43,43,0.2); color: var(--red2); }
-.api-pill.checking { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
-.api-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.api-pill.online .api-dot { animation: blink 2s infinite; }
-@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
-.clock { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.5); }
+.hb-tag{
+  font-family:var(--font-m);font-size:8px;letter-spacing:2px;text-transform:uppercase;
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.35);
+  color:#fff;padding:3px 10px;border-radius:3px;white-space:nowrap;flex-shrink:0;
+}
+.hb-text{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.92);letter-spacing:.3px;line-height:1.5}
+.hb-text strong{color:#fff}
 
 /* ── PAGES ── */
-.page { display: none; flex: 1; animation: pagein 0.35s ease; }
-.page.active { display: block; }
-@keyframes pagein { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.page{display:none;flex:1;animation:pagein .3s ease}
+.page.active{display:block}
+@keyframes pagein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* ════════════════════
-   HOME PAGE
-════════════════════ */
-/* HERO */
-.hero {
-  min-height: 88vh; display: grid; grid-template-columns: 1fr 1fr;
-  border-bottom: 2px solid var(--border2);
+/* ═══════════════════════════════
+   HOME
+═══════════════════════════════ */
+.hero{
+  display:grid;grid-template-columns:1fr 320px;
+  border-bottom:1.5px solid var(--border2);
 }
-.hero-left {
-  padding: 64px 56px; display: flex; flex-direction: column; justify-content: space-between;
-  border-right: 2px solid var(--border2);
+.hero-left{
+  padding:clamp(24px,3vw,40px) clamp(20px,3.5vw,44px);display:flex;flex-direction:column;gap:16px;
+  border-right:1.5px solid var(--border2);
 }
-.hero-eyebrow {
-  display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+.hero-eyebrow{display:flex;align-items:center;gap:12px}
+.eyebrow-tag{
+  font-family:var(--font-m);font-size:9px;letter-spacing:2px;color:var(--cyan);
+  text-transform:uppercase;border:1.5px solid rgba(0,153,187,0.4);padding:3px 10px;border-radius:3px;
+  background:rgba(0,153,187,0.06);white-space:nowrap;
 }
-.eyebrow-tag {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.5px; color: var(--red);
-  text-transform: uppercase; border: 1px solid var(--red); padding: 4px 10px;
+.eyebrow-line{flex:1;height:1.5px;background:var(--border)}
+.hero-headline{
+  font-family:var(--font-d);font-size:clamp(36px,5.5vw,76px);
+  line-height:.92;letter-spacing:-0.5px;
+  display:flex;flex-direction:column;justify-content:center;padding:4px 0;
 }
-.eyebrow-line { flex: 1; height: 1px; background: var(--border2); }
-.hero-headline {
-  font-family: var(--font-display); font-size: clamp(72px, 9vw, 128px);
-  line-height: 0.92; letter-spacing: -1px; color: var(--ink); flex: 1;
-  display: flex; flex-direction: column; justify-content: center;
+.hero-headline .line1{color:var(--ink)}
+.hero-headline .accent{
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;
 }
-.hero-headline .accent { color: var(--red); display: block; }
-.hero-headline .serif { font-family: var(--font-serif); font-style: italic; color: var(--ink2); font-size: 0.7em; letter-spacing: 0; line-height: 1.1; }
-.hero-bottom { }
-.hero-desc {
-  font-size: 15px; line-height: 1.75; color: var(--ink2); max-width: 440px; margin-bottom: 28px;
+.hero-headline .serif{
+  font-family:var(--font-s);font-style:italic;color:var(--ink2);
+  font-size:.52em;letter-spacing:0;line-height:1.2;display:block;margin-top:6px;
 }
-.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn-primary {
-  padding: 14px 32px; background: var(--ink); color: #fff; border: 2px solid var(--ink);
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  transition: all 0.18s; border-radius: 2px;
+.hero-desc{font-size:13px;line-height:1.7;color:var(--ink2);max-width:480px;margin-bottom:16px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{
+  padding:10px 22px;border:none;border-radius:5px;color:#fff;font-weight:700;font-size:13px;
+  background:var(--grad);transition:all 0.2s;
+  box-shadow:0 4px 20px rgba(123,79,212,0.3);letter-spacing:.5px;
 }
-.btn-primary:hover { background: var(--red); border-color: var(--red); }
-.btn-outline {
-  padding: 14px 28px; background: transparent; color: var(--ink); border: 2px solid var(--border2);
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  transition: all 0.18s; border-radius: 2px;
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(123,79,212,0.45)}
+.btn-outline{
+  padding:10px 20px;background:transparent;border:2px solid var(--border2);
+  border-radius:5px;color:var(--ink);font-weight:600;font-size:13px;transition:all 0.2s;
 }
-.btn-outline:hover { border-color: var(--ink2); }
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
 
-/* HERO RIGHT — big stat panel */
-.hero-right {
-  display: grid; grid-template-rows: 1fr 1fr; background: var(--paper);
+/* hero right panel */
+.hero-right{background:var(--bg2);display:flex;flex-direction:column}
+.hero-stat{
+  flex:1;padding:clamp(16px,2.5vw,28px) clamp(16px,2.5vw,28px);border-bottom:1.5px solid var(--border);
+  display:flex;flex-direction:column;justify-content:space-between;
 }
-.hero-stat-big {
-  padding: 40px 48px; border-bottom: 2px solid var(--border2);
-  display: flex; flex-direction: column; justify-content: space-between;
+.hero-stat:last-child{border-bottom:none}
+.hs-tag{font-family:var(--font-m);font-size:8px;letter-spacing:2px;color:var(--ink3);text-transform:uppercase;margin-bottom:6px}
+.hs-num{
+  font-family:var(--font-d);font-size:clamp(48px,6vw,80px);line-height:1;letter-spacing:-2px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.hero-stat-big:last-child { border-bottom: none; }
-.hsb-year {
-  font-family: var(--font-display); font-size: 96px; line-height: 1;
-  color: var(--red); letter-spacing: -2px;
+.hs-desc{font-size:11px;color:var(--ink2);line-height:1.6;margin-top:6px}
+.hs-ref{
+  font-family:var(--font-m);font-size:8px;color:var(--ink3);margin-top:8px;
+  border-top:1px solid var(--border);padding-top:7px;
 }
-.hsb-label { font-family: var(--font-mono); font-size: 10px; color: var(--ink3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-.hsb-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; max-width: 260px; }
-.hsb-big2 {
-  font-family: var(--font-display); font-size: 80px; line-height: 1; letter-spacing: -2px;
-}
+.hs-ref a{color:var(--cyan);text-decoration:none}
+.hs-ref a:hover{color:var(--cyan2);text-decoration:underline}
 
-/* MARQUEE TICKER */
-.ticker {
-  background: var(--red); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
-  overflow: hidden; padding: 10px 0; white-space: nowrap;
+/* TICKER */
+.ticker{
+  background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  overflow:hidden;padding:9px 0;white-space:nowrap;
 }
-.ticker-inner {
-  display: inline-block; animation: marquee 28s linear infinite;
-  font-family: var(--font-display); font-size: 18px; letter-spacing: 3px; color: #fff;
+.ticker-inner{
+  display:inline-block;animation:marquee 32s linear infinite;
+  font-family:var(--font-d);font-size:17px;letter-spacing:3px;color:#fff;
 }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.ticker-sep { margin: 0 24px; opacity: 0.5; }
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-sep{margin:0 22px;opacity:0.35;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 
 /* STATS STRIP */
-.stats-strip {
-  display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 2px solid var(--border2);
+.stats-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--border2);
 }
-.stat-block {
-  padding: 32px 28px; border-right: 2px solid var(--border2);
-  transition: background 0.2s;
+.stat-block{
+  padding:18px 18px;border-right:1.5px solid var(--border);transition:background .2s;
 }
-.stat-block:last-child { border-right: none; }
-.stat-block:hover { background: var(--bg2); }
-.sb-num {
-  font-family: var(--font-display); font-size: 52px; line-height: 1; margin-bottom: 8px;
-}
-.sb-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; color: var(--ink3); text-transform: uppercase; margin-bottom: 6px; }
-.sb-desc { font-size: 12px; color: var(--ink2); line-height: 1.55; }
+.stat-block:last-child{border-right:none}
+.stat-block:hover{background:var(--bg2)}
+.sb-num{font-family:var(--font-d);font-size:clamp(32px,4vw,42px);line-height:1;margin-bottom:4px}
+.sb-label{font-family:var(--font-m);font-size:8px;letter-spacing:2px;color:var(--ink3);text-transform:uppercase;margin-bottom:4px}
+.sb-desc{font-size:11px;color:var(--ink);line-height:1.5}
+.sb-ref{font-family:var(--font-m);font-size:8px;color:var(--ink3);margin-top:5px}
+.sb-ref a{color:var(--cyan);text-decoration:none}
+.sb-ref a:hover{text-decoration:underline}
 
-/* WHY GRID — editorial magazine layout */
-.why-section { padding: 64px 48px; }
-.section-header {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  margin-bottom: 48px; padding-bottom: 20px; border-bottom: 2px solid var(--ink);
+/* WHY SECTION */
+.why-section{padding:clamp(28px,4vw,48px) clamp(20px,3.5vw,40px)}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;padding-bottom:14px;border-bottom:1.5px solid var(--border2)}
+.sh-tag{font-family:var(--font-m);font-size:9px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
+.sh-title{
+  font-family:var(--font-d);font-size:clamp(28px,3.5vw,40px);letter-spacing:1px;line-height:1;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.sh-left {}
-.sh-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: var(--red); text-transform: uppercase; margin-bottom: 10px; }
-.sh-title { font-family: var(--font-display); font-size: 52px; letter-spacing: 1px; line-height: 1; }
-.sh-right { font-size: 13px; color: var(--ink2); max-width: 280px; line-height: 1.65; text-align: right; }
+.sh-right{font-size:12px;color:var(--ink2);max-width:240px;line-height:1.6;text-align:right}
 
-.why-grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: auto auto; gap: 2px;
-  background: var(--border2); border: 2px solid var(--border2);
+.why-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;
+  gap:1px;background:var(--border2);border:1.5px solid var(--border2);border-radius:4px;overflow:hidden;
 }
-.why-card {
-  background: var(--paper); padding: 28px; transition: background 0.2s; position: relative;
-  overflow: hidden;
+.why-card{
+  background:var(--paper);padding:18px 20px;transition:background .2s;position:relative;overflow:hidden;
 }
-.why-card:hover { background: var(--bg2); }
-.why-card.featured {
-  grid-row: span 2; background: var(--ink); color: #fff;
-  display: flex; flex-direction: column;
+.why-card:hover{background:var(--bg2)}
+.why-card.featured{
+  grid-row:span 2;background:var(--ink);display:flex;flex-direction:column;
 }
-.why-card.featured:hover { background: #2A1F15; }
-.wc-num {
-  font-family: var(--font-display); font-size: 80px; color: var(--border2); line-height: 1;
-  position: absolute; bottom: 16px; right: 20px; pointer-events: none;
+.why-card.featured:hover{background:#2A2420}
+.wc-num{
+  font-family:var(--font-d);font-size:70px;color:rgba(0,0,0,0.05);
+  line-height:1;position:absolute;bottom:8px;right:12px;pointer-events:none;
 }
-.why-card.featured .wc-num { color: rgba(255,255,255,0.06); font-size: 140px; }
-.wc-badge {
-  display: inline-block; font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px;
-  padding: 4px 10px; border-radius: 2px; text-transform: uppercase; margin-bottom: 16px;
+.why-card.featured .wc-num{color:rgba(255,255,255,0.04);font-size:110px}
+.wc-badge{
+  display:inline-block;font-family:var(--font-m);font-size:8px;letter-spacing:1.5px;
+  padding:3px 8px;border-radius:3px;text-transform:uppercase;margin-bottom:10px;
 }
-.badge-red { background: rgba(217,43,43,0.12); border: 1px solid rgba(217,43,43,0.3); color: var(--red); }
-.badge-amber { background: rgba(224,123,0,0.1); border: 1px solid rgba(224,123,0,0.28); color: var(--amber); }
-.badge-green { background: rgba(26,107,58,0.1); border: 1px solid rgba(26,107,58,0.25); color: var(--green); }
-.badge-blue { background: rgba(26,58,143,0.1); border: 1px solid rgba(26,58,143,0.25); color: var(--blue); }
-.badge-white { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
-.wc-title { font-family: var(--font-display); font-size: 26px; letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 12px; }
-.why-card.featured .wc-title { font-size: 36px; color: #fff; flex: 1; }
-.wc-body { font-size: 12px; color: var(--ink2); line-height: 1.7; }
-.why-card.featured .wc-body { color: rgba(255,255,255,0.6); }
+.bd-red{background:rgba(200,40,31,0.1);border:1px solid rgba(200,40,31,0.3);color:var(--red)}
+.bd-amber{background:rgba(208,112,0,0.08);border:1px solid rgba(208,112,0,0.25);color:var(--amber)}
+.bd-green{background:rgba(26,107,58,0.1);border:1px solid rgba(26,107,58,0.25);color:var(--green)}
+.bd-blue{background:rgba(26,58,143,0.08);border:1px solid rgba(26,58,143,0.22);color:var(--blue)}
+.bd-purple{background:rgba(123,79,212,0.1);border:1px solid rgba(123,79,212,0.28);color:var(--purple)}
+.wc-title{font-family:var(--font-d);font-size:clamp(16px,2vw,22px);letter-spacing:.5px;line-height:1.1;margin-bottom:8px;color:var(--ink)}
+.why-card.featured .wc-title{font-size:clamp(18px,2.2vw,26px);flex:1;color:#fff}
+.wc-body{font-size:11px;color:var(--ink2);line-height:1.65}
+.why-card.featured .wc-body{color:rgba(255,255,255,0.6)}
+.wc-ref{
+  font-family:var(--font-m);font-size:8px;color:var(--ink3);margin-top:8px;
+  padding-top:7px;border-top:1px solid var(--border);
+}
+.why-card.featured .wc-ref{border-top-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.4)}
+.wc-ref a{color:var(--cyan);text-decoration:none}
+.wc-ref a:hover{text-decoration:underline}
+.why-card.featured .wc-ref a{color:#5BD0E8}
 
-/* ── CRACK DEMO ── */
-.crack-section { padding: 0 48px 64px; }
-.crack-section .section-header { margin-bottom: 32px; }
+/* CRACK DEMO */
+.crack-section{padding:0 clamp(20px,3.5vw,40px) clamp(28px,4vw,48px)}
+.algo-tabs-row{display:flex;border:1.5px solid var(--border2);width:fit-content;overflow:hidden;margin-bottom:18px;border-radius:4px;background:var(--paper);flex-wrap:wrap}
+.atab{
+  padding:8px 16px;border:none;background:transparent;
+  font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;color:var(--ink3);
+  border-right:1px solid var(--border);transition:all .15s;white-space:nowrap;text-transform:uppercase;
+}
+.atab:last-child{border-right:none}
+.atab:hover{background:var(--bg2);color:var(--ink)}
+.atab.on{background:var(--ink);color:#00C8E0;border-bottom:2px solid #00C8E0}
 
-.algo-tabs-row {
-  display: flex; gap: 0; margin-bottom: 32px; border: 2px solid var(--ink); overflow: hidden; width: fit-content;
+.crack-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.crack-detail{
+  background:var(--paper);border:1.5px solid var(--border2);padding:22px;
+  position:relative;overflow:hidden;border-radius:4px;box-shadow:var(--shadow);
 }
-.atab {
-  padding: 10px 22px; border: none; background: transparent;
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--ink3); border-right: 2px solid var(--ink); transition: all 0.15s; white-space: nowrap;
+.crack-detail::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);
 }
-.atab:last-child { border-right: none; }
-.atab:hover { background: var(--bg2); color: var(--ink); }
-.atab.on { background: var(--ink); color: #fff; }
+.crack-detail::after{
+  content:attr(data-algo);position:absolute;bottom:-20px;right:-8px;
+  font-family:var(--font-d);font-size:90px;color:rgba(0,0,0,0.04);
+  letter-spacing:-2px;pointer-events:none;line-height:1;
+}
+.cd-label{font-family:var(--font-m);font-size:9px;letter-spacing:2.5px;color:var(--ink3);margin-bottom:4px;text-transform:uppercase}
+.cd-name{
+  font-family:var(--font-d);font-size:clamp(24px,3vw,34px);letter-spacing:1px;margin-bottom:10px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.cd-desc{font-size:11px;color:var(--ink2);line-height:1.65;margin-bottom:14px}
+.cd-facts{border-top:1.5px solid var(--border)}
+.fact-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.fact-row:last-child{border:none}
+.fact-lbl{font-family:var(--font-m);font-size:9px;color:var(--ink3);letter-spacing:1px}
+.fact-val{font-family:var(--font-m);font-size:11px;font-weight:700}
 
-.crack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.crack-bars{
+  background:var(--paper);border:1.5px solid var(--border2);padding:22px;border-radius:4px;
+  display:flex;flex-direction:column;box-shadow:var(--shadow);
+}
+.bar-head{font-family:var(--font-m);font-size:9px;letter-spacing:2px;color:var(--ink3);text-transform:uppercase;margin-bottom:16px}
+.time-bars{display:flex;flex-direction:column;gap:14px;flex:1;justify-content:center}
+.tb-name{font-family:var(--font-m);font-size:10px;color:var(--ink2);margin-bottom:5px}
+.tb-track{
+  height:30px;background:var(--bg2);border:1.5px solid var(--border);
+  overflow:hidden;position:relative;border-radius:3px;
+}
+.tb-fill{
+  height:100%;display:flex;align-items:center;padding:0 10px;justify-content:flex-end;
+  transition:width 1s cubic-bezier(.34,1.56,.64,1);border-radius:2px;
+}
+.tb-fill span{font-family:var(--font-m);font-size:9px;font-weight:700;color:#fff;white-space:nowrap}
+.fill-safe{background:linear-gradient(90deg,#065F46,#16A34A)}
+.fill-warn{background:linear-gradient(90deg,#92400E,#D07000)}
+.fill-danger{background:linear-gradient(90deg,#991B1B,#C8281F);animation:flk 2s ease-in-out infinite}
+.fill-grad{background:var(--grad)}
+@keyframes flk{0%,100%{opacity:1}60%{opacity:.75}}
+.crack-alert{
+  margin-top:14px;padding:10px 13px;font-family:var(--font-m);font-size:10px;
+  display:flex;gap:10px;align-items:flex-start;line-height:1.6;border-radius:3px;
+}
+.ca-danger{background:rgba(200,40,31,0.06);border-left:3px solid var(--red);color:var(--red)}
+.ca-safe{background:rgba(26,107,58,0.06);border-left:3px solid var(--green);color:var(--green)}
+.ca-warn{background:rgba(208,112,0,0.06);border-left:3px solid var(--amber);color:var(--amber)}
 
-.crack-detail {
-  background: var(--ink); color: #fff; padding: 32px; position: relative; overflow: hidden;
+/* HOW IT WORKS */
+.how-section{
+  background:var(--ink);border-top:2px solid var(--ink);padding:clamp(28px,4vw,44px) clamp(20px,3.5vw,40px);
 }
-.crack-detail::after {
-  content: attr(data-algo);
-  position: absolute; bottom: -16px; right: -8px;
-  font-family: var(--font-display); font-size: 100px; color: rgba(255,255,255,0.04);
-  letter-spacing: -2px; pointer-events: none; line-height: 1;
+.how-section .section-header{border-bottom-color:rgba(255,255,255,0.12)}
+.how-section .sh-tag{color:#5BD0E8}
+.how-section .sh-right{color:rgba(255,255,255,0.55)}
+.how-steps{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  border:1px solid rgba(255,255,255,0.1);overflow:hidden;border-radius:4px;
 }
-.cd-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.5px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
-.cd-name { font-family: var(--font-display); font-size: 42px; letter-spacing: 1px; margin-bottom: 16px; color: #fff; }
-.cd-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 24px; }
-.cd-facts { display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.08); }
-.fact-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+.how-step{
+  padding:20px 16px;border-right:1px solid rgba(255,255,255,0.08);
+  transition:background .2s;position:relative;background:rgba(255,255,255,0.02);
 }
-.fact-lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; color: rgba(255,255,255,0.35); }
-.fact-val { font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
+.how-step:last-child{border-right:none}
+.how-step:hover{background:rgba(255,255,255,0.06)}
+.hs-num-big{font-family:var(--font-d);font-size:48px;line-height:1;margin-bottom:10px;opacity:.12}
+.how-step:hover .hs-num-big{opacity:.2}
+.hs-icon{font-size:18px;margin-bottom:8px}
+.hs-title{font-family:var(--font-d);font-size:15px;letter-spacing:.5px;color:#fff;margin-bottom:5px}
+.hs-sub{font-family:var(--font-m);font-size:8px;color:rgba(255,255,255,0.45);letter-spacing:1px;line-height:1.6}
+.hs-arrow{
+  position:absolute;right:-11px;top:50%;transform:translateY(-50%);
+  color:rgba(255,255,255,0.18);font-size:18px;z-index:2;
+}
+.how-step:last-child .hs-arrow{display:none}
 
-.crack-bars {
-  background: var(--paper); padding: 32px; border: 2px solid var(--border2);
-  display: flex; flex-direction: column; justify-content: space-between;
-}
-.bar-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; color: var(--ink3); text-transform: uppercase; margin-bottom: 24px; }
-.time-bars { display: flex; flex-direction: column; gap: 20px; flex: 1; justify-content: center; }
-.tb-row { }
-.tb-name { font-family: var(--font-mono); font-size: 10px; color: var(--ink2); margin-bottom: 7px; }
-.tb-track {
-  height: 36px; background: var(--bg2); border: 1px solid var(--border2); overflow: hidden; position: relative;
-}
-.tb-fill {
-  height: 100%; display: flex; align-items: center; padding: 0 12px; justify-content: flex-end;
-  transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.tb-fill span { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: #fff; white-space: nowrap; }
-.fill-safe { background: var(--green); }
-.fill-warn { background: var(--amber); }
-.fill-danger { background: var(--red); animation: pulse-red 2s ease-in-out infinite; }
-.fill-violet { background: var(--violet); }
-@keyframes pulse-red { 0%,100%{opacity:1}60%{opacity:0.75} }
-
-.crack-alert {
-  margin-top: 20px; padding: 14px 16px; font-family: var(--font-mono); font-size: 10px;
-  display: flex; gap: 10px; line-height: 1.6; align-items: flex-start; border-radius: 2px;
-}
-.ca-danger { background: rgba(217,43,43,0.08); border-left: 3px solid var(--red); color: var(--red); }
-.ca-safe { background: rgba(26,107,58,0.07); border-left: 3px solid var(--green); color: var(--green); }
-.ca-warn { background: rgba(224,123,0,0.07); border-left: 3px solid var(--amber); color: var(--amber); }
-
-/* ── HOW IT WORKS ── */
-.how-section { padding: 64px 48px; background: var(--ink); }
-.how-section .sh-tag { color: rgba(255,255,255,0.4); }
-.how-section .sh-title { color: #fff; }
-.how-section .section-header { border-bottom-color: rgba(255,255,255,0.15); margin-bottom: 40px; }
-.how-section .sh-right { color: rgba(255,255,255,0.4); }
-
-.how-steps {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
-  border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
-}
-.how-step {
-  padding: 32px 24px; border-right: 1px solid rgba(255,255,255,0.1);
-  transition: background 0.2s; position: relative;
-}
-.how-step:last-child { border-right: none; }
-.how-step:hover { background: rgba(255,255,255,0.04); }
-.hs-num {
-  font-family: var(--font-display); font-size: 64px; color: rgba(255,255,255,0.06); line-height: 1; margin-bottom: 16px;
-}
-.hs-icon { font-size: 24px; margin-bottom: 12px; }
-.hs-title { font-family: var(--font-display); font-size: 18px; letter-spacing: 0.5px; color: #fff; margin-bottom: 8px; }
-.hs-sub { font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.38); letter-spacing: 1px; line-height: 1.6; }
-.hs-arrow {
-  position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
-  color: rgba(255,255,255,0.2); font-size: 20px; z-index: 2;
-}
-.how-step:last-child .hs-arrow { display: none; }
-
-/* ════════════════════
+/* ═══════════════════════════════
    SCANNER PAGE
-════════════════════ */
-.scanner-page { padding: 0; display: grid; grid-template-columns: 300px 1fr; min-height: calc(100vh - 56px); }
-
-/* SIDEBAR PANEL */
-.scan-sidebar {
-  background: var(--paper); border-right: 2px solid var(--border2);
-  padding: 28px; display: flex; flex-direction: column; gap: 0;
-  overflow-y: auto; max-height: calc(100vh - 56px); position: sticky; top: 56px;
+═══════════════════════════════ */
+.scanner-layout{
+  display:grid;grid-template-columns:290px 1fr;
+  min-height:calc(100vh - 56px);
 }
-.sp-section { margin-bottom: 28px; }
-.sp-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.5px; color: var(--ink3); text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-
-.ex-file {
-  display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px;
-  border: 1px solid var(--border); background: none; text-align: left; width: 100%;
-  transition: all 0.18s; margin-bottom: 6px; border-radius: 2px; cursor: pointer;
+.scan-sidebar{
+  background:var(--paper);border-right:1.5px solid var(--border2);
+  padding:22px;display:flex;flex-direction:column;gap:0;
+  overflow-y:auto;max-height:calc(100vh - 56px);position:sticky;top:56px;
 }
-.ex-file:hover { border-color: var(--ink2); background: var(--bg); }
-.ex-file.sel { border-color: var(--ink); background: var(--ink); color: #fff; }
-.ef-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.ef-name { font-family: var(--font-mono); font-size: 10px; font-weight: 700; margin-bottom: 2px; display: block; }
-.ef-desc { font-size: 10px; color: var(--ink3); line-height: 1.4; display: block; }
-.ex-file.sel .ef-desc { color: rgba(255,255,255,0.5); }
-.ef-b {
-  margin-left: auto; font-family: var(--font-mono); font-size: 8px; padding: 3px 7px;
-  letter-spacing: 0.5px; flex-shrink: 0; border-radius: 2px; white-space: nowrap;
+.sp-hd{
+  font-family:var(--font-d);font-size:26px;letter-spacing:1px;margin-bottom:6px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sp-sub{font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:22px}
+.sp-label{
+  font-family:var(--font-m);font-size:9px;letter-spacing:2.5px;color:var(--ink3);
+  text-transform:uppercase;margin-bottom:10px;padding-bottom:7px;border-bottom:1.5px solid var(--border);
+}
+.sp-section{margin-bottom:22px}
+
+.ex-file{
+  display:flex;flex-direction:column;gap:6px;padding:10px 12px;
+  border:1.5px solid var(--border);background:var(--bg2);text-align:left;width:100%;
+  transition:all .18s;margin-bottom:5px;border-radius:4px;cursor:pointer;
+}
+.ex-file:hover{border-color:var(--cyan);background:rgba(0,153,187,0.05)}
+.ex-file.sel{border-color:var(--purple);background:rgba(123,79,212,0.08);box-shadow:0 0 0 2px rgba(123,79,212,0.15)}
+.ef-top{display:flex;align-items:flex-start;gap:8px}
+.ef-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.ef-name{font-family:var(--font-m);font-size:10px;font-weight:700;display:block;color:var(--ink);line-height:1.3}
+.ef-desc{font-size:10px;color:var(--ink2);line-height:1.35;display:block;margin-top:2px}
+.ef-foot{display:flex;justify-content:flex-end}
+.ef-b{
+  font-family:var(--font-m);font-size:8px;padding:2px 7px;
+  letter-spacing:.5px;border-radius:3px;white-space:nowrap;
 }
 
-.upload-zone {
-  border: 2px dashed var(--border2); padding: 20px; text-align: center;
-  transition: all 0.2s; cursor: pointer; margin-bottom: 16px; background: var(--bg);
+.upload-z{
+  border:2px dashed var(--border2);padding:18px;text-align:center;
+  transition:all .2s;cursor:pointer;margin-bottom:14px;border-radius:4px;background:var(--bg2);
 }
-.upload-zone:hover, .upload-zone.dov { border-color: var(--ink); background: var(--bg2); }
-.uz-icon { font-size: 24px; margin-bottom: 8px; }
-.uz-text { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; color: var(--ink2); text-transform: uppercase; }
-.uz-sub { font-size: 10px; color: var(--ink3); margin-top: 4px; }
+.upload-z:hover,.upload-z.dov{border-color:var(--cyan);background:rgba(0,153,187,0.05)}
+.uz-icon{font-size:22px;margin-bottom:7px}
+.uz-text{font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;color:var(--ink2);text-transform:uppercase}
+.uz-sub{font-size:10px;color:var(--ink3);margin-top:3px}
 
-.scan-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-.smg-box { background: var(--bg2); border: 1px solid var(--border); padding: 12px; }
-.smg-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px; color: var(--ink3); display: block; margin-bottom: 2px; text-transform: uppercase; }
-.smg-val { font-family: var(--font-display); font-size: 28px; color: var(--ink); display: block; line-height: 1; }
-.smg-wide { grid-column: 1 / -1; }
+.scan-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.smg-box{background:var(--bg2);border:1.5px solid var(--border);padding:11px;border-radius:4px}
+.smg-label{font-family:var(--font-m);font-size:8px;letter-spacing:1px;color:var(--ink3);display:block;margin-bottom:3px;text-transform:uppercase}
+.smg-val{font-family:var(--font-d);font-size:28px;display:block;line-height:1;color:var(--ink)}
+.smg-wide{grid-column:1/-1}
 
-.scan-btn {
-  width: 100%; padding: 14px; background: var(--ink); color: #fff; border: none;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-  transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 10px;
+.scan-btn{
+  width:100%;padding:13px;border:none;border-radius:4px;
+  background:var(--grad);color:#fff;font-family:var(--font-m);font-size:11px;
+  letter-spacing:2.5px;text-transform:uppercase;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 4px 18px rgba(123,79,212,0.3);
 }
-.scan-btn:hover:not(:disabled) { background: var(--red); }
-.scan-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.scan-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+.scan-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 26px rgba(123,79,212,0.45)}
+.scan-btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.scan-btn svg{width:15px;height:15px;flex-shrink:0}
+.prog-wrap{margin-top:11px;display:none}
+.prog-label{font-family:var(--font-m);font-size:9px;letter-spacing:1px;color:var(--ink2);margin-bottom:5px}
+.prog-track{height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:var(--grad);transition:width .1s linear}
 
-.prog-wrap { margin-top: 12px; display: none; }
-.prog-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; color: var(--ink3); margin-bottom: 6px; }
-.prog-track { height: 3px; background: var(--border2); }
-.prog-fill { height: 100%; width: 0%; background: var(--ink); transition: width 0.1s linear; }
-
-/* CODE VIEW */
-.code-panel { display: flex; flex-direction: column; }
-.cv-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 20px; background: var(--bg2); border-bottom: 2px solid var(--border2);
-  position: sticky; top: 56px; z-index: 50; flex-shrink: 0;
+/* CODE PANEL */
+.code-panel{display:flex;flex-direction:column}
+.cv-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 18px;background:var(--ink);border-bottom:1px solid rgba(255,255,255,0.08);
+  position:sticky;top:56px;z-index:50;flex-shrink:0;
 }
-.cv-file { font-family: var(--font-mono); font-size: 10px; color: var(--ink2); }
-.cv-counts { display: flex; gap: 8px; }
-.cv-badge { font-family: var(--font-mono); font-size: 9px; padding: 3px 8px; border-radius: 2px; }
-.cvb-bad { background: rgba(217,43,43,0.1); border: 1px solid rgba(217,43,43,0.25); color: var(--red); }
-.cvb-ok { background: rgba(26,107,58,0.08); border: 1px solid rgba(26,107,58,0.2); color: var(--green); }
+.cv-file{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.7)}
+.cv-counts{display:flex;gap:7px}
+.cv-badge{font-family:var(--font-m);font-size:9px;padding:2px 8px;border-radius:3px}
+.cvb-bad{background:rgba(200,40,31,0.2);border:1px solid rgba(200,40,31,0.4);color:#FF8080}
+.cvb-ok{background:rgba(26,107,58,0.2);border:1px solid rgba(26,107,58,0.35);color:#7AE09A}
 
-.code-body {
-  font-family: var(--font-mono); font-size: 12px; line-height: 1.8;
-  overflow-y: auto; background: #FDFAF5; flex: 1;
+.code-body{
+  font-family:var(--font-m);font-size:12px;line-height:1.8;
+  overflow-y:auto;background:#12141C;
 }
-.cl { display: flex; border-left: 3px solid transparent; }
-.cl:hover { background: rgba(26,20,16,0.03); }
-.cl.vuln { background: rgba(217,43,43,0.06); border-left-color: var(--red); }
-.cl.safe-l { background: rgba(26,107,58,0.05); border-left-color: var(--green); }
-.ln { color: var(--ink3); min-width: 40px; padding: 0 10px 0 12px; user-select: none; font-size: 10px; flex-shrink: 0; border-right: 1px solid var(--border); }
-.lc { padding: 0 16px 0 12px; color: var(--ink2); word-break: break-all; }
-.cl.vuln .lc { color: #B91C1C; }
-.cl.safe-l .lc { color: var(--green); }
-.code-empty {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  flex: 1; color: var(--ink3); font-family: var(--font-mono); font-size: 11px;
-  gap: 14px; text-align: center; padding: 64px; min-height: 300px;
+.cl{display:flex;border-left:3px solid transparent}
+.cl:hover{background:rgba(255,255,255,0.02)}
+.cl.vuln{background:rgba(200,40,31,0.08);border-left-color:#C8281F}
+.cl.safe-l{background:rgba(26,107,58,0.07);border-left-color:#16A34A}
+.ln{color:rgba(255,255,255,0.25);min-width:38px;padding:0 8px 0 10px;user-select:none;font-size:10px;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.06)}
+.lc{padding:0 14px 0 10px;color:#A0AABF;word-break:break-all}
+.cl.vuln .lc{color:#FCA5A5}
+.cl.safe-l .lc{color:#6EE7B7}
+.code-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:64px;color:rgba(255,255,255,0.3);font-family:var(--font-m);font-size:11px;
+  gap:14px;text-align:center;min-height:260px;
 }
-.ce-icon { font-size: 40px; opacity: 0.3; }
+.ce-icon{font-size:36px;opacity:.2}
 
-/* RESULTS AREA */
-.results-panel { padding: 28px; grid-column: 2 / -1; background: var(--bg); }
+/* ── RESULTS ── */
+.results-panel{padding:26px;background:var(--bg)}
 
 /* Posture banner */
-.posture-banner {
-  border: 2px solid var(--border2); padding: 28px 32px; margin-bottom: 24px;
-  display: flex; align-items: flex-start; gap: 28px; flex-wrap: wrap;
+.posture-banner{
+  border:1.5px solid var(--border2);padding:24px 28px;margin-bottom:20px;
+  display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;border-radius:4px;
+  position:relative;overflow:hidden;background:var(--paper);box-shadow:var(--shadow);
 }
-.posture-banner.CRITICAL_RISK { border-color: var(--red); background: rgba(217,43,43,0.04); }
-.posture-banner.HIGH_RISK { border-color: var(--amber); background: rgba(224,123,0,0.04); }
-.posture-banner.MODERATE_RISK { border-color: var(--amber); background: rgba(224,123,0,0.02); }
-.posture-banner.LOW_RISK { border-color: var(--green); background: rgba(26,107,58,0.03); }
-.pb-grade { font-family: var(--font-display); font-size: 80px; line-height: 1; min-width: 80px; }
-.pb-info { flex: 1; }
-.pb-readiness { font-family: var(--font-display); font-size: 28px; letter-spacing: 0.5px; margin-bottom: 4px; }
-.pb-score { font-family: var(--font-mono); font-size: 10px; color: var(--ink3); margin-bottom: 12px; letter-spacing: 1px; }
-.pb-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-.pb-pill { font-family: var(--font-mono); font-size: 9px; padding: 4px 10px; letter-spacing: 1px; border-radius: 2px; }
+.posture-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+.posture-banner.CRITICAL_RISK{background:rgba(200,40,31,0.04);border-color:rgba(200,40,31,0.28)}
+.posture-banner.HIGH_RISK{background:rgba(208,112,0,0.04);border-color:rgba(208,112,0,0.24)}
+.posture-banner.MODERATE_RISK{background:rgba(208,112,0,0.03);border-color:rgba(208,112,0,0.14)}
+.posture-banner.LOW_RISK{background:rgba(26,107,58,0.04);border-color:rgba(26,107,58,0.2)}
+.pb-grade{font-family:var(--font-d);font-size:76px;line-height:1;min-width:80px}
+.pb-info{flex:1;min-width:200px}
+.pb-readiness{font-family:var(--font-d);font-size:26px;letter-spacing:.5px;margin-bottom:4px}
+.pb-score{font-family:var(--font-m);font-size:10px;color:var(--ink2);margin-bottom:10px;letter-spacing:.5px}
+.pb-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pb-pill{font-family:var(--font-m);font-size:9px;padding:3px 10px;border-radius:3px;letter-spacing:.8px}
+.pb-nist{
+  font-family:var(--font-m);font-size:9px;color:var(--ink3);margin-top:10px;
+  padding-top:8px;border-top:1px solid var(--border);
+}
+.pb-nist a{color:var(--cyan);text-decoration:none}
+.pb-nist a:hover{text-decoration:underline}
 
 /* Charts */
-.charts-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
-.chart-card { background: var(--paper); border: 1px solid var(--border2); padding: 24px; }
-.chart-hd { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.5px; color: var(--ink3); text-transform: uppercase; margin-bottom: 18px; }
+.charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:22px}
+.chart-card{background:var(--paper);border:1.5px solid var(--border2);padding:22px;border-radius:4px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.chart-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);opacity:.7}
+.chart-hd{font-family:var(--font-m);font-size:9px;letter-spacing:2.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:16px}
+.donut-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.dl-item{display:flex;align-items:center;gap:5px;font-family:var(--font-m);font-size:9px;color:var(--ink2)}
+.dl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.chart-sub{font-size:11px;color:var(--ink2);margin-top:10px;text-align:center}
+.ba-rows{display:flex;flex-direction:column;gap:16px}
+.ba-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.ba-lbl{font-family:var(--font-m);font-size:9px;color:var(--ink3);letter-spacing:1px}
+.ba-score{font-family:var(--font-d);font-size:20px;color:var(--ink)}
+.ba-track{height:22px;background:var(--bg2);border:1.5px solid var(--border);overflow:hidden;border-radius:2px}
+.ba-fill{height:100%;display:flex;align-items:center;padding-right:10px;justify-content:flex-end;transition:width 1.1s cubic-bezier(.34,1.56,.64,1)}
+.ba-fill span{font-family:var(--font-m);font-size:9px;font-weight:700;color:#fff}
+.ba-improvement{padding:14px;text-align:center;background:rgba(26,107,58,0.07);border:1.5px solid rgba(26,107,58,0.2);border-radius:3px}
+.ba-imp-num{font-family:var(--font-d);font-size:34px;color:var(--green)}
+.ba-imp-lbl{font-family:var(--font-m);font-size:9px;color:var(--ink3);letter-spacing:1px;margin-top:2px}
+.mr-val{font-family:var(--font-d);font-size:44px}
+.mr-lbl{font-family:var(--font-m);font-size:9px;color:var(--ink3);letter-spacing:1.5px;text-align:center;margin-top:3px}
 
-/* Donut */
-.donut-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
-.dl-item { display: flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 9px; color: var(--ink2); }
-.dl-dot { width: 8px; height: 8px; border-radius: 1px; flex-shrink: 0; }
-.chart-sub { font-size: 11px; color: var(--ink3); margin-top: 10px; text-align: center; }
-
-/* Before/After */
-.ba-rows { display: flex; flex-direction: column; gap: 18px; }
-.ba-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
-.ba-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--ink3); letter-spacing: 1px; }
-.ba-score { font-family: var(--font-display); font-size: 22px; }
-.ba-track { height: 24px; background: var(--bg2); border: 1px solid var(--border); overflow: hidden; }
-.ba-fill { height: 100%; display: flex; align-items: center; padding-right: 10px; justify-content: flex-end; transition: width 1.1s cubic-bezier(0.34,1.56,0.64,1); }
-.ba-fill span { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: #fff; }
-.ba-improvement { padding: 16px; text-align: center; background: rgba(26,107,58,0.07); border: 1px solid rgba(26,107,58,0.2); }
-.ba-imp-num { font-family: var(--font-display); font-size: 36px; color: var(--green); }
-.ba-imp-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--ink3); letter-spacing: 1px; margin-top: 2px; }
-
-/* Risk meter */
-.meter-svg-wrap { display: flex; justify-content: center; }
-.mr-val { font-family: var(--font-display); font-size: 48px; }
-.mr-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--ink3); letter-spacing: 1.5px; text-align: center; margin-top: 4px; }
+/* ★ UNIFIED DIFF PANEL ★ */
+.unified-diff-panel{
+  background:var(--paper);border:1.5px solid rgba(123,79,212,0.3);border-radius:6px;
+  overflow:hidden;margin-bottom:22px;position:relative;box-shadow:var(--shadow);
+}
+.unified-diff-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+.udp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid rgba(123,79,212,0.18);
+  background:rgba(123,79,212,0.05);flex-wrap:wrap;gap:10px;
+}
+.udp-left{display:flex;align-items:center;gap:14px}
+.udp-title{font-family:var(--font-d);font-size:20px;letter-spacing:1px;color:var(--ink)}
+.udp-badge{font-family:var(--font-m);font-size:8px;padding:3px 9px;border-radius:3px;background:rgba(123,79,212,0.1);border:1px solid rgba(123,79,212,0.28);color:var(--purple);letter-spacing:1px}
+.udp-meta{display:flex;gap:8px;flex-wrap:wrap}
+.udp-meta-b{font-family:var(--font-m);font-size:8px;padding:2px 8px;border-radius:3px;letter-spacing:.5px}
+.udp-controls{display:flex;border-bottom:1px solid rgba(123,79,212,0.12)}
+.udp-tab{
+  padding:8px 18px;font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;
+  color:var(--ink3);border:none;background:none;border-bottom:2px solid transparent;
+  transition:all .18s;cursor:pointer;text-transform:uppercase;
+}
+.udp-tab.on{color:var(--cyan);border-bottom-color:var(--cyan)}
+.udp-tab:hover:not(.on){color:var(--ink)}
+.udp-pane{display:none}
+.udp-pane.on{display:block}
+.unified-diff-code{
+  font-family:var(--font-m);font-size:12px;max-height:360px;overflow-y:auto;background:#12141C;
+}
+.diff-l{padding:2px 16px;line-height:1.85;white-space:pre-wrap;word-break:break-all;display:flex;gap:10px}
+.diff-l-num{color:rgba(255,255,255,0.2);min-width:32px;flex-shrink:0;user-select:none;font-size:10px}
+.diff-l-content{flex:1}
+.diff-l.minus{background:rgba(200,40,31,0.1);color:#FCA5A5;border-left:2px solid #C8281F}
+.diff-l.plus{background:rgba(26,107,58,0.09);color:#6EE7B7;border-left:2px solid #16A34A}
+.diff-l.ctx{color:#6E7A96}
+.diff-l.hunk{color:#5BD0E8;background:rgba(0,153,187,0.06);border-left:2px solid rgba(0,153,187,0.3)}
+.diff-l.head{color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.03);padding:7px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.udp-notes{padding:18px 20px;font-size:12px;color:var(--ink);line-height:1.75}
+.udp-notes strong{color:var(--ink)}
+.udp-notes code{font-family:var(--font-m);font-size:10px;background:var(--bg2);padding:1px 5px;border-radius:3px}
+.udp-notes .ref-block{margin-top:14px;padding:10px 14px;background:var(--bg2);border:1.5px solid var(--border);border-radius:3px;font-family:var(--font-m);font-size:9px;color:var(--ink3);line-height:1.8}
+.udp-notes .ref-block a{color:var(--cyan);text-decoration:none}
+.udp-notes .ref-block a:hover{text-decoration:underline}
 
 /* Findings */
-.findings-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.findings-title { font-family: var(--font-display); font-size: 28px; letter-spacing: 0.5px; }
-.findings-count { font-family: var(--font-mono); font-size: 10px; color: var(--ink3); }
-.findings-list { display: flex; flex-direction: column; gap: 16px; }
+.findings-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.findings-title{font-family:var(--font-d);font-size:26px;letter-spacing:.5px;color:var(--ink)}
+.findings-count{font-family:var(--font-m);font-size:10px;color:var(--ink3)}
+.findings-list{display:flex;flex-direction:column;gap:14px}
 
-.finding-card {
-  background: var(--paper); border: 1px solid var(--border2);
-  border-left: 4px solid transparent; overflow: hidden; animation: pagein 0.4s ease both;
-  transition: box-shadow 0.2s;
+.finding-card{
+  background:var(--paper);border:1.5px solid var(--border);border-left:4px solid transparent;
+  overflow:hidden;animation:pagein .4s ease both;transition:box-shadow .2s;border-radius:4px;
+  box-shadow:var(--shadow);
 }
-.finding-card:hover { box-shadow: var(--shadow-lg); }
-.finding-card.sev-CRITICAL { border-left-color: var(--red); }
-.finding-card.sev-HIGH { border-left-color: var(--amber); }
-.finding-card.sev-MEDIUM { border-left-color: #D4A017; }
-.finding-card.sev-LOW { border-left-color: var(--green); }
-.finding-card.sev-INFO { border-left-color: var(--blue); }
-
-.fc-head { padding: 18px 22px 14px; display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 14px; }
-.fc-id { font-family: var(--font-mono); font-size: 9px; color: var(--ink3); margin-bottom: 6px; }
-.fc-algo { font-family: var(--font-display); font-size: 24px; letter-spacing: 0.5px; margin-bottom: 5px; }
-.fc-desc { font-size: 12px; color: var(--ink2); line-height: 1.6; }
-.fc-loc { font-family: var(--font-mono); font-size: 10px; color: var(--ink3); margin-top: 6px; }
-.sev-b {
-  font-family: var(--font-mono); font-size: 9px; padding: 4px 10px; letter-spacing: 1px;
-  text-transform: uppercase; flex-shrink: 0; border-radius: 2px;
+.finding-card:hover{box-shadow:var(--shadow-lg)}
+.finding-card.sev-CRITICAL{border-left-color:var(--red)}
+.finding-card.sev-HIGH{border-left-color:var(--amber)}
+.finding-card.sev-MEDIUM{border-left-color:#D4A017}
+.finding-card.sev-LOW{border-left-color:var(--green)}
+.finding-card.sev-INFO{border-left-color:var(--blue)}
+.fc-head{padding:15px 20px 12px;display:flex;align-items:flex-start;justify-content:space-between;border-bottom:1px solid var(--border);gap:12px;background:var(--bg2)}
+.fc-id{font-family:var(--font-m);font-size:9px;color:var(--ink3);margin-bottom:5px}
+.fc-algo{font-family:var(--font-d);font-size:22px;letter-spacing:.5px;margin-bottom:4px;color:var(--ink)}
+.fc-desc{font-size:12px;color:var(--ink2);line-height:1.6}
+.fc-loc{font-family:var(--font-m);font-size:10px;color:var(--ink3);margin-top:5px}
+.sev-b{font-family:var(--font-m);font-size:9px;padding:3px 9px;border-radius:3px;letter-spacing:.8px;text-transform:uppercase;flex-shrink:0}
+.sb-CRITICAL{background:rgba(200,40,31,0.1);border:1px solid rgba(200,40,31,0.32);color:var(--red)}
+.sb-HIGH{background:rgba(208,112,0,0.08);border:1px solid rgba(208,112,0,0.28);color:var(--amber)}
+.sb-MEDIUM{background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.24);color:#B07D00}
+.sb-LOW{background:rgba(26,107,58,0.07);border:1px solid rgba(26,107,58,0.2);color:var(--green)}
+.sb-INFO{background:rgba(26,58,143,0.07);border:1px solid rgba(26,58,143,0.2);color:var(--blue)}
+.fc-body{padding:16px 20px}
+.ai-explain{
+  padding:12px 15px;background:rgba(26,58,143,0.05);border-left:3px solid var(--blue);
+  font-size:12px;color:var(--ink);line-height:1.7;margin-bottom:14px;position:relative;
 }
-.sb-CRITICAL { background: rgba(217,43,43,0.12); border: 1px solid rgba(217,43,43,0.35); color: var(--red); }
-.sb-HIGH { background: rgba(224,123,0,0.1); border: 1px solid rgba(224,123,0,0.3); color: var(--amber); }
-.sb-MEDIUM { background: rgba(212,160,23,0.1); border: 1px solid rgba(212,160,23,0.3); color: #9B7400; }
-.sb-LOW { background: rgba(26,107,58,0.08); border: 1px solid rgba(26,107,58,0.22); color: var(--green); }
-.sb-INFO { background: rgba(26,58,143,0.08); border: 1px solid rgba(26,58,143,0.22); color: var(--blue); }
-
-.fc-body { padding: 18px 22px; }
-
-.ai-explain {
-  padding: 14px 16px; background: rgba(26,58,143,0.05); border-left: 3px solid var(--blue);
-  font-size: 12px; color: var(--ink2); line-height: 1.7; margin-bottom: 16px; position: relative;
+.ai-explain::before{
+  content:'✦ AI INSIGHT';position:absolute;top:-9px;left:12px;
+  font-family:var(--font-m);font-size:8px;letter-spacing:1.5px;color:var(--cyan);
+  background:var(--paper);padding:0 6px;
 }
-.ai-explain::before {
-  content: '✦ AI INSIGHT'; position: absolute; top: -9px; left: 12px;
-  font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; color: var(--blue);
-  background: var(--paper); padding: 0 6px;
+.nist-box{
+  margin-top:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:3px;
+  font-family:var(--font-m);font-size:9px;color:var(--ink2);line-height:1.7;
 }
-
-/* Diff */
-.fix-section { border: 1px solid rgba(107,53,181,0.3); overflow: hidden; background: var(--bg); }
-.fix-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px; border-bottom: 1px solid rgba(107,53,181,0.2);
-  background: rgba(107,53,181,0.06); flex-wrap: wrap; gap: 8px;
-}
-.fix-lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; color: var(--violet); }
-.fix-algo-name { font-family: var(--font-display); font-size: 18px; color: var(--violet); }
-.fix-meta-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-.fix-meta-b { font-family: var(--font-mono); font-size: 8px; padding: 3px 8px; border-radius: 2px; letter-spacing: 0.5px; }
-.fmb-std { background: rgba(0,180,204,0.1); border: 1px solid rgba(0,180,204,0.25); color: var(--cyan); }
-.fmb-perf { background: rgba(224,123,0,0.08); border: 1px solid rgba(224,123,0,0.22); color: var(--amber); }
-.fmb-pqc { background: rgba(26,107,58,0.08); border: 1px solid rgba(26,107,58,0.22); color: var(--green); }
-
-.diff-tabs { display: flex; border-bottom: 1px solid rgba(107,53,181,0.15); }
-.diff-tab {
-  padding: 8px 18px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px;
-  color: var(--ink3); border: none; background: none; border-bottom: 2px solid transparent;
-  transition: all 0.18s; cursor: pointer; text-transform: uppercase;
-}
-.diff-tab.on { color: var(--violet); border-bottom-color: var(--violet); }
-.diff-tab:hover:not(.on) { color: var(--ink2); }
-
-.diff-pane { display: none; font-family: var(--font-mono); font-size: 11px; max-height: 220px; overflow-y: auto; }
-.diff-pane.on { display: block; }
-.diff-l { padding: 2px 16px; line-height: 1.85; white-space: pre-wrap; word-break: break-all; }
-.diff-l.minus { background: rgba(217,43,43,0.08); color: #B91C1C; border-left: 2px solid var(--red); }
-.diff-l.plus { background: rgba(26,107,58,0.07); color: var(--green); border-left: 2px solid var(--green); }
-.diff-l.ctx { color: var(--ink3); }
-.diff-l.hunk { color: var(--blue); background: rgba(26,58,143,0.05); border-left: 2px solid rgba(26,58,143,0.3); }
-.diff-l.head { color: var(--ink2); background: var(--bg2); padding: 6px 16px; border-bottom: 1px solid var(--border); }
-
-/* Empty / error */
-.scan-empty {
-  border: 1px dashed var(--border2); padding: 56px; text-align: center; color: var(--ink3);
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-}
-.se-icon { font-size: 40px; opacity: 0.3; }
-.scan-error {
-  padding: 16px 20px; background: rgba(217,43,43,0.06); border-left: 3px solid var(--red);
-  font-family: var(--font-mono); font-size: 11px; color: var(--red);
-}
-.scan-success {
-  padding: 24px; background: rgba(26,107,58,0.06); border-left: 3px solid var(--green);
-  font-family: var(--font-mono); font-size: 12px; color: var(--green);
-  display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+.nist-box a{color:var(--cyan);text-decoration:none}
+.nist-box a:hover{text-decoration:underline}
+.cvss-badge{
+  display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+  font-family:var(--font-m);font-size:9px;padding:4px 10px;border-radius:3px;
+  background:rgba(208,112,0,0.08);border:1px solid rgba(208,112,0,0.24);color:var(--amber);
 }
 
-/* ── LOADING OVERLAY ── */
-.loading-overlay {
-  position: fixed; inset: 0; background: rgba(245,240,232,0.92); backdrop-filter: blur(12px);
-  z-index: 1000; display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+/* Loading */
+.loading-overlay{
+  position:fixed;inset:0;background:rgba(245,240,232,0.92);backdrop-filter:blur(14px);
+  z-index:1000;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
 }
-.loading-overlay.on { opacity: 1; pointer-events: all; }
-.loading-modal {
-  background: var(--ink); padding: 48px 56px; text-align: center;
-  max-width: 380px; width: 90%; position: relative; overflow: hidden;
+.loading-overlay.on{opacity:1;pointer-events:all}
+.loading-modal{
+  background:var(--paper);border:2px solid var(--border2);border-radius:8px;
+  padding:44px 56px;text-align:center;max-width:380px;width:90%;
+  box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
 }
-.loading-modal::after {
-  content: 'SCAN'; position: absolute; bottom: -30px; right: -10px;
-  font-family: var(--font-display); font-size: 120px; color: rgba(255,255,255,0.03); pointer-events: none;
+.loading-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+.lm-spinner{
+  width:52px;height:52px;margin:0 auto 18px;
+  border:2px solid var(--border2);
+  border-top-color:var(--cyan);border-right-color:var(--purple);
+  border-radius:50%;animation:spin 1.2s linear infinite;
 }
-.lm-spinner {
-  width: 56px; height: 56px; margin: 0 auto 20px;
-  border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--red);
-  border-radius: 50%; animation: spin 1s linear infinite;
+@keyframes spin{to{transform:rotate(360deg)}}
+.lm-title{
+  font-family:var(--font-d);font-size:22px;letter-spacing:4px;margin-bottom:6px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-.lm-title { font-family: var(--font-display); font-size: 24px; letter-spacing: 4px; color: #fff; margin-bottom: 6px; }
-.lm-sub { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; margin-bottom: 20px; min-height: 16px; }
-.lm-bar-track { height: 2px; background: rgba(255,255,255,0.08); margin-bottom: 8px; }
-.lm-bar { height: 100%; width: 0%; background: var(--red); transition: width 0.1s linear; }
-.lm-pct { font-family: var(--font-display); font-size: 32px; color: var(--red); }
+.lm-sub{font-family:var(--font-m);font-size:10px;color:var(--ink2);letter-spacing:1px;margin-bottom:18px;min-height:16px}
+.lm-bar-track{height:2px;background:var(--border);margin-bottom:8px}
+.lm-bar{height:100%;width:0%;background:var(--grad);transition:width .1s linear}
+.lm-pct{
+  font-family:var(--font-d);font-size:30px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 
-/* ── RESPONSIVE ── */
-@media (max-width: 1100px) {
-  .charts-row { grid-template-columns: 1fr 1fr; }
-  .how-steps { grid-template-columns: 1fr 1fr 1fr; }
-  .crack-grid { grid-template-columns: 1fr; }
+/* empty/error states */
+.scan-empty{
+  border:2px dashed var(--border2);padding:52px;text-align:center;color:var(--ink3);
+  font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;border-radius:4px;background:var(--paper);
 }
-@media (max-width: 960px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-right { display: none; }
-  .stats-strip { grid-template-columns: 1fr 1fr; }
-  .why-grid { grid-template-columns: 1fr 1fr; }
-  .scanner-page { grid-template-columns: 1fr; }
-  .scan-sidebar { max-height: none; position: static; }
+.se-icon{font-size:36px;opacity:.3}
+.scan-error{
+  padding:16px 18px;background:rgba(200,40,31,0.06);border-left:3px solid var(--red);
+  font-family:var(--font-m);font-size:11px;color:var(--red);border-radius:2px;
 }
-@media (max-width: 640px) {
-  .hero-left { padding: 40px 24px; }
-  .hero-headline { font-size: 64px; }
-  .why-section, .crack-section { padding: 40px 24px; }
-  .stats-strip { grid-template-columns: 1fr; }
-  .charts-row { grid-template-columns: 1fr; }
-  .how-steps { grid-template-columns: 1fr 1fr; }
-  .results-panel { padding: 20px; }
+.scan-success{
+  padding:22px;background:rgba(26,107,58,0.06);border-left:3px solid var(--green);
+  font-family:var(--font-m);font-size:12px;color:var(--green);
+  display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;border-radius:2px;
 }
+
+/* Finding card internals for dark diff */
+.fix-section-ind{margin-top:14px;border:1.5px solid rgba(123,79,212,0.22);border-radius:6px;overflow:hidden;background:var(--bg2)}
+.diff-tab-ind{padding:7px 16px;font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;color:var(--ink3);border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;text-transform:uppercase;transition:all .15s}
+.diff-tab-ind.on{color:var(--cyan);border-bottom-color:var(--cyan)}
+.diff-pane-ind.on{display:block}
+.diff-pane-ind{display:none}
+
+/* RESPONSIVE */
+@media(max-width:1280px){.hero{grid-template-columns:1fr 280px}.hero-right .hs-num{font-size:clamp(40px,5vw,64px)}}
+@media(max-width:1100px){.charts-row{grid-template-columns:1fr 1fr}.crack-grid{grid-template-columns:1fr}.how-steps{grid-template-columns:repeat(3,1fr)}.algo-tabs-row{max-width:100%}.stats-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:960px){.hero{grid-template-columns:1fr}.hero-right{display:none}.why-grid{grid-template-columns:1fr 1fr}.scanner-layout{grid-template-columns:1fr}.scan-sidebar{max-height:none;position:static}}
+@media(max-width:768px){.why-grid{grid-template-columns:1fr}.how-steps{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.crack-grid{grid-template-columns:1fr}.algo-tabs-row{width:100%}.atab{flex:1;text-align:center}}
+@media(max-width:600px){.stats-strip{grid-template-columns:1fr 1fr}.hero-left{padding:20px 16px}.why-section,.crack-section{padding:20px 16px}.results-panel{padding:12px}.how-steps{grid-template-columns:1fr 1fr}.topbar{padding:0 14px}.hackathon-banner{padding:8px 14px}.hb-text{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -653,9 +699,11 @@ body::before {
 </div>
 
 <div class="shell">
-  <!-- SIDEBAR NAV -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="logo-mark">S</div>
+    <div class="logo-mark">
+      <img src="logo.png" alt="SPECTRA Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' style=\'width:24px;height:24px\'><path d=\'M12 2L4 6v6c0 5.25 3.5 10.15 8 11.3C16.5 22.15 20 17.25 20 12V6L12 2z\' stroke=\'#fff\' stroke-width=\'1.5\'/></svg>'"/>
+    </div>
     <button class="nav-btn active" data-page="home" onclick="nav('home')">
       <svg viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.5"/><path d="M8 18v-6h4v6" stroke="currentColor" stroke-width="1.5"/></svg>
       <span class="tip">Home</span>
@@ -670,8 +718,10 @@ body::before {
     <!-- TOPBAR -->
     <header class="topbar">
       <div class="brand">
-        <span class="brand-name">SPECTRA</span>
-        <span class="brand-sub">Quantum Security Intelligence</span>
+        <img src="logo.png" alt="SPECTRA" class="brand-logo" onerror="this.style.display='none'"/>
+        <span class="brand-project">qsecure</span>
+        <span class="brand-by">by&nbsp;</span>
+        <span class="brand-team">SPECTRA</span>
       </div>
       <div class="topbar-right">
         <div class="api-pill checking" id="api-pill">
@@ -682,12 +732,15 @@ body::before {
       </div>
     </header>
 
-    <!-- ════════════════
-         HOME
-    ════════════════ -->
+    <!-- HACKATHON BANNER -->
+    <div class="hackathon-banner">
+      <span class="hb-tag">🏆 AMD Slingshot 2026</span>
+      <span class="hb-text"><strong>Stage 1 Demo</strong> — Built for the AMD Slingshot 2026 Hackathon. Core AI analysis, vulnerability scanning, and migration features currently run on demo data for demonstration purposes. Real integration is in active development.</span>
+    </div>
+
+    <!-- ══════════ HOME ══════════ -->
     <section class="page active" id="page-home">
 
-      <!-- HERO -->
       <div class="hero">
         <div class="hero-left">
           <div class="hero-eyebrow">
@@ -695,12 +748,12 @@ body::before {
             <div class="eyebrow-line"></div>
           </div>
           <div class="hero-headline">
-            <span>Your code is</span>
+            <span class="line1">Your code is</span>
             <span class="accent">quantum-<br>vulnerable.</span>
             <span class="serif">We prove it — then fix it.</span>
           </div>
-          <div class="hero-bottom">
-            <p class="hero-desc">Quantum computers will break RSA, ECDSA, and Diffie-Hellman in hours. SPECTRA scans your code, explains exactly why you're exposed, and generates NIST post-quantum migration code automatically.</p>
+          <div>
+            <p class="hero-desc">Quantum computers running Shor's algorithm will break RSA, ECDSA, and Diffie-Hellman in hours. qsecure scans your codebase, explains each threat with NIST references, and generates post-quantum migration code automatically.</p>
             <div class="hero-actions">
               <button class="btn-primary" onclick="nav('scanner')">⚡ Scan Your Code</button>
               <button class="btn-outline" onclick="document.getElementById('why-anchor').scrollIntoView({behavior:'smooth'})">See the Threat →</button>
@@ -708,38 +761,40 @@ body::before {
           </div>
         </div>
         <div class="hero-right">
-          <div class="hero-stat-big" style="background: var(--ink);">
-            <div class="hsb-label" style="color:rgba(255,255,255,0.38)">Estimated quantum breach year</div>
-            <div class="hsb-year">2030</div>
-            <div class="hsb-desc" style="color:rgba(255,255,255,0.5)">IBM, NIST, and Google agree: RSA-2048 falls to Shor's algorithm within this decade. "Harvest now, decrypt later" is already happening.</div>
+          <div class="hero-stat" style="background:rgba(0,153,187,0.04)">
+            <div class="hs-tag">Estimated quantum breach year</div>
+            <div class="hs-num">2030</div>
+            <div class="hs-desc">IBM, NIST, and Google project cryptographically-relevant quantum computers before 2030. "Harvest now, decrypt later" attacks are already underway.</div>
+            <div class="hs-ref">Sources: <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" target="_blank">NIST PQC Project</a> · <a href="https://research.ibm.com/quantum-computing" target="_blank">IBM Quantum Roadmap</a></div>
           </div>
-          <div class="hero-stat-big">
-            <div class="hsb-label">Of production codebases</div>
-            <div class="hsb-big2" style="color:var(--red)">~70%</div>
-            <div class="hsb-desc">still use quantum-breakable cryptography. Your codebase is almost certainly one of them.</div>
+          <div class="hero-stat">
+            <div class="hs-tag">Vulnerable production codebases</div>
+            <div class="hs-num" style="font-size:76px">~70%</div>
+            <div class="hs-desc">The vast majority of systems still rely on RSA or ECC — both quantum-breakable under Shor's algorithm (NIST SP 800-131A).</div>
+            <div class="hs-ref">Source: <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank">NIST SP 800-131A Rev2</a></div>
           </div>
         </div>
       </div>
 
-      <!-- MARQUEE -->
+      <!-- TICKER -->
       <div class="ticker">
         <span class="ticker-inner">
           RSA-2048 BROKEN BY SHOR'S ALGORITHM <span class="ticker-sep">◆</span>
+          NIST FIPS 203/204/205 FINALIZED AUG 2024 <span class="ticker-sep">◆</span>
           ECDSA P-256 QUANTUM-VULNERABLE <span class="ticker-sep">◆</span>
-          ML-KEM (FIPS 203) IS THE REPLACEMENT <span class="ticker-sep">◆</span>
-          HARVEST NOW, DECRYPT LATER — ACTIVE NOW <span class="ticker-sep">◆</span>
-          NIST PQC STANDARDS FINALIZED AUGUST 2024 <span class="ticker-sep">◆</span>
-          SHA-1 IS FULLY BROKEN — CLASSICALLY AND QUANTUM <span class="ticker-sep">◆</span>
+          HARVEST NOW, DECRYPT LATER — ACTIVE TODAY <span class="ticker-sep">◆</span>
+          ML-KEM REPLACES RSA · ML-DSA REPLACES ECDSA <span class="ticker-sep">◆</span>
+          SHA-1 FULLY BROKEN — CLASSICALLY AND QUANTUM <span class="ticker-sep">◆</span>
+          NIST SP 800-131A: RSA-1024 DISALLOWED AFTER 2013 <span class="ticker-sep">◆</span>
           AES-256 SURVIVES GROVER'S ATTACK <span class="ticker-sep">◆</span>
-          ML-DSA (FIPS 204) REPLACES ECDSA <span class="ticker-sep">◆</span>
           RSA-2048 BROKEN BY SHOR'S ALGORITHM <span class="ticker-sep">◆</span>
+          NIST FIPS 203/204/205 FINALIZED AUG 2024 <span class="ticker-sep">◆</span>
           ECDSA P-256 QUANTUM-VULNERABLE <span class="ticker-sep">◆</span>
-          ML-KEM (FIPS 203) IS THE REPLACEMENT <span class="ticker-sep">◆</span>
-          HARVEST NOW, DECRYPT LATER — ACTIVE NOW <span class="ticker-sep">◆</span>
-          NIST PQC STANDARDS FINALIZED AUGUST 2024 <span class="ticker-sep">◆</span>
-          SHA-1 IS FULLY BROKEN — CLASSICALLY AND QUANTUM <span class="ticker-sep">◆</span>
+          HARVEST NOW, DECRYPT LATER — ACTIVE TODAY <span class="ticker-sep">◆</span>
+          ML-KEM REPLACES RSA · ML-DSA REPLACES ECDSA <span class="ticker-sep">◆</span>
+          SHA-1 FULLY BROKEN — CLASSICALLY AND QUANTUM <span class="ticker-sep">◆</span>
+          NIST SP 800-131A: RSA-1024 DISALLOWED AFTER 2013 <span class="ticker-sep">◆</span>
           AES-256 SURVIVES GROVER'S ATTACK <span class="ticker-sep">◆</span>
-          ML-DSA (FIPS 204) REPLACES ECDSA <span class="ticker-sep">◆</span>
         </span>
       </div>
 
@@ -749,84 +804,87 @@ body::before {
           <div class="sb-label">Harvest now deadline</div>
           <div class="sb-num" style="color:var(--red)">2030</div>
           <div class="sb-desc">Estimated year quantum computers break RSA-2048 at scale</div>
+          <div class="sb-ref"><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" target="_blank">NIST PQC</a> · <a href="https://research.ibm.com/quantum-computing" target="_blank">IBM Quantum</a></div>
         </div>
         <div class="stat-block">
           <div class="sb-label">Vulnerable codebases</div>
           <div class="sb-num" style="color:var(--amber)">~70%</div>
-          <div class="sb-desc">Of production systems still use quantum-breakable crypto</div>
+          <div class="sb-desc">Of production systems still use quantum-breakable cryptography</div>
+          <div class="sb-ref"><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank">NIST SP 800-131A Rev2</a></div>
         </div>
         <div class="stat-block">
           <div class="sb-label">NIST PQC Standards</div>
-          <div class="sb-num" style="color:var(--blue)">3</div>
-          <div class="sb-desc">FIPS 203/204/205 — finalized Aug 2024, drop-in ready</div>
+          <div class="sb-num" style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">3</div>
+          <div class="sb-desc">FIPS 203/204/205 — finalized Aug 2024, drop-in replacements ready</div>
+          <div class="sb-ref"><a href="https://csrc.nist.gov/pubs/fips/203/final" target="_blank">FIPS 203</a> · <a href="https://csrc.nist.gov/pubs/fips/204/final" target="_blank">204</a> · <a href="https://csrc.nist.gov/pubs/fips/205/final" target="_blank">205</a></div>
         </div>
         <div class="stat-block">
           <div class="sb-label">Time to migrate</div>
           <div class="sb-num" style="color:var(--green)">Now</div>
-          <div class="sb-desc">Large orgs need 10–15 years. Start counting backwards from 2030.</div>
+          <div class="sb-desc">Large organisations need 10–15 years. Every day of delay matters.</div>
+          <div class="sb-ref"><a href="https://www.cisa.gov/quantum" target="_blank">CISA Quantum</a> · <a href="https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/" target="_blank">NSA PQC Resources</a></div>
         </div>
       </div>
 
-      <!-- WHY IT MATTERS -->
+      <!-- WHY SECTION -->
       <div id="why-anchor"></div>
       <div class="why-section">
         <div class="section-header">
-          <div class="sh-left">
+          <div>
             <div class="sh-tag">// Why It Matters</div>
             <div class="sh-title">THE QUANTUM CLOCK IS TICKING</div>
           </div>
-          <div class="sh-right">Shor's algorithm runs on a quantum computer and factors large numbers exponentially faster than any classical machine. Every RSA key, every elliptic curve — done in seconds.</div>
+          <div class="sh-right">Shor's algorithm runs on a quantum computer and factors large numbers exponentially faster than any classical machine. Every RSA key, every elliptic curve — broken in hours.</div>
         </div>
-
         <div class="why-grid">
           <!-- Featured -->
           <div class="why-card featured">
-            <span class="wc-badge badge-white">Critical Threat</span>
-            <div class="wc-title">Shor's Algorithm Breaks RSA & ECDSA</div>
-            <div class="wc-body" style="margin-bottom:auto">A large enough quantum computer runs Shor's algorithm to factor the product of two huge primes in polynomial time — the same problem that makes RSA secure. RSA-2048 falls in hours. ECDSA falls too, via the elliptic curve discrete log problem. Both are gone the moment a cryptographically-relevant quantum computer exists.</div>
+            <span class="wc-badge bd-red">Critical Threat</span>
+            <div class="wc-title" style="font-size:28px;color:#fff">Shor's Algorithm Breaks RSA &amp; ECDSA</div>
+            <div class="wc-body" style="margin-bottom:auto">A sufficiently large quantum computer runs Shor's algorithm to factor the product of two primes in polynomial time — the hardness assumption underlying RSA. The same algorithm also solves the elliptic curve discrete logarithm problem, making ECDSA and ECDH equally broken. RSA-2048 becomes trivially solvable in hours.</div>
+            <div class="wc-ref"><a href="https://arxiv.org/abs/quant-ph/9508027" target="_blank">Shor (1994) — Algorithms for Quantum Computation</a> · <a href="https://nvlpubs.nist.gov/nistpubs/ir/2016/NIST.IR.8105.pdf" target="_blank">NIST IR 8105</a></div>
             <div class="wc-num">01</div>
           </div>
-          <!-- Card 2 -->
           <div class="why-card">
-            <span class="wc-badge badge-red">Active Right Now</span>
+            <span class="wc-badge bd-red">Active Right Now</span>
             <div class="wc-title">"Harvest Now, Decrypt Later"</div>
-            <div class="wc-body">Nation-state actors are <strong>already collecting</strong> your encrypted traffic today. When quantum computers mature, they'll decrypt everything retroactively.</div>
+            <div class="wc-body">Nation-state actors are <strong>already collecting</strong> encrypted traffic today to decrypt once quantum computers mature. Your data from today, exposed tomorrow.</div>
+            <div class="wc-ref"><a href="https://www.cisa.gov/quantum" target="_blank">CISA Quantum Advisory</a> · <a href="https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/" target="_blank">NSA CNSA 2.0</a></div>
             <div class="wc-num">02</div>
           </div>
-          <!-- Card 3 -->
           <div class="why-card">
-            <span class="wc-badge badge-green">Solution Exists</span>
+            <span class="wc-badge bd-green">Solution Exists</span>
             <div class="wc-title">PQC Standards Are Ready</div>
-            <div class="wc-body">NIST finalized three post-quantum standards in Aug 2024: ML-KEM, ML-DSA, and SLH-DSA. Drop-in replacements. The only blocker is migrating your code.</div>
+            <div class="wc-body">NIST finalized three post-quantum standards August 2024: ML-KEM (FIPS 203), ML-DSA (FIPS 204), SLH-DSA (FIPS 205). Drop-in replacements exist today.</div>
+            <div class="wc-ref"><a href="https://csrc.nist.gov/pubs/fips/203/final" target="_blank">FIPS 203</a> · <a href="https://csrc.nist.gov/pubs/fips/204/final" target="_blank">FIPS 204</a> · <a href="https://csrc.nist.gov/pubs/fips/205/final" target="_blank">FIPS 205</a></div>
             <div class="wc-num">03</div>
           </div>
-          <!-- Card 4 -->
           <div class="why-card">
-            <span class="wc-badge badge-blue">Affects Hashing</span>
+            <span class="wc-badge bd-blue">Affects Hashing</span>
             <div class="wc-title">Grover's Algorithm Halves Symmetric Keys</div>
-            <div class="wc-body">Even symmetric crypto is affected. Grover's algorithm turns AES-128 into effective AES-64. AES-256 stays safe — but SHA-1 and MD5 are finished.</div>
+            <div class="wc-body">Grover's algorithm provides a quadratic speedup on brute-force search — AES-128 becomes effectively AES-64. AES-256 remains safe. SHA-1 and MD5 are fully broken.</div>
+            <div class="wc-ref"><a href="https://arxiv.org/abs/quant-ph/9605043" target="_blank">Grover (1996)</a> · <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank">NIST SP 800-131A</a></div>
             <div class="wc-num">04</div>
           </div>
-          <!-- Card 5 -->
           <div class="why-card">
-            <span class="wc-badge badge-amber">Start Today</span>
+            <span class="wc-badge bd-amber">Start Today</span>
             <div class="wc-title">The 10-Year Migration Window</div>
-            <div class="wc-body">Large organisations need 10–15 years to migrate crypto infrastructure. IBM, Google, and NIST agree: the migration must start now or you won't make it in time.</div>
+            <div class="wc-body">Large organisations take 10–15 years to migrate cryptographic infrastructure. NSA, CISA, and NIST all state the migration must begin now — counting backwards from 2030, you're already late.</div>
+            <div class="wc-ref"><a href="https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF" target="_blank">NSA CNSA 2.0</a> · <a href="https://www.cisa.gov/sites/default/files/2023-08/Quantum-Readiness_Migration_Guide_508_clean.pdf" target="_blank">CISA Migration Guide</a></div>
             <div class="wc-num">05</div>
           </div>
         </div>
       </div>
 
-      <!-- INTERACTIVE DEMO -->
+      <!-- INTERACTIVE CRACK DEMO -->
       <div class="crack-section">
         <div class="section-header">
-          <div class="sh-left">
+          <div>
             <div class="sh-tag">// Interactive Demo</div>
             <div class="sh-title">HOW LONG TO BREAK YOUR CRYPTO?</div>
           </div>
-          <div class="sh-right">Select an algorithm and see how a quantum computer compares to the world's fastest classical supercomputer.</div>
+          <div class="sh-right">Select an algorithm and compare quantum vs. classical crack times. Based on <a href="https://arxiv.org/abs/quant-ph/9508027" target="_blank" style="color:var(--cyan);text-decoration:none">Shor (1994)</a>, <a href="https://arxiv.org/abs/quant-ph/9605043" target="_blank" style="color:var(--cyan);text-decoration:none">Grover (1996)</a>, and NIST guidance.</div>
         </div>
-
         <div class="algo-tabs-row" id="algo-tabs">
           <button class="atab on" onclick="selectAlgo(0,this)">RSA-2048</button>
           <button class="atab" onclick="selectAlgo(1,this)">RSA-1024</button>
@@ -835,27 +893,26 @@ body::before {
           <button class="atab" onclick="selectAlgo(4,this)">SHA-1</button>
           <button class="atab" onclick="selectAlgo(5,this)">ML-KEM-768</button>
         </div>
-
         <div class="crack-grid">
           <div class="crack-detail" id="crack-detail" data-algo="RSA">
             <div class="cd-label">Algorithm Under Analysis</div>
             <div class="cd-name" id="cd-name">RSA-2048</div>
             <div class="cd-desc" id="cd-desc">Public-key encryption based on the difficulty of factoring the product of two large primes. The most widely deployed asymmetric algorithm in the world.</div>
             <div class="cd-facts">
-              <div class="fact-row"><span class="fact-lbl">TYPE</span><span class="fact-val" id="ad-type" style="color:var(--bg)">Asymmetric</span></div>
-              <div class="fact-row"><span class="fact-lbl">KEY SIZE</span><span class="fact-val" id="ad-key" style="color:#22D3EE">2048-bit</span></div>
-              <div class="fact-row"><span class="fact-lbl">CLASSICAL SECURITY</span><span class="fact-val" id="ad-classic" style="color:#22A855">~112-bit</span></div>
-              <div class="fact-row"><span class="fact-lbl">QUANTUM SECURITY</span><span class="fact-val" id="ad-quantum" style="color:var(--red2)">0-bit 💀</span></div>
+              <div class="fact-row"><span class="fact-lbl">TYPE</span><span class="fact-val" id="ad-type" style="color:var(--ink)">Asymmetric</span></div>
+              <div class="fact-row"><span class="fact-lbl">KEY SIZE</span><span class="fact-val" id="ad-key" style="color:var(--cyan)">2048-bit</span></div>
+              <div class="fact-row"><span class="fact-lbl">CLASSICAL SECURITY</span><span class="fact-val" id="ad-classic" style="color:var(--green)">~112-bit</span></div>
+              <div class="fact-row"><span class="fact-lbl">QUANTUM SECURITY</span><span class="fact-val" id="ad-quantum" style="color:var(--red)">0-bit 💀</span></div>
               <div class="fact-row"><span class="fact-lbl">THREAT</span><span class="fact-val" id="ad-threat" style="color:var(--amber)">Shor's Algorithm</span></div>
-              <div class="fact-row"><span class="fact-lbl">STATUS</span><span class="fact-val" id="ad-status" style="color:var(--red2)">QUANTUM-BROKEN</span></div>
+              <div class="fact-row"><span class="fact-lbl">STATUS</span><span class="fact-val" id="ad-status" style="color:var(--red)">QUANTUM-BROKEN</span></div>
             </div>
           </div>
           <div class="crack-bars">
-            <div class="bar-label">Time to crack · Classical vs Quantum</div>
+            <div class="bar-head">Time to crack · Classical vs Quantum</div>
             <div class="time-bars" id="time-bars"></div>
             <div class="crack-alert ca-danger" id="qalert">
               <span>💥</span>
-              <span>Shor's algorithm reduces RSA-2048 to hours on a cryptographically relevant quantum computer.</span>
+              <span id="qalert-msg">Shor's algorithm reduces RSA-2048 to hours on a cryptographically relevant quantum computer. Source: NIST IR 8105.</span>
             </div>
           </div>
         </div>
@@ -864,98 +921,53 @@ body::before {
       <!-- HOW IT WORKS -->
       <div class="how-section">
         <div class="section-header">
-          <div class="sh-left">
-            <div class="sh-tag">// How SPECTRA Works</div>
-            <div class="sh-title">FROM VULNERABLE TO QUANTUM-SAFE IN SECONDS</div>
+          <div>
+            <div class="sh-tag">// How qsecure Works</div>
+            <div class="sh-title" style="color:#fff">FROM VULNERABLE TO QUANTUM-SAFE</div>
           </div>
-          <div class="sh-right">Upload your code and SPECTRA automatically detects every vulnerable cryptographic primitive, explains the threat in plain English, and generates the exact fix.</div>
+          <div class="sh-right">Upload your code and qsecure automatically detects every vulnerable cryptographic primitive, explains the threat with NIST references, and generates the exact migration fix.</div>
         </div>
         <div class="how-steps">
-          <div class="how-step">
-            <div class="hs-num">01</div>
-            <div class="hs-icon">📁</div>
-            <div class="hs-title">Upload Code</div>
-            <div class="hs-sub">Java, Python, JS, Go, Rust, C++, and more</div>
-            <span class="hs-arrow">›</span>
-          </div>
-          <div class="how-step">
-            <div class="hs-num">02</div>
-            <div class="hs-icon">🔍</div>
-            <div class="hs-title">Static Scan</div>
-            <div class="hs-sub">AST-level cryptographic primitive detection</div>
-            <span class="hs-arrow">›</span>
-          </div>
-          <div class="how-step">
-            <div class="hs-num">03</div>
-            <div class="hs-icon">✦</div>
-            <div class="hs-title">AI Analysis</div>
-            <div class="hs-sub">Context-aware explanation of each vulnerability</div>
-            <span class="hs-arrow">›</span>
-          </div>
-          <div class="how-step">
-            <div class="hs-num">04</div>
-            <div class="hs-icon">⚡</div>
-            <div class="hs-title">PQC Fix</div>
-            <div class="hs-sub">NIST-compliant code diff, ready to apply</div>
-            <span class="hs-arrow">›</span>
-          </div>
-          <div class="how-step">
-            <div class="hs-num">05</div>
-            <div class="hs-icon">🛡️</div>
-            <div class="hs-title">Quantum-Safe</div>
-            <div class="hs-sub">ML-KEM / ML-DSA / SLH-DSA deployed</div>
-          </div>
+          <div class="how-step"><div class="hs-num-big" style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">01</div><div class="hs-icon">📁</div><div class="hs-title">Upload Code</div><div class="hs-sub">Java · Python · JS · Go · Rust · C++ and more</div><span class="hs-arrow">›</span></div>
+          <div class="how-step"><div class="hs-num-big" style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">02</div><div class="hs-icon">🔍</div><div class="hs-title">Static Scan</div><div class="hs-sub">AST-level cryptographic primitive detection</div><span class="hs-arrow">›</span></div>
+          <div class="how-step"><div class="hs-num-big" style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">03</div><div class="hs-icon">✦</div><div class="hs-title">AI Analysis</div><div class="hs-sub">NIST-referenced explanation of each vulnerability</div><span class="hs-arrow">›</span></div>
+          <div class="how-step"><div class="hs-num-big" style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">04</div><div class="hs-icon">⚡</div><div class="hs-title">PQC Fix</div><div class="hs-sub">NIST-compliant unified diff, ready to apply</div><span class="hs-arrow">›</span></div>
+          <div class="how-step"><div class="hs-num-big" style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">05</div><div class="hs-icon">🛡️</div><div class="hs-title">Quantum-Safe</div><div class="hs-sub">ML-KEM · ML-DSA · SLH-DSA deployed (FIPS 203/204/205)</div></div>
         </div>
       </div>
 
     </section>
 
-    <!-- ════════════════
-         SCANNER
-    ════════════════ -->
+    <!-- ══════════ SCANNER ══════════ -->
     <section class="page" id="page-scanner">
-      <div class="scanner-page">
-
+      <div class="scanner-layout">
         <!-- Sidebar -->
         <div class="scan-sidebar">
           <div class="sp-section">
-            <div style="font-family:var(--font-display);font-size:28px;letter-spacing:1px;margin-bottom:6px">Code Scanner</div>
-            <div style="font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:24px">Select a preloaded example or upload your own file to detect quantum-vulnerable cryptography and generate AI-powered PQC migration code.</div>
+            <div class="sp-hd">Code Scanner</div>
+            <div class="sp-sub">Select a preloaded example or upload your own file to detect quantum-vulnerable cryptography and generate AI-powered PQC migration code with NIST references.</div>
           </div>
-
           <div class="sp-section">
             <div class="sp-label">Example Files</div>
             <div id="ex-files-list"></div>
           </div>
-
           <div class="sp-section">
             <div class="sp-label">Or Upload Your Own</div>
-            <div class="upload-zone" id="upload-z" onclick="document.getElementById('file-inp').click()">
+            <div class="upload-z" id="upload-z" onclick="document.getElementById('file-inp').click()">
               <div class="uz-icon">📂</div>
               <div class="uz-text">Drop or Click to Upload</div>
               <div class="uz-sub">.py .js .ts .go .rs .java .cs .kt</div>
               <input type="file" id="file-inp" hidden accept=".py,.js,.ts,.tsx,.jsx,.go,.rs,.java,.kt,.cs,.cpp,.c,.rb,.php,.swift,.txt,.env,.yml,.yaml,.toml" onchange="handleUpload(event)"/>
             </div>
           </div>
-
           <div class="sp-section">
             <div class="sp-label">File Stats</div>
             <div class="scan-meta-grid">
-              <div class="smg-box">
-                <span class="smg-label">Lines</span>
-                <span class="smg-val" id="meta-lines">—</span>
-              </div>
-              <div class="smg-box">
-                <span class="smg-label">Findings</span>
-                <span class="smg-val" id="meta-findings">—</span>
-              </div>
-              <div class="smg-box smg-wide">
-                <span class="smg-label">Security Grade</span>
-                <span class="smg-val" id="meta-grade" style="font-size:40px">—</span>
-              </div>
+              <div class="smg-box"><span class="smg-label">Lines</span><span class="smg-val" id="meta-lines">—</span></div>
+              <div class="smg-box"><span class="smg-label">Findings</span><span class="smg-val" id="meta-findings">—</span></div>
+              <div class="smg-box smg-wide"><span class="smg-label">Security Grade</span><span class="smg-val" id="meta-grade" style="font-size:40px">—</span></div>
             </div>
           </div>
-
           <button class="scan-btn" id="scan-btn" onclick="runScan()" disabled>
             <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             Select a File First
@@ -972,130 +984,71 @@ body::before {
             <span class="cv-file" id="cv-file">no file selected</span>
             <div class="cv-counts" id="cv-counts"></div>
           </div>
-          <div class="code-body" id="code-body" style="min-height:300px">
-            <div class="code-empty">
-              <div class="ce-icon">◈</div>
-              <span>Select an example or upload a file to begin</span>
-            </div>
+          <div class="code-body" id="code-body" style="min-height:280px">
+            <div class="code-empty"><div class="ce-icon">◈</div><span>Select an example or upload a file to begin</span></div>
           </div>
-
-          <div id="results-panel" style="padding:28px;background:var(--bg)">
+          <div id="results-panel" style="padding:26px;background:var(--bg)">
             <div class="scan-empty" id="scan-empty-state">
               <div class="se-icon">⚡</div>
               <span>SCAN RESULTS WILL APPEAR HERE</span>
-              <span style="font-size:10px">Select a file and click Run Quantum Scan</span>
+              <span style="font-size:10px;color:var(--ink3)">Select a file and click Run Quantum Scan</span>
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
-  </div><!-- /main -->
-</div><!-- /shell -->
+  </div>
+</div>
 
 <script>
-const API = 'http://127.0.0.1:8000';
+const API='http://127.0.0.1:8000';
+const S={page:'home',file:null,source:'',results:[],selectedExample:null};
 
-const S = { page:'home', file:null, source:'', results:[], selectedExample:null };
-
-const EXAMPLES = [
-  { name:'TestCrypto_RSA_1024.java', desc:'Weak RSA 1024-bit key generation', badge:'CRITICAL', badgeClass:'badge-red', icon:'☕',
-    code:`import java.security.KeyPairGenerator;
-import java.security.KeyPair;
-
-public class TestCryptoRSA1024 {
-    public static void main(String[] args) throws Exception {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(1024);
-        KeyPair pair = keyGen.generateKeyPair();
-        System.out.println("Generated weak RSA 1024 key pair.");
-    }
-}`},
-  { name:'TestCrypto_RSA_2048.java', desc:'RSA 2048 — still quantum-vulnerable', badge:'HIGH', badgeClass:'badge-amber', icon:'☕',
-    code:`import java.security.KeyPairGenerator;
-import java.security.KeyPair;
-
-public class TestCryptoRSA2048 {
-    public static void main(String[] args) throws Exception {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(2048);
-        KeyPair pair = keyGen.generateKeyPair();
-        System.out.println("Generated RSA 2048 key pair.");
-    }
-}`},
-  { name:'TestCrypto_Mixed.java', desc:'RSA-1024 + SHA-1 mixed vulnerabilities', badge:'CRITICAL', badgeClass:'badge-red', icon:'☕',
-    code:`import java.security.KeyPairGenerator;
-import java.security.KeyPair;
-import java.security.MessageDigest;
-
-public class TestCryptoMixed {
-    public static void main(String[] args) throws Exception {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(1024);
-        KeyPair pair = keyGen.generateKeyPair();
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
-        byte[] hash = md.digest("test".getBytes());
-        System.out.println("Multiple crypto operations executed.");
-    }
-}`},
-  { name:'TestCrypto_SHA1.java', desc:'SHA-1 hash — Grover vulnerable', badge:'MEDIUM', badgeClass:'badge-amber', icon:'☕',
-    code:`import java.security.MessageDigest;
-
-public class TestCryptoSHA1 {
-    public static void main(String[] args) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
-        byte[] hash = md.digest("sensitive-data".getBytes());
-        String result = bytesToHex(hash);
-        System.out.println("SHA-1 Hash: " + result);
-    }
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) sb.append(String.format("%02x", b));
-        return sb.toString();
-    }
-}`},
-  { name:'TestCrypto_Kyber.java', desc:'ML-KEM (Kyber512) — quantum-safe', badge:'SAFE', badgeClass:'badge-green', icon:'🔐',
-    code:`import org.openquantumsafe.KeyEncapsulation;
-
-public class TestCryptoKyber {
-    public static void main(String[] args) throws Exception {
-        KeyEncapsulation kem = new KeyEncapsulation("Kyber512");
-        byte[] publicKey = kem.generateKeyPair().getPublic();
-        System.out.println("Generated Kyber key pair.");
-    }
-}`},
+/* ── EXAMPLE FILES ── */
+const EXAMPLES=[
+  {name:'TestCrypto_RSA_1024.java',desc:'Weak RSA 1024-bit key generation',badge:'CRITICAL',badgeStyle:'background:rgba(200,40,31,0.1);border:1px solid rgba(200,40,31,0.32);color:var(--red)',icon:'☕',
+   code:`import java.security.KeyPairGenerator;\nimport java.security.KeyPair;\n\npublic class TestCryptoRSA1024 {\n    public static void main(String[] args) throws Exception {\n        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");\n        keyGen.initialize(1024);\n        KeyPair pair = keyGen.generateKeyPair();\n        System.out.println("Generated weak RSA 1024 key pair.");\n    }\n}`},
+  {name:'TestCrypto_RSA_2048.java',desc:'RSA 2048 — still quantum-vulnerable',badge:'HIGH',badgeStyle:'background:rgba(208,112,0,0.08);border:1px solid rgba(208,112,0,0.28);color:var(--amber)',icon:'☕',
+   code:`import java.security.KeyPairGenerator;\nimport java.security.KeyPair;\n\npublic class TestCryptoRSA2048 {\n    public static void main(String[] args) throws Exception {\n        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");\n        keyGen.initialize(2048);\n        KeyPair pair = keyGen.generateKeyPair();\n        System.out.println("Generated RSA 2048 key pair.");\n    }\n}`},
+  {name:'TestCrypto_Mixed.java',desc:'RSA-1024 + SHA-1 mixed vulnerabilities',badge:'CRITICAL',badgeStyle:'background:rgba(200,40,31,0.1);border:1px solid rgba(200,40,31,0.32);color:var(--red)',icon:'☕',
+   code:`import java.security.KeyPairGenerator;\nimport java.security.KeyPair;\nimport java.security.MessageDigest;\n\npublic class TestCryptoMixed {\n    public static void main(String[] args) throws Exception {\n        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");\n        keyGen.initialize(1024);\n        KeyPair pair = keyGen.generateKeyPair();\n        MessageDigest md = MessageDigest.getInstance("SHA-1");\n        byte[] hash = md.digest("test".getBytes());\n        System.out.println("Multiple crypto operations executed.");\n    }\n}`},
+  {name:'TestCrypto_SHA1.java',desc:'SHA-1 hash — Grover vulnerable',badge:'MEDIUM',badgeStyle:'background:rgba(176,125,0,0.08);border:1px solid rgba(176,125,0,0.24);color:#B07D00',icon:'☕',
+   code:`import java.security.MessageDigest;\n\npublic class TestCryptoSHA1 {\n    public static void main(String[] args) throws Exception {\n        MessageDigest md = MessageDigest.getInstance("SHA-1");\n        byte[] hash = md.digest("sensitive-data".getBytes());\n        System.out.println("SHA-1 Hash: " + bytesToHex(hash));\n    }\n    private static String bytesToHex(byte[] bytes) {\n        StringBuilder sb = new StringBuilder();\n        for (byte b : bytes) sb.append(String.format("%02x", b));\n        return sb.toString();\n    }\n}`},
+  {name:'TestCrypto_Kyber.java',desc:'ML-KEM (Kyber512) — quantum-safe',badge:'SAFE',badgeStyle:'background:rgba(26,107,58,0.08);border:1px solid rgba(26,107,58,0.22);color:var(--green)',icon:'🔐',
+   code:`import org.openquantumsafe.KeyEncapsulation;\n\npublic class TestCryptoKyber {\n    public static void main(String[] args) throws Exception {\n        KeyEncapsulation kem = new KeyEncapsulation("Kyber512");\n        byte[] publicKey = kem.generateKeyPair().getPublic();\n        System.out.println("Generated Kyber key pair.");\n    }\n}`},
 ];
 
-const ALGOS = [
-  { name:'RSA-2048', type:'Asymmetric / KEM', key:'2048-bit', classicSec:'~112-bit (safe)', quantumSec:'0-bit 💀', threat:"Shor's Algorithm", status:'QUANTUM-BROKEN', statusColor:'var(--red)',
-    desc:'Public-key encryption based on the difficulty of factoring the product of two large primes. The most widely deployed asymmetric algorithm in the world.',
-    bars:[{label:'Classical supercomputer',fill:'fill-safe',w:2,text:'~300 trillion years'},{label:'Quantum computer (future)',fill:'fill-danger',w:98,text:'~8 hours'}],
-    alert:{cls:'ca-danger',icon:'💥',msg:"Shor's algorithm reduces RSA-2048 to hours on a cryptographically relevant quantum computer."}},
-  { name:'RSA-1024', type:'Asymmetric / KEM', key:'1024-bit', classicSec:'~80-bit (weak)', quantumSec:'0-bit 💀', threat:"Shor's Algorithm", status:'BROKEN (CLASSICAL+QUANTUM)', statusColor:'var(--red)',
-    desc:"An older, weaker variant of RSA already considered insecure against classical computers. Catastrophically broken by quantum computers.",
-    bars:[{label:'Classical supercomputer',fill:'fill-warn',w:18,text:'~1000 years'},{label:'Quantum computer (future)',fill:'fill-danger',w:98,text:'~minutes'}],
-    alert:{cls:'ca-danger',icon:'💥',msg:'RSA-1024 is already deprecated by NIST for classical reasons. A quantum computer breaks it in minutes.'}},
-  { name:'ECDSA P-256', type:'Asymmetric / Signing', key:'256-bit EC', classicSec:'~128-bit (safe)', quantumSec:'0-bit 💀', threat:"Shor's Algorithm", status:'QUANTUM-BROKEN', statusColor:'var(--red)',
-    desc:"Elliptic Curve Digital Signature Algorithm. Shorter keys than RSA for the same classical security, but equally vulnerable to quantum attacks.",
-    bars:[{label:'Classical supercomputer',fill:'fill-safe',w:3,text:'Practically impossible'},{label:'Quantum computer (future)',fill:'fill-danger',w:94,text:'~1 hour'}],
-    alert:{cls:'ca-danger',icon:'💥',msg:"Shor's algorithm also solves the elliptic curve discrete logarithm problem, breaking ECDSA entirely."}},
-  { name:'AES-256', type:'Symmetric / Cipher', key:'256-bit', classicSec:'256-bit (very safe)', quantumSec:'128-bit (safe)', threat:"Grover's Algorithm", status:'QUANTUM-SAFE', statusColor:'var(--green)',
-    desc:"Block cipher symmetric encryption. Grover's algorithm halves effective key length — but 256-bit AES remains secure at 128-bit quantum equivalent.",
-    bars:[{label:'Classical supercomputer',fill:'fill-safe',w:2,text:'Practically impossible'},{label:'Quantum computer (future)',fill:'fill-warn',w:22,text:'~2^128 ops (still safe)'}],
-    alert:{cls:'ca-safe',icon:'✅',msg:"AES-256 survives Grover's attack with ~128-bit effective security — still considered safe."}},
-  { name:'SHA-1', type:'Hash Function', key:'160-bit output', classicSec:'Broken (collision)', quantumSec:'0-bit 💀', threat:"Grover + Classical", status:'FULLY BROKEN', statusColor:'var(--red)',
-    desc:"SHA-1 was already broken classically — Google demonstrated a practical SHA-1 collision in 2017 (SHAttered). Grover's algorithm reduces its quantum security further.",
-    bars:[{label:'Classical (collision)',fill:'fill-danger',w:92,text:'Broken since 2017'},{label:'Quantum (preimage)',fill:'fill-danger',w:98,text:'~2^80 operations'}],
-    alert:{cls:'ca-danger',icon:'💥',msg:'SHA-1 is fully broken. Replace with SHA-3-256 or SHA-256 immediately.'}},
-  { name:'ML-KEM-768', type:'Post-Quantum / KEM', key:'~1184-byte pk', classicSec:'≥178-bit', quantumSec:'≥166-bit', threat:'None Known', status:'QUANTUM-SAFE (FIPS 203)', statusColor:'var(--green)',
-    desc:'CRYSTALS-Kyber. NIST FIPS 203 standard. Key encapsulation based on Module Learning with Errors (MLWE) — no known quantum algorithm threatens it.',
-    bars:[{label:'Classical supercomputer',fill:'fill-violet',w:3,text:'Practically impossible'},{label:'Quantum computer (future)',fill:'fill-violet',w:4,text:'Still practically impossible'}],
-    alert:{cls:'ca-safe',icon:'🔐',msg:'ML-KEM-768 is the recommended drop-in replacement for RSA/ECDH. NIST FIPS 203, finalized 2024.'}},
+/* ── ALGO DEMO DATA ── */
+const ALGOS=[
+  {name:'RSA-2048',type:'Asymmetric / KEM',key:'2048-bit',classicSec:'~112-bit (safe)',quantumSec:'0-bit 💀',threat:"Shor's Algorithm",status:'QUANTUM-BROKEN',statusColor:'var(--red)',
+   desc:"Public-key encryption based on the difficulty of factoring the product of two large primes. The most widely deployed asymmetric algorithm in the world.",
+   bars:[{label:'Classical supercomputer',fill:'fill-safe',w:2,text:'~300 trillion years'},{label:'Quantum computer (future)',fill:'fill-danger',w:98,text:'~8 hours'}],
+   alert:{cls:'ca-danger',icon:'💥',msg:`Shor's algorithm reduces RSA-2048 to hours on a CRQC. Refs: <a href="https://arxiv.org/abs/quant-ph/9508027" target="_blank" style="color:inherit;text-decoration:underline">Shor 1994 (arXiv)</a> · <a href="https://nvlpubs.nist.gov/nistpubs/ir/2016/NIST.IR.8105.pdf" target="_blank" style="color:inherit;text-decoration:underline">NIST IR 8105</a>`}},
+  {name:'RSA-1024',type:'Asymmetric / KEM',key:'1024-bit',classicSec:'~80-bit (weak)',quantumSec:'0-bit 💀',threat:"Shor's Algorithm",status:'BROKEN (CLASSICAL+QUANTUM)',statusColor:'var(--red)',
+   desc:"Older RSA variant already deprecated by NIST for classical reasons (SP 800-131A). Catastrophically broken by quantum computers.",
+   bars:[{label:'Classical supercomputer',fill:'fill-warn',w:18,text:'~1000 years'},{label:'Quantum computer (future)',fill:'fill-danger',w:98,text:'~minutes'}],
+   alert:{cls:'ca-danger',icon:'💥',msg:`RSA-1024 disallowed by NIST since 2013. Quantum breaks it in minutes. Ref: <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank" style="color:inherit;text-decoration:underline">NIST SP 800-131A Rev2</a>`}},
+  {name:'ECDSA P-256',type:'Asymmetric / Signing',key:'256-bit EC',classicSec:'~128-bit (safe)',quantumSec:'0-bit 💀',threat:"Shor's Algorithm",status:'QUANTUM-BROKEN',statusColor:'var(--red)',
+   desc:"Elliptic Curve Digital Signature Algorithm. Short keys vs RSA for equivalent classical security, but equally broken by Shor's algorithm via the elliptic curve discrete log.",
+   bars:[{label:'Classical supercomputer',fill:'fill-safe',w:3,text:'Practically impossible'},{label:'Quantum computer (future)',fill:'fill-danger',w:94,text:'~1 hour'}],
+   alert:{cls:'ca-danger',icon:'💥',msg:`Shor's solves the EC discrete log — ECDSA/ECDH fully broken. Refs: <a href="https://arxiv.org/abs/quant-ph/9508027" target="_blank" style="color:inherit;text-decoration:underline">Shor 1994</a> · <a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf" target="_blank" style="color:inherit;text-decoration:underline">FIPS 186-5</a>`}},
+  {name:'AES-256',type:'Symmetric / Cipher',key:'256-bit',classicSec:'256-bit (very safe)',quantumSec:'128-bit (safe)',threat:"Grover's Algorithm",status:'QUANTUM-SAFE',statusColor:'var(--green)',
+   desc:"Block cipher symmetric encryption. Grover's algorithm provides quadratic speedup on brute-force, effectively halving key length — AES-256 stays safe at 128-bit quantum equivalent.",
+   bars:[{label:'Classical supercomputer',fill:'fill-safe',w:2,text:'Practically impossible'},{label:'Quantum computer (future)',fill:'fill-warn',w:22,text:'~2^128 ops (still safe)'}],
+   alert:{cls:'ca-safe',icon:'✅',msg:`AES-256 retains ~128-bit quantum security — still NIST-approved. Refs: <a href="https://arxiv.org/abs/quant-ph/9605043" target="_blank" style="color:inherit;text-decoration:underline">Grover 1996</a> · <a href="https://csrc.nist.gov/publications/detail/sp/800-175b/rev-1/final" target="_blank" style="color:inherit;text-decoration:underline">NIST SP 800-175B</a>`}},
+  {name:'SHA-1',type:'Hash Function',key:'160-bit output',classicSec:'Broken (collision)',quantumSec:'0-bit 💀',threat:"Grover + Classical",status:'FULLY BROKEN',statusColor:'var(--red)',
+   desc:"SHA-1 is broken classically (Google's SHAttered, 2017) and further weakened by Grover's algorithm. Disallowed by NIST since 2013 per SP 800-131A.",
+   bars:[{label:'Classical (collision)',fill:'fill-danger',w:92,text:'Broken since 2017'},{label:'Quantum (preimage)',fill:'fill-danger',w:98,text:'~2^80 operations'}],
+   alert:{cls:'ca-danger',icon:'💥',msg:`SHA-1 disallowed since 2013. SHAttered (2017) proved practical collisions. Refs: <a href="https://shattered.io" target="_blank" style="color:inherit;text-decoration:underline">SHAttered</a> · <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank" style="color:inherit;text-decoration:underline">NIST SP 800-131A</a>`}},
+  {name:'ML-KEM-768',type:'Post-Quantum / KEM',key:'~1184-byte pk',classicSec:'≥178-bit',quantumSec:'≥166-bit',threat:'None Known',status:'QUANTUM-SAFE (FIPS 203)',statusColor:'var(--green)',
+   desc:"CRYSTALS-Kyber. NIST FIPS 203 (Aug 2024). Key encapsulation based on Module Learning with Errors (MLWE). No known quantum algorithm breaks it.",
+   bars:[{label:'Classical supercomputer',fill:'fill-grad',w:3,text:'Practically impossible'},{label:'Quantum computer (future)',fill:'fill-grad',w:4,text:'Still practically impossible'}],
+   alert:{cls:'ca-safe',icon:'🔐',msg:`NIST-recommended drop-in for RSA/ECDH. Refs: <a href="https://csrc.nist.gov/pubs/fips/203/final" target="_blank" style="color:inherit;text-decoration:underline">FIPS 203</a> · <a href="https://pq-crystals.org/kyber/" target="_blank" style="color:inherit;text-decoration:underline">CRYSTALS-Kyber</a>`}},
 ];
 
 /* ── NAV ── */
-function nav(id) {
+function nav(id){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+id));
   S.page=id;
@@ -1104,10 +1057,7 @@ function nav(id) {
 /* ── CLOCK ── */
 (function clock(){
   const el=document.getElementById('clock');
-  setInterval(()=>{
-    const n=new Date(),p=v=>String(v).padStart(2,'0');
-    if(el)el.textContent=`${p(n.getUTCHours())}:${p(n.getUTCMinutes())}:${p(n.getUTCSeconds())} UTC`;
-  },1000);
+  setInterval(()=>{const n=new Date(),p=v=>String(v).padStart(2,'0');if(el)el.textContent=`${p(n.getUTCHours())}:${p(n.getUTCMinutes())}:${p(n.getUTCSeconds())} UTC`;},1000);
 })();
 
 /* ── API HEALTH ── */
@@ -1131,56 +1081,39 @@ function selectAlgo(idx,btn){
   setText('cd-name',a.name);setText('cd-desc',a.desc);
   setText('ad-type',a.type);setText('ad-key',a.key);setText('ad-classic',a.classicSec);
   const qEl=document.getElementById('ad-quantum');
-  if(qEl){qEl.textContent=a.quantumSec;qEl.style.color=a.quantumSec.includes('💀')?'var(--red2)':'var(--green2)';}
+  if(qEl){qEl.textContent=a.quantumSec;qEl.style.color=a.quantumSec.includes('💀')?'var(--red)':'var(--green)';}
   setText('ad-threat',a.threat);
   const sEl=document.getElementById('ad-status');
   if(sEl){sEl.textContent=a.status;sEl.style.color=a.statusColor;}
   const barsEl=document.getElementById('time-bars');
   if(barsEl){
-    barsEl.innerHTML=a.bars.map(b=>`
-      <div class="tb-row">
-        <div class="tb-name">${b.label}</div>
-        <div class="tb-track"><div class="tb-fill ${b.fill}" style="width:0%"><span>${b.text}</span></div></div>
-      </div>`).join('');
+    barsEl.innerHTML=a.bars.map(b=>`<div class="tb-row"><div class="tb-name">${b.label}</div><div class="tb-track"><div class="tb-fill ${b.fill}" style="width:0%"><span>${b.text}</span></div></div></div>`).join('');
     setTimeout(()=>{barsEl.querySelectorAll('.tb-fill').forEach((el,i)=>el.style.width=a.bars[i].w+'%');},30);
   }
   const qa=document.getElementById('qalert');
   if(qa){qa.className='crack-alert '+a.alert.cls;qa.innerHTML=`<span>${a.alert.icon}</span><span>${a.alert.msg}</span>`;}
 }
-document.addEventListener('DOMContentLoaded',()=>selectAlgo(0,document.querySelector('.atab')));
+document.addEventListener('DOMContentLoaded',()=>{const t=document.querySelector('.atab');if(t)selectAlgo(0,t);});
 
-/* ── EXAMPLE FILES ── */
+/* ── EXAMPLE FILES INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
-  const list=document.getElementById('ex-files-list');
-  if(!list)return;
+  const list=document.getElementById('ex-files-list');if(!list)return;
   EXAMPLES.forEach((ex,i)=>{
     const btn=document.createElement('button');
     btn.className='ex-file';btn.dataset.idx=i;
-    btn.innerHTML=`<div class="ef-icon">${ex.icon}</div>
-      <div style="flex:1;min-width:0">
-        <span class="ef-name">${ex.name}</span>
-        <span class="ef-desc">${ex.desc}</span>
-      </div>
-      <span class="ef-b ${ex.badgeClass}" style="font-family:var(--font-mono);font-size:8px;padding:3px 7px;border-radius:2px">${ex.badge}</span>`;
-    btn.onclick=()=>selectExample(i);
+    btn.innerHTML=`<div class="ef-top"><div class="ef-icon">${ex.icon}</div><div style="flex:1;min-width:0"><span class="ef-name">${esc(ex.name)}</span><span class="ef-desc">${esc(ex.desc)}</span></div></div><div class="ef-foot"><span class="ef-b" style="${ex.badgeStyle}">${ex.badge}</span></div>`;
+    btn.onclick=()=>{
+      document.querySelectorAll('.ex-file').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      S.selectedExample=i;S.file=new File([ex.code],ex.name,{type:'text/plain'});S.source=ex.code;
+      renderCode(ex.code,ex.name);
+      setText('meta-lines',ex.code.split('\n').length);setText('meta-findings','—');setText('meta-grade','—');
+      const sb=document.getElementById('scan-btn');sb.disabled=false;
+      sb.innerHTML=`<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>RUN QUANTUM SCAN`;
+    };
     list.appendChild(btn);
   });
 });
-
-function selectExample(idx){
-  document.querySelectorAll('.ex-file').forEach((b,i)=>b.classList.toggle('sel',i===idx));
-  const ex=EXAMPLES[idx];
-  S.file=new File([ex.code],ex.name,{type:'text/plain'});
-  S.source=ex.code;S.selectedExample=idx;
-  renderCode(ex.code,ex.name);
-  setText('meta-lines',ex.code.split('\n').length);
-  setText('meta-findings','—');setText('meta-grade','—');
-  document.getElementById('meta-grade').style.color='var(--ink)';
-  const btn=document.getElementById('scan-btn');
-  btn.disabled=false;
-  btn.innerHTML=`<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>RUN QUANTUM SCAN`;
-  document.getElementById('results-panel').innerHTML=`<div class="scan-empty" id="scan-empty-state"><div class="se-icon">⚡</div><span>READY TO SCAN: ${ex.name}</span><span style="font-size:10px;color:var(--ink3)">Click Run Quantum Scan to analyse</span></div>`;
-}
 
 function handleUpload(evt){
   const file=evt.target.files[0];if(!file)return;
@@ -1188,12 +1121,9 @@ function handleUpload(evt){
   S.file=file;S.selectedExample=null;
   const reader=new FileReader();
   reader.onload=e=>{
-    S.source=e.target.result||'';
-    renderCode(S.source,file.name);
-    setText('meta-lines',S.source.split('\n').length);
-    setText('meta-findings','—');setText('meta-grade','—');
-    const btn=document.getElementById('scan-btn');
-    btn.disabled=false;
+    S.source=e.target.result||'';renderCode(S.source,file.name);
+    setText('meta-lines',S.source.split('\n').length);setText('meta-findings','—');setText('meta-grade','—');
+    const btn=document.getElementById('scan-btn');btn.disabled=false;
     btn.innerHTML=`<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>RUN QUANTUM SCAN`;
   };
   reader.readAsText(file);
@@ -1221,8 +1151,7 @@ function renderCode(source,filename){
     const isV=VULN_KW.some(k=>lo.includes(k));
     const isS=!isV&&SAFE_KW.some(k=>lo.includes(k));
     if(isV)vCount++;if(isS)sCount++;
-    const cls=isV?'cl vuln':isS?'cl safe-l':'cl';
-    return `<div class="${cls}"><span class="ln">${i+1}</span><span class="lc">${esc(text)||' '}</span></div>`;
+    return `<div class="${isV?'cl vuln':isS?'cl safe-l':'cl'}"><span class="ln">${i+1}</span><span class="lc">${esc(text)||' '}</span></div>`;
   }).join('');
   body.innerHTML=html||'<div class="code-empty"><div class="ce-icon">◈</div><span>Empty file</span></div>';
   if(cvCounts)cvCounts.innerHTML=`${vCount?`<span class="cv-badge cvb-bad">${vCount} vulnerable</span>`:''}${sCount?`<span class="cv-badge cvb-ok">${sCount} safe</span>`:''}`;
@@ -1236,10 +1165,9 @@ async function runScan(){
   const steps=['Uploading file…','Detecting cryptographic primitives…','Running static analysis…','Invoking AI explanation engine…','Generating PQC migration diffs…','Calculating risk score…'];
   let fake=0,stepIdx=0;
   const timer=setInterval(()=>{
-    fake=Math.min(fake+(Math.random()*3.5+1),88);
-    lbar.style.width=fake+'%';
+    fake=Math.min(fake+(Math.random()*3.5+1),88);lbar.style.width=fake+'%';
     if(lpct)lpct.textContent=Math.round(fake)+'%';
-    if(lsub&&Math.random()<0.15)lsub.textContent=steps[Math.min(stepIdx++,steps.length-1)];
+    if(lsub&&Math.random()<.15)lsub.textContent=steps[Math.min(stepIdx++,steps.length-1)];
   },130);
   document.getElementById('scan-btn').disabled=true;
   const pw=document.getElementById('prog-wrap');if(pw)pw.style.display='block';
@@ -1248,21 +1176,35 @@ async function runScan(){
     const resp=await fetch(API+'/scan',{method:'POST',body:fd});
     clearInterval(timer);
     if(!resp.ok){const err=await resp.json().catch(()=>({detail:'HTTP '+resp.status}));throw new Error(err.detail||'HTTP '+resp.status);}
-    const data=await resp.json();
-    S.results=data;lbar.style.width='100%';
-    if(lpct)lpct.textContent='100%';
-    if(lsub)lsub.textContent=`${data.length} finding(s) processed.`;
+    const data=await resp.json();S.results=data;
+    lbar.style.width='100%';if(lpct)lpct.textContent='100%';if(lsub)lsub.textContent=`${data.length} finding(s) processed.`;
     setTimeout(()=>{overlay.classList.remove('on');document.getElementById('scan-btn').disabled=false;if(pw)pw.style.display='none';renderResults(data);},600);
   }catch(err){
-    clearInterval(timer);overlay.classList.remove('on');
-    document.getElementById('scan-btn').disabled=false;if(pw)pw.style.display='none';
-    document.getElementById('results-panel').innerHTML=`<div class="scan-error">
-      ⚠ SCAN FAILED: ${esc(String(err))}<br>
-      <span style="color:var(--ink3);font-size:10px;margin-top:6px;display:block">
-        Make sure the backend is running: <code style="color:var(--red)">cd backend && uvicorn main:app --reload</code><br>Backend URL: ${API}
-      </span>
-    </div>`;
+    clearInterval(timer);overlay.classList.remove('on');document.getElementById('scan-btn').disabled=false;if(pw)pw.style.display='none';
+    document.getElementById('results-panel').innerHTML=`<div class="scan-error">⚠ SCAN FAILED: ${esc(String(err))}<br><span style="color:var(--ink3);font-size:10px;margin-top:6px;display:block">Make sure the backend is running: <code>cd backend && uvicorn main:app --reload</code><br>Backend URL: ${API}</span></div>`;
   }
+}
+
+/* ── BUILD UNIFIED DIFF ── */
+function buildUnifiedDiff(results){
+  if(!results||!results.length)return null;
+  const allFindings=results.filter(r=>r.fix&&r.fix.diff);
+  if(!allFindings.length)return null;
+  const lines=[];
+  lines.push('--- original (all findings)');
+  lines.push('+++ migrated (post-quantum safe)');
+  allFindings.forEach((item,idx)=>{
+    const f=item.finding||{},fix=item.fix||{};
+    lines.push(`@@ Finding ${idx+1}: ${f.algorithm||'unknown'}${f.key_size?' ('+f.key_size+'-bit)':''}, Line ${f.line||'?'} @@`);
+    const diffLines=(fix.diff||'').split('\n');
+    diffLines.forEach(dl=>{
+      if(dl.startsWith('--- ')||dl.startsWith('+++ '))return;
+      if(dl.startsWith('@@'))return;
+      lines.push(dl);
+    });
+    if(idx<allFindings.length-1)lines.push('');
+  });
+  return lines.join('\n');
 }
 
 /* ── RENDER RESULTS ── */
@@ -1272,30 +1214,49 @@ function renderResults(results){
     area.innerHTML=`<div class="scan-success"><div style="font-size:32px">✅</div><strong>No quantum-vulnerable algorithms detected!</strong><span style="font-size:11px">This file appears to use safe cryptographic primitives.</span></div>`;
     return;
   }
-  const grading=results[0]?.grading,posture=grading?.overall_security_posture||{},summary=grading?.summary||{},safeAlgos=grading?.quantum_safe_algorithms||[];
-  const total=summary.total??results.length;
-  setText('meta-findings',total);
-  const grade=posture.grade||'—';
-  const gradeEl=document.getElementById('meta-grade');
-  if(gradeEl){gradeEl.textContent=grade;gradeEl.style.color=['F','D'].includes(grade)?'var(--red)':grade==='C'?'var(--amber)':'var(--green)';}
-  const gradeColor={'A':'var(--green)','B':'var(--green)','C':'var(--amber)','D':'var(--red)','F':'var(--red)'}[grade]||'var(--ink2)';
+  const grading=results[0]?.grading||{};
+  const posture=grading.overall_security_posture||{};
+  const summary=grading.summary||{};
+  const details=grading.details||[];
+  const countBySev=(sev)=>results.filter(r=>(r.finding?.severity||'').toUpperCase()===sev.toUpperCase()).length;
+  const critN=summary.critical??countBySev('CRITICAL');
+  const highN=summary.high??countBySev('HIGH');
+  const medN=summary.medium??countBySev('MEDIUM');
+  const lowN=summary.low??countBySev('LOW');
+  const total=summary.total??((critN+highN+medN+lowN)||results.length);
+  const cvssScore=posture.overall_cvss_score??details[0]?.cvss_score??0;
+  const riskScore=posture.risk_score??Math.round(cvssScore*10);
+  const fixedScore=Math.max(0,riskScore-Math.round(riskScore*0.65));
   const badgeCls=posture.compliance_badge||'MODERATE_RISK';
-  const riskScore=posture.risk_score??0,fixedScore=Math.max(0,riskScore-Math.round(riskScore*0.65));
-  const critN=summary.critical??0,highN=summary.high??0,medN=summary.medium??0,lowN=summary.low??0;
+  let grade='B';
+  if(cvssScore>=9)grade='F';
+  else if(cvssScore>=7)grade='D';
+  else if(cvssScore>=5)grade='C';
+  else if(cvssScore>=3)grade='B';
+  else grade='A';
+  const gradeColor={'A':'var(--green)','B':'var(--green)','C':'var(--amber)','D':'var(--red)','F':'var(--red)'}[grade]||'var(--ink3)';
+  setText('meta-findings',total);
+  const gradeEl=document.getElementById('meta-grade');
+  if(gradeEl){gradeEl.textContent=grade;gradeEl.style.color=gradeColor;}
+  const nistRefs=details.map(d=>d.classification?.nist_reference).filter(Boolean);
+  const nistControls=details.flatMap(d=>d.classification?.nist_800_53_controls||[]).filter(Boolean);
 
   let html='';
+
   html+=`<div class="posture-banner ${badgeCls}">
     <div class="pb-grade" style="color:${gradeColor}">${grade}</div>
     <div class="pb-info">
-      <div class="pb-readiness" style="color:${gradeColor}">${posture.quantum_readiness||'UNKNOWN'}</div>
-      <div class="pb-score">Risk Score: ${posture.risk_score??'—'}/100 · ${badgeCls.replace(/_/g,' ')}</div>
+      <div class="pb-readiness" style="color:${gradeColor}">${posture.quantum_readiness||'NOT_READY'}</div>
+      <div class="pb-score">CVSS Score: ${cvssScore}/10 · Risk: ${riskScore}/100 · ${badgeCls.replace(/_/g,' ')}</div>
       <div class="pb-pills">
-        ${(summary.critical||0)?`<span class="pb-pill" style="background:rgba(217,43,43,0.1);border:1px solid rgba(217,43,43,0.3);color:var(--red)">${summary.critical} CRITICAL</span>`:''}
-        ${(summary.high||0)?`<span class="pb-pill" style="background:rgba(224,123,0,0.1);border:1px solid rgba(224,123,0,0.28);color:var(--amber)">${summary.high} HIGH</span>`:''}
-        ${(summary.medium||0)?`<span class="pb-pill" style="background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.25);color:#9B7400">${summary.medium} MEDIUM</span>`:''}
-        ${(summary.low||0)?`<span class="pb-pill" style="background:rgba(26,107,58,0.08);border:1px solid rgba(26,107,58,0.22);color:var(--green)">${summary.low} LOW</span>`:''}
-        ${safeAlgos.length?`<span class="pb-pill" style="background:rgba(0,180,204,0.08);border:1px solid rgba(0,180,204,0.22);color:var(--cyan)">${safeAlgos.length} SAFE</span>`:''}
+        ${critN?`<span class="pb-pill" style="background:rgba(200,40,31,0.1);border:1px solid rgba(200,40,31,0.28);color:var(--red)">${critN} CRITICAL</span>`:''}
+        ${highN?`<span class="pb-pill" style="background:rgba(208,112,0,0.08);border:1px solid rgba(208,112,0,0.24);color:var(--amber)">${highN} HIGH</span>`:''}
+        ${medN?`<span class="pb-pill" style="background:rgba(176,125,0,0.07);border:1px solid rgba(176,125,0,0.2);color:#B07D00">${medN} MEDIUM</span>`:''}
+        ${lowN?`<span class="pb-pill" style="background:rgba(26,107,58,0.07);border:1px solid rgba(26,107,58,0.18);color:var(--green)">${lowN} LOW</span>`:''}
+        ${posture.harvest_now_decrypt_later_risk?`<span class="pb-pill" style="background:rgba(200,40,31,0.07);border:1px solid rgba(200,40,31,0.2);color:var(--red)">⚠ HNDL RISK</span>`:''}
+        ${posture.classical_compliance?`<span class="pb-pill" style="background:rgba(0,153,187,0.07);border:1px solid rgba(0,153,187,0.18);color:var(--cyan)">${posture.classical_compliance}</span>`:''}
       </div>
+      ${nistRefs.length?`<div class="pb-nist">NIST References: ${nistRefs.map(r=>`<a href="https://csrc.nist.gov" target="_blank">${esc(r)}</a>`).join(' · ')}${nistControls.length?' · Controls: '+nistControls.join(', '):''}</div>`:''}
     </div>
   </div>`;
 
@@ -1307,11 +1268,11 @@ function renderResults(results){
       <div class="chart-sub">${total} total finding${total!==1?'s':''}</div>
     </div>
     <div class="chart-card">
-      <div class="chart-hd">Risk Score</div>
-      <div class="meter-svg-wrap"><canvas id="meter-canvas" width="200" height="110"></canvas></div>
+      <div class="chart-hd">CVSS Risk Score</div>
+      <div style="display:flex;justify-content:center;margin-bottom:6px"><canvas id="meter-canvas" width="200" height="110"></canvas></div>
       <div style="text-align:center">
-        <div class="mr-val" style="color:${gradeColor}">${riskScore}</div>
-        <div class="mr-lbl">/ 100 · ${badgeCls.replace(/_/g,' ')}</div>
+        <div class="mr-val" style="color:${gradeColor}">${cvssScore}<span style="font-size:0.4em;color:var(--ink3)">/10</span></div>
+        <div class="mr-lbl">${badgeCls.replace(/_/g,' ')}</div>
       </div>
     </div>
     <div class="chart-card">
@@ -1319,99 +1280,173 @@ function renderResults(results){
       <div class="ba-rows">
         <div>
           <div class="ba-hd"><span class="ba-lbl">BEFORE (current)</span><span class="ba-score" style="color:${gradeColor}">${riskScore}</span></div>
-          <div class="ba-track"><div class="ba-fill" id="ba-before" style="width:0%;background:linear-gradient(90deg,#B91C1C,var(--red))"><span>${riskScore}%</span></div></div>
+          <div class="ba-track"><div class="ba-fill" id="ba-before" style="width:0%;background:linear-gradient(90deg,#991B1B,var(--red))"><span>${riskScore}%</span></div></div>
         </div>
         <div>
           <div class="ba-hd"><span class="ba-lbl">AFTER full PQC migration</span><span class="ba-score" style="color:var(--green)">${fixedScore}</span></div>
-          <div class="ba-track"><div class="ba-fill" id="ba-after" style="width:0%;background:linear-gradient(90deg,#14532D,var(--green))"><span>${fixedScore}%</span></div></div>
+          <div class="ba-track"><div class="ba-fill" id="ba-after" style="width:0%;background:linear-gradient(90deg,#065F46,#16A34A)"><span>${fixedScore}%</span></div></div>
         </div>
-        <div class="ba-improvement">
-          <div class="ba-imp-num">↓ ${riskScore-fixedScore}</div>
-          <div class="ba-imp-lbl">Risk Points Eliminated</div>
-        </div>
+        <div class="ba-improvement"><div class="ba-imp-num">↓ ${riskScore-fixedScore}</div><div class="ba-imp-lbl">Risk Points Eliminated</div></div>
       </div>
     </div>
   </div>`;
 
-  const findings=results.filter(r=>r.finding?.severity!=='INFO'||results.length===1);
-  const hasFindings=findings.some(r=>r.finding?.severity!=='INFO');
-  if(!hasFindings){
-    html+=`<div class="scan-success"><div style="font-size:32px">✅</div><strong>No quantum-vulnerable algorithms detected!</strong><span style="font-size:11px">This file uses quantum-safe cryptographic primitives.</span></div>`;
-  } else {
-    html+=`<div class="findings-hd"><div class="findings-title">⚡ Findings & AI-Generated Fixes</div><div class="findings-count">${findings.length} issue${findings.length!==1?'s':''}</div></div>`;
-    html+=`<div class="findings-list">`;
-    findings.forEach((item,i)=>{ if(item.finding?.severity!=='INFO')html+=renderFindingCard(item,i); });
-    html+=`</div>`;
+  const unifiedDiff=buildUnifiedDiff(results);
+  const diffsWithFixes=results.filter(r=>r.fix&&r.fix.diff);
+  if(unifiedDiff&&diffsWithFixes.length){
+    const algoList=[...new Set(diffsWithFixes.map(r=>r.fix?.pqc_algo||r.finding?.algorithm||'?'))].join(' · ');
+    const nistList=[...new Set(details.map(d=>d.classification?.nist_reference).filter(Boolean))].join(' · ')||'NIST SP 800-131A Rev2 + NIST PQC 2023';
+    const diffLineHtml=unifiedDiff.split('\n').map(line=>{
+      let cls='ctx';
+      if(line.startsWith('---')||line.startsWith('+++'))cls='head';
+      else if(line.startsWith('@@'))cls='hunk';
+      else if(line.startsWith('-'))cls='minus';
+      else if(line.startsWith('+'))cls='plus';
+      return `<div class="diff-l ${cls}"><div class="diff-l-content">${esc(line)||' '}</div></div>`;
+    }).join('');
+    html+=`<div class="unified-diff-panel">
+      <div class="udp-header">
+        <div class="udp-left">
+          <div class="udp-title">🔧 Recommended Changes — Unified Diff</div>
+          <span class="udp-badge">${diffsWithFixes.length} fix${diffsWithFixes.length!==1?'es':''}</span>
+        </div>
+        <div class="udp-meta">
+          <span class="udp-meta-b" style="background:rgba(0,153,187,0.08);border:1px solid rgba(0,153,187,0.22);color:var(--cyan);font-family:var(--font-m);font-size:8px;padding:2px 8px;border-radius:3px;letter-spacing:.5px">FIPS 203 COMPLIANT</span>
+          <span class="udp-meta-b" style="background:rgba(26,107,58,0.08);border:1px solid rgba(26,107,58,0.2);color:var(--green);font-family:var(--font-m);font-size:8px;padding:2px 8px;border-radius:3px;letter-spacing:.5px">PQC MIGRATION</span>
+        </div>
+      </div>
+      <div class="udp-controls">
+        <button class="udp-tab on" data-tab="diff" onclick="switchUdpTab(this)">Code Diff</button>
+        <button class="udp-tab" data-tab="notes" onclick="switchUdpTab(this)">Migration Notes</button>
+      </div>
+      <div class="udp-pane on" data-pane="diff">
+        <div class="unified-diff-code">${diffLineHtml}</div>
+      </div>
+      <div class="udp-pane" data-pane="notes">
+        <div class="udp-notes">
+          <strong>Recommended Replacements:</strong> ${esc(algoList)}<br><br>
+          <strong>How to apply this diff:</strong> Copy the unified diff above and apply it to your source file using <code>patch -p0 &lt; changes.diff</code>, or manually replace each <span style="color:var(--red)">highlighted red</span> line with the corresponding <span style="color:var(--green)">highlighted green</span> addition.<br><br>
+          <strong>All replacements are drop-in:</strong> The API surface stays the same. Only the underlying cryptographic primitive changes to a NIST-standardised post-quantum algorithm.<br><br>
+          ${posture.harvest_now_decrypt_later_risk?`<strong style="color:var(--red)">⚠ Harvest Now, Decrypt Later Risk Detected:</strong> Your encrypted traffic may already be collected by adversaries. Prioritise migration of any long-lived keys immediately.<br><br>`:''}
+          <div class="ref-block">
+            <strong style="color:var(--ink2)">NIST References:</strong><br>
+            ${esc(nistList)}<br>
+            ${nistControls.length?`NIST 800-53 Controls: ${nistControls.join(', ')}<br>`:''}
+            <a href="https://csrc.nist.gov/pubs/fips/203/final" target="_blank">FIPS 203 (ML-KEM)</a> · 
+            <a href="https://csrc.nist.gov/pubs/fips/204/final" target="_blank">FIPS 204 (ML-DSA)</a> · 
+            <a href="https://csrc.nist.gov/pubs/fips/205/final" target="_blank">FIPS 205 (SLH-DSA)</a> · 
+            <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank">NIST SP 800-131A Rev2</a> · 
+            <a href="https://www.cisa.gov/sites/default/files/2023-08/Quantum-Readiness_Migration_Guide_508_clean.pdf" target="_blank">CISA Quantum Migration Guide</a>
+          </div>
+        </div>
+      </div>
+    </div>`;
   }
 
+  const findings=results.filter(r=>(r.finding?.severity||'').toUpperCase()!=='INFO'||results.length===1);
+  const hasVulns=findings.some(r=>(r.finding?.severity||'').toUpperCase()!=='INFO');
+  if(!hasVulns){
+    html+=`<div class="scan-success"><div style="font-size:32px">✅</div><strong>No quantum-vulnerable algorithms detected!</strong><span style="font-size:11px">This file uses quantum-safe cryptographic primitives.</span></div>`;
+  }else{
+    html+=`<div class="findings-hd"><div class="findings-title">⚡ Detailed Findings</div><div class="findings-count">${findings.length} issue${findings.length!==1?'s':''}</div></div>`;
+    html+=`<div class="findings-list">`;
+    findings.forEach((item,i)=>{
+      if((item.finding?.severity||'').toUpperCase()==='INFO')return;
+      html+=renderFindingCard(item,i,details[i]);
+    });
+    html+=`</div>`;
+  }
   area.innerHTML=html;
   requestAnimationFrame(()=>{
     drawDonut(critN,highN,medN,lowN);
-    drawMeter(riskScore);
+    drawMeter(cvssScore);
     setTimeout(()=>{
       const bb=document.getElementById('ba-before'),ba=document.getElementById('ba-after');
       if(bb)bb.style.width=Math.min(riskScore,100)+'%';
       if(ba)ba.style.width=Math.min(fixedScore,100)+'%';
     },60);
-    document.querySelectorAll('.diff-tab').forEach(t=>{
+    document.querySelectorAll('.diff-tab-ind').forEach(t=>{
       t.onclick=()=>{
-        const c=t.closest('.fix-section');
-        c.querySelectorAll('.diff-tab').forEach(x=>x.classList.remove('on'));
-        c.querySelectorAll('.diff-pane').forEach(x=>x.classList.remove('on'));
+        const c=t.closest('.fix-section-ind');
+        c.querySelectorAll('.diff-tab-ind').forEach(x=>x.classList.remove('on'));
+        c.querySelectorAll('.diff-pane-ind').forEach(x=>x.classList.remove('on'));
         t.classList.add('on');
-        c.querySelector('.diff-pane[data-pane="'+t.dataset.tab+'"]').classList.add('on');
+        c.querySelector('.diff-pane-ind[data-pane="'+t.dataset.tab+'"]').classList.add('on');
       };
     });
   });
 }
 
-function renderFindingCard(item,idx){
-  const f=item.finding||{},fix=item.fix||{},sev=f.severity||'LOW';
+function switchUdpTab(btn){
+  const panel=btn.closest('.unified-diff-panel');
+  panel.querySelectorAll('.udp-tab').forEach(t=>t.classList.remove('on'));
+  panel.querySelectorAll('.udp-pane').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  panel.querySelector('.udp-pane[data-pane="'+btn.dataset.tab+'"]').classList.add('on');
+}
+
+/* ── RENDER INDIVIDUAL FINDING CARD ── */
+function renderFindingCard(item,idx,detail){
+  const f=item.finding||{},fix=item.fix||{},sev=(f.severity||'LOW').toUpperCase();
+  const algoSev=(f.algorithm||'')+(f.key_size?' ('+f.key_size+'-bit)':'');
   const diff=fix.diff||'';
-  const diffLines=diff.split('\n').map(line=>{
-    if(line.startsWith('@@'))return`<div class="diff-l hunk">${esc(line)}</div>`;
-    if(line.startsWith('---')||line.startsWith('+++'))return`<div class="diff-l head">${esc(line)}</div>`;
-    if(line.startsWith('-'))return`<div class="diff-l minus">${esc(line)}</div>`;
-    if(line.startsWith('+'))return`<div class="diff-l plus">${esc(line)}</div>`;
-    return`<div class="diff-l ctx">${esc(line)}</div>`;
+  const nistRef=detail?.classification?.nist_reference||'NIST SP 800-131A Rev2';
+  const nistControls=(detail?.classification?.nist_800_53_controls||[]).join(', ');
+  const cvss=detail?.cvss_score??'';
+  const diffLineHtml=diff.split('\n').map(line=>{
+    let cls='ctx';
+    if(line.startsWith('---')||line.startsWith('+++'))cls='head';
+    else if(line.startsWith('@@'))cls='hunk';
+    else if(line.startsWith('-'))cls='minus';
+    else if(line.startsWith('+'))cls='plus';
+    return `<div class="diff-l ${cls}"><div class="diff-l-content">${esc(line)||' '}</div></div>`;
   }).join('');
-  return `<div class="finding-card sev-${sev}" style="animation-delay:${idx*0.07}s">
+  return `<div class="finding-card sev-${sev}" style="animation-delay:${idx*.07}s">
     <div class="fc-head">
       <div>
-        <div class="fc-id">${esc(f.id||'—')}${f.cve?` · ${esc(f.cve)}`:''}</div>
-        <div class="fc-algo">${esc(f.algorithm||'—')}</div>
-        <div class="fc-desc">${esc(f.description||'')}</div>
-        ${f.line?`<div class="fc-loc">Line ${f.line}${f.col?`, col ${f.col}`:''} · <code style="color:var(--red);font-size:10px">${esc(f.code||'')}</code></div>`:''}
+        <div class="fc-id">Finding #${idx+1}${f.original_line?` · <code style="font-family:var(--font-m);font-size:9px;color:var(--ink3)">${esc(f.original_line)}</code>`:''}</div>
+        <div class="fc-algo">${esc(algoSev||'Unknown')}</div>
+        <div class="fc-desc">${esc(f.description||f.algorithm+' detected — quantum-vulnerable under Shor\'s algorithm')}</div>
+        ${f.line?`<div class="fc-loc">Line ${f.line}${f.col?`, col ${f.col}`:''}</div>`:''}
       </div>
-      <span class="sev-b sb-${sev}">${sev}</span>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="sev-b sb-${sev}">${sev}</span>
+        ${cvss?`<span class="cvss-badge">CVSS ${cvss}/10</span>`:''}
+      </div>
     </div>
     <div class="fc-body">
       ${item.explanation?`<div class="ai-explain">${esc(item.explanation)}</div>`:''}
-      ${fix.pqc_algo?`<div class="fix-section">
-        <div class="fix-header">
+      <div class="nist-box">
+        📋 <strong style="color:var(--ink2)">NIST Reference:</strong> ${esc(nistRef)}
+        ${nistControls?` · <strong style="color:var(--ink2)">Controls:</strong> ${esc(nistControls)}`:''}
+        ${fix.pqc_algo?` · <strong style="color:var(--ink2)">Replacement:</strong> <span style="color:var(--green)">${esc(fix.pqc_algo)}</span>`:''}
+        <br><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf" target="_blank">SP 800-131A Rev2 PDF</a>
+        ${fix.pqc_algo&&fix.pqc_algo.includes('Kyber')?` · <a href="https://csrc.nist.gov/pubs/fips/203/final" target="_blank">FIPS 203 (ML-KEM)</a>`:''}
+      </div>
+      ${diff?`<div class="fix-section-ind" style="margin-top:14px;border:1.5px solid rgba(123,79,212,0.22);border-radius:6px;overflow:hidden;background:var(--bg2)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(123,79,212,0.12);background:rgba(123,79,212,0.05)">
           <div style="display:flex;align-items:center;gap:10px">
-            <span class="fix-lbl">REPLACE WITH</span>
+            <span style="font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;color:var(--purple)">REPLACE WITH</span>
             <span style="color:var(--ink3);font-size:11px">→</span>
-            <span class="fix-algo-name">${esc(fix.pqc_algo)}</span>
+            <span style="font-family:var(--font-d);font-size:16px;color:var(--purple2)">${esc(fix.pqc_algo||'PQC Algorithm')}</span>
           </div>
-          <div class="fix-meta-badges">
-            ${fix.standard?`<span class="fix-meta-b fmb-std">${esc(fix.standard)}</span>`:''}
-            ${fix.perf_impact?`<span class="fix-meta-b fmb-perf">${esc(fix.perf_impact)} overhead</span>`:''}
-            <span class="fix-meta-b fmb-pqc">PQC SAFE</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${fix.standard?`<span style="font-family:var(--font-m);font-size:8px;padding:2px 8px;border-radius:3px;background:rgba(0,153,187,0.08);border:1px solid rgba(0,153,187,0.22);color:var(--cyan)">${esc(fix.standard)}</span>`:''}
+            <span style="font-family:var(--font-m);font-size:8px;padding:2px 8px;border-radius:3px;background:rgba(26,107,58,0.08);border:1px solid rgba(26,107,58,0.2);color:var(--green)">PQC SAFE</span>
           </div>
         </div>
-        <div class="diff-tabs">
-          <button class="diff-tab on" data-tab="diff">Code Diff</button>
-          <button class="diff-tab" data-tab="info">Migration Notes</button>
+        <div style="display:flex;border-bottom:1px solid rgba(123,79,212,0.1)">
+          <button class="diff-tab-ind on" data-tab="diff" style="padding:7px 16px">Code Diff</button>
+          <button class="diff-tab-ind" data-tab="info" style="padding:7px 16px">Notes</button>
         </div>
-        <div class="diff-pane on" data-pane="diff">${diff?diffLines:`<div class="diff-l ctx" style="padding:14px;color:var(--ink3)">No diff available.</div>`}</div>
-        <div class="diff-pane" data-pane="info">
-          <div style="padding:16px;font-size:12px;color:var(--ink2);line-height:1.7">
-            <strong style="color:var(--ink)">How to migrate:</strong><br>
-            Replace <code style="color:var(--red)">${esc(f.algorithm||'this algorithm')}</code> with <code style="color:var(--green)">${esc(fix.pqc_algo||'')}</code>.<br><br>
-            ${fix.standard?`<strong style="color:var(--ink)">Standard:</strong> ${esc(fix.standard)} (NIST PQC, Aug 2024)<br>`:''}
-            ${fix.perf_impact?`<strong style="color:var(--ink)">Performance:</strong> ${esc(fix.perf_impact)} overhead — acceptable for most use-cases<br>`:''}
-            <br>This is a <strong style="color:var(--violet)">drop-in replacement</strong>. API surface stays the same; only the underlying algorithm changes.
+        <div class="diff-pane-ind on" data-pane="diff">
+          <div style="font-family:var(--font-m);font-size:11px;max-height:200px;overflow-y:auto;background:#12141C">${diffLineHtml}</div>
+        </div>
+        <div class="diff-pane-ind" data-pane="info">
+          <div style="padding:14px;font-size:12px;color:var(--ink2);line-height:1.75">
+            Replace <code style="font-family:var(--font-m);font-size:10px;color:var(--red);background:rgba(200,40,31,0.07);padding:1px 4px;border-radius:2px">${esc(f.algorithm||'this algorithm')}</code> with <code style="font-family:var(--font-m);font-size:10px;color:var(--green);background:rgba(26,107,58,0.07);padding:1px 4px;border-radius:2px">${esc(fix.pqc_algo||'')}</code>. This is a <strong style="color:var(--cyan)">drop-in replacement</strong> — same API surface, different algorithm.<br><br>
+            ${fix.perf_impact?`<strong style="color:var(--ink)">Performance:</strong> ${esc(fix.perf_impact)} overhead<br>`:''}
+            <strong style="color:var(--ink)">Reference:</strong> ${esc(nistRef)}
           </div>
         </div>
       </div>`:''}
@@ -1424,19 +1459,15 @@ function drawDonut(crit,high,med,low){
   const canvas=document.getElementById('donut-canvas');if(!canvas)return;
   const ctx=canvas.getContext('2d'),W=130,H=130,cx=65,cy=65,r=50,inner=28;
   ctx.clearRect(0,0,W,H);
-  const data=[{v:crit,color:'#D92B2B',label:'Critical'},{v:high,color:'#E07B00',label:'High'},{v:med,color:'#D4A017',label:'Medium'},{v:low,color:'#1A6B3A',label:'Low'}].filter(d=>d.v>0);
+  const data=[{v:crit,color:'#C8281F',label:'Critical'},{v:high,color:'#D07000',label:'High'},{v:med,color:'#B07D00',label:'Medium'},{v:low,color:'#1A6B3A',label:'Low'}].filter(d=>d.v>0);
   if(!data.length){
     ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle='rgba(26,20,16,0.08)';ctx.lineWidth=22;ctx.stroke();
-    const leg=document.getElementById('donut-legend');if(leg)leg.innerHTML='<span style="font-family:var(--font-mono);font-size:9px;color:var(--ink3)">NO FINDINGS</span>';return;
+    const leg=document.getElementById('donut-legend');if(leg)leg.innerHTML='<span style="font-family:var(--font-m);font-size:9px;color:var(--ink3)">NO FINDINGS</span>';return;
   }
   const total=data.reduce((s,d)=>s+d.v,0);let angle=-Math.PI/2;
-  data.forEach(d=>{
-    const slice=(d.v/total)*Math.PI*2;
-    ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.arc(cx,cy,inner,angle+slice,angle,true);ctx.closePath();ctx.fillStyle=d.color;ctx.fill();
-    angle+=slice;
-  });
-  ctx.fillStyle='var(--ink)';ctx.font='bold 16px Bebas Neue,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(total,cx,cy-7);
-  ctx.fillStyle='var(--ink3)';ctx.font='9px JetBrains Mono,monospace';ctx.fillText('TOTAL',cx,cy+9);
+  data.forEach(d=>{const slice=(d.v/total)*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.arc(cx,cy,inner,angle+slice,angle,true);ctx.closePath();ctx.fillStyle=d.color;ctx.fill();angle+=slice;});
+  ctx.fillStyle='#1A1410';ctx.font='bold 15px Bebas Neue,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(total,cx,cy-7);
+  ctx.fillStyle='#8B7D70';ctx.font='9px JetBrains Mono,monospace';ctx.fillText('TOTAL',cx,cy+9);
   const leg=document.getElementById('donut-legend');
   if(leg)leg.innerHTML=data.map(d=>`<div class="dl-item"><div class="dl-dot" style="background:${d.color}"></div>${d.v} ${d.label}</div>`).join('');
 }
@@ -1446,16 +1477,16 @@ function drawMeter(score){
   const canvas=document.getElementById('meter-canvas');if(!canvas)return;
   const ctx=canvas.getContext('2d'),W=200,H=110,cx=100,cy=95,r=70;
   ctx.clearRect(0,0,W,H);
-  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,2*Math.PI);ctx.strokeStyle='rgba(26,20,16,0.07)';ctx.lineWidth=14;ctx.lineCap='round';ctx.stroke();
-  const progress=Math.min(score/100,1),fillA=Math.PI+progress*Math.PI;
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,2*Math.PI);ctx.strokeStyle='rgba(26,20,16,0.08)';ctx.lineWidth=14;ctx.lineCap='round';ctx.stroke();
+  const norm=Math.min(score/10,1),fillA=Math.PI+norm*Math.PI;
   const grad=ctx.createLinearGradient(cx-r,cy,cx+r,cy);
-  grad.addColorStop(0,'#1A6B3A');grad.addColorStop(0.5,'#E07B00');grad.addColorStop(1,'#D92B2B');
+  grad.addColorStop(0,'#1A6B3A');grad.addColorStop(0.5,'#D07000');grad.addColorStop(1,'#C8281F');
   ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,fillA);ctx.strokeStyle=grad;ctx.lineWidth=14;ctx.lineCap='round';ctx.stroke();
-  const needleA=Math.PI+progress*Math.PI,nx=cx+Math.cos(needleA)*(r-6),ny=cy+Math.sin(needleA)*(r-6);
-  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(nx,ny);ctx.strokeStyle='var(--ink)';ctx.lineWidth=2;ctx.lineCap='round';ctx.stroke();
-  ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fillStyle='var(--ink)';ctx.fill();
-  ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='var(--green)';ctx.textAlign='center';ctx.fillText('0',cx-r-6,cy+4);
-  ctx.fillStyle='var(--red)';ctx.fillText('100',cx+r+10,cy+4);
+  const needleA=Math.PI+norm*Math.PI,nx=cx+Math.cos(needleA)*(r-6),ny=cy+Math.sin(needleA)*(r-6);
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(nx,ny);ctx.strokeStyle='#1A1410';ctx.lineWidth=2;ctx.lineCap='round';ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fillStyle='#1A1410';ctx.fill();
+  ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='#1A6B3A';ctx.textAlign='center';ctx.fillText('0',cx-r-6,cy+4);
+  ctx.fillStyle='#C8281F';ctx.fillText('10',cx+r+10,cy+4);
 }
 
 function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
