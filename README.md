@@ -1,4 +1,5 @@
-# Quantum Vulnerability Detector – QSecure
+# QSecure 
+## Built by Team Spectra for AMD Slingshot Hackathon
 
 ## Overview
 
