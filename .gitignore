@@ -64,3 +64,7 @@ old_ver/
 # Frontend local server artifacts
 # ================================
 *.cache
+
+backend/scanner/build/
+*.so
+__pycache__/
