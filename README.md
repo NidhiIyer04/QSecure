@@ -1,41 +1,42 @@
-# QSecure 
-## Built by Team Spectra for AMD Slingshot Hackathon
+# QSecure
 
-## Overview
+### Built by Team Spectra for AMD Slingshot Hackathon
 
-QSecure is a Post-Quantum Cryptography (PQC) vulnerability scanner designed to detect cryptographic algorithms that are vulnerable to quantum attacks. It identifies insecure or non-quantum-safe primitives such as RSA and SHA-1 and provides deterministic, production-safe migration guidance toward post-quantum alternatives like ML-KEM (Kyber).
+## What is QSecure?
 
-The system is built with a FastAPI backend and a lightweight frontend for uploading source files and reviewing findings.
+QSecure is a Post-Quantum Cryptography security scanner.
 
-## Features
+It checks source code and detects cryptographic algorithms that are not safe against future quantum computers. For example, it identifies algorithms like RSA and SHA-1 that may become vulnerable when large-scale quantum machines become practical.
 
-* Detects quantum-vulnerable algorithms:
-  * RSA (1024, 2048, etc.)
-  * SHA-1
-  * Other legacy crypto primitives (extendable)
-* Classical vs Quantum security classification
-* Harvest-Now-Decrypt-Later (HNDL) risk indicator
-* CVSS-style risk scoring
-* NIST SP 800-131A + NIST PQC aligned classification
-* Deterministic post-quantum migration suggestions (no AI-generated crypto)
-* Unified diff output for secure patching
-* Minimal web UI for uploading and reviewing findings
-* REST API support for CI/CD integration
+The tool helps developers understand the risk and guides them toward safer, post-quantum alternatives.
 
+## Why This Matters
+
+Quantum computers will be able to break many currently used cryptographic systems.
+
+Organizations need to prepare early.
+QSecure helps teams become **quantum-ready** before real attacks become possible.
+
+## What QSecure Does
+
+* Detects quantum-vulnerable algorithms (RSA, SHA-1, etc.)
+* Identifies weak key sizes
+* Classifies classical vs quantum security
+* Shows quantum risk severity
+* Flags Harvest-Now-Decrypt-Later risk
+* Suggests safe post-quantum replacements
+* Generates structured JSON reports
+* Provides a simple web interface for file uploads
 
 ## Technologies Used
 
-### Backend
-
+* Python
 * FastAPI
 * Uvicorn
-* Python 3.10+
-* Deterministic secure template engine
-
-### Frontend
-
-* Vanilla HTML + JavaScript
-* Simple HTTP server
+* Tree-Sitter
+* PyCryptodome
+* HTML / CSS / JavaScript
+* Render (Deployment)
 
 ## Project Structure
 
@@ -44,20 +45,15 @@ QSecure/
 │
 ├── backend/
 │   ├── api/
-│   │   └── routes_scan.py
 │   ├── scanner/
-│   │   ├── static_scanner.py
-│   │   └── replacement_engine.py
 │   ├── services/
-│   │   ├── scan_service.py
-│   │   ├── grading_service.py
-│   │   └── ai_service.py
 │   └── main.py
 │
 ├── frontend/
 │   └── index.html
 │
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
 
 ## Installation
@@ -68,7 +64,8 @@ QSecure/
 git clone https://github.com/NidhiIyer04/QSecure.git
 cd QSecure
 ```
-### 2. Create Virtual Environment (Recommended)
+
+### 2. (Optional) Create Virtual Environment
 
 ```bash
 python3 -m venv venv
@@ -89,105 +86,48 @@ pip install -r requirements.txt
 
 ## Running the Project
 
-# Start Backend (FastAPI)
-
-From project root:
+From the project root directory, run:
 
 ```bash
-uvicorn backend.main:app --reload
+python3 -m uvicorn backend.main:app --reload
 ```
 
-Backend will run at:
+The backend will start at:
 
 ```
 http://127.0.0.1:8000
 ```
 
-Verify it is running:
+You can verify it is running by visiting:
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
-You should see the Swagger UI.
+This opens the automatic API documentation.
 
-# Start Frontend
+## How to Use
 
-Open a new terminal:
+1. Open the deployed website or local server.
+2. Upload a `.java` file.
+3. Click Scan.
+4. View detected algorithms, risk level, and suggested migration guidance.
 
-```bash
-cd frontend
-python3 -m http.server 5500
-```
-
-Open browser:
-
-```
-http://localhost:5500
-```
-
-Make sure backend is already running.
-
-## Usage
-
-1. Open `http://localhost:5500`
-2. Upload a `.java` file
-3. Click **Scan**
-4. View:
-
-   * Algorithm detected
-   * Line number
-   * Classical compliance
-   * Quantum readiness
-   * CVSS score
-   * Migration priority
-   * Deterministic secure patch (diff format)
-
-## API Usage (Direct)
-
-You can also call the API directly:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/scan" \
-  -F "file=@TestCrypto.java"
-```
-
-Response will be JSON:
-
-```json
-[
-  {
-    "finding": {...},
-    "grading": {...},
-    "fix": {...},
-    "explanation": "..."
-  }
-]
-```
-
-## Expected Output
-
-* Algorithm: RSA
-* Classical Compliance: APPROVED
-* Quantum Readiness: NOT_READY
-* Harvest-Now-Decrypt-Later Risk: true
-* CVSS Score: 7
-* Suggested Migration: ML-KEM (Kyber512)
+The API also supports direct integration for automation and CI/CD pipelines.
 
 ## Security Design Principles
 
 * No AI-generated cryptographic code
-* Deterministic migration templates
-* NIST-aligned classification
-* Production-safe patch generation
-* Modular service architecture
-* Extensible for future PQC standards
+* Deterministic migration suggestions
+* NIST-aligned classification logic
+* Modular and extensible architecture
+* Production-safe design
 
-## Future Enhancements (Roadmap)
+## Future Improvements
 
-* Hybrid RSA + ML-KEM transition mode
-* AST-based Java parsing
-* GitHub PR patch generation
+* Multi-language support
+* VS Code extension
+* CLI tool
 * CI/CD integration
-* Multi-language scanning
-* Enterprise compliance reporting (PDF export)
+* Enterprise compliance reporting
+* Post-quantum benchmarking
